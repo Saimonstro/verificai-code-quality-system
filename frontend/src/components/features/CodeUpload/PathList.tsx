@@ -131,9 +131,12 @@ const PathList: React.FC<PathListProps> = ({
       // Store the complete folder path for display
       setSelectedFolderPath(folderPath);
 
-      // Process files to extract path information
-      const filePaths: FilePath[] = [];
+      const IGNORED_DIRECTORIES = ['node_modules', 'venv', '.venv', '.git', '.idea', '.vscode', '__pycache__', '.pytest_cache', 'dist', 'build', '.next', 'bin', 'obj'];
+      const ALLOWED_EXTENSIONS = ['js', 'jsx', 'ts', 'tsx', 'py', 'java', 'c', 'cpp', 'cxx', 'cc', 'h', 'hpp', 'cs', 'go', 'rs', 'rb', 'php', 'swift', 'kt', 'scala', 'm', 'sh', 'bash', 'zsh', 'sql', 'html', 'css', 'scss', 'sass', 'less', 'json', 'xml', 'yaml', 'yml', 'toml', 'ini', 'conf', 'config', 'md', 'txt'];
 
+      console.log('Filtros ativos:', { ignored: IGNORED_DIRECTORIES, allowedExts: ALLOWED_EXTENSIONS.length });
+
+      let skippedCount = 0;
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const relativePath = file.webkitRelativePath || '';
@@ -141,31 +144,40 @@ const PathList: React.FC<PathListProps> = ({
         const fileName = pathParts[pathParts.length - 1];
         const folderPath = pathParts.slice(0, -1).join('/');
 
-        // Instead of simulating paths, we'll store the relative path and upload the actual file
-        // The backend will handle file storage and path resolution
+        // Verificar se algum diretório no path deve ser ignorado
+        const shouldIgnore = pathParts.some(part => IGNORED_DIRECTORIES.includes(part));
+        const extension = getFileExtension(fileName);
+        const isAllowedExtension = ALLOWED_EXTENSIONS.includes(extension);
+
+        if (shouldIgnore || !isAllowedExtension) {
+          skippedCount++;
+          continue;
+        }
+
         const relativePathForStorage = relativePath.startsWith(folderPath + '/')
           ? relativePath
           : `${folderPath}/${relativePath}`;
 
         const filePath: FilePath = {
           id: generateUUID(),
-          fullPath: relativePathForStorage, // Store relative path, backend will resolve
+          fullPath: relativePathForStorage,
           fileName,
-          fileExtension: getFileExtension(fileName),
+          fileExtension: extension,
           folderPath,
           fileSize: file.size,
           lastModified: new Date(file.lastModified),
-          file: file // Store the actual File object for upload
+          file: file
         };
 
         filePaths.push(filePath);
 
-        // Update progress
-        setScanProgress(((i + 1) / files.length) * 100);
-
-        // Small delay to show progress
-        await new Promise(resolve => setTimeout(resolve, 50));
+        // Atualizar progresso a cada 10 arquivos para performance
+        if (i % 10 === 0 || i === files.length - 1) {
+          setScanProgress(((i + 1) / files.length) * 100);
+        }
       }
+
+      console.log(`Scan concluído: ${filePaths.length} arquivos aceitos, ${skippedCount} ignorados.`);
 
       // Try to upload files and persist paths to database, but continue even if it fails
       try {

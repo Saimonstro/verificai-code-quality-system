@@ -19,6 +19,7 @@ build/
 # IDE files
 .vscode/
 .idea/
+.serena/
 *.swp
 *.swo
 *~
@@ -112,3 +113,5 @@ target/
 
 # Docker
 .dockerignore
+# Temporary Tests
+Testes_temporarios/

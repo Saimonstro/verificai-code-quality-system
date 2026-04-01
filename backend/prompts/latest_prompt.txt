@@ -1,10 +1,10 @@
 ================================================================================
-LTIMO PROMPT ENVIADO PARA LLM - 2025-10-14T15:14:45.908017
+LTIMO PROMPT ENVIADO PARA LLM - 2026-03-31T23:46:43.616672
 ================================================================================
 
-TAMANHO TOTAL: 134078 caracteres
-ARQUIVOS PROCESSADOS: 89
-CRITRIOS: 2
+TAMANHO TOTAL: 34743 caracteres
+ARQUIVOS PROCESSADOS: 15
+CRITRIOS: 1
 USURIO: admin (ID: 1)
 
 ================================================================================
@@ -20,4270 +20,1034 @@ Esta tag é ESSENCIAL para garantir que a análise completa seja capturada pelo 
 NÃO trunc suas respostas - forneça análises detalhadas e completas.
 
 ### CRITÉRIOS PARA ANÁLISE:
-## Critério 1: Princípios SOLID: Analisar a aplicação de princípios de design consolidados, como a Responsabilidade Única - SRP (evitando componentes que acumulam funções díspares) como controllers com múltiplos endpoints e a Inversão de Dependência (favorecendo o uso de mecanismos de injeção de dependência em vez da instanciação manual de componentes) como a instanciação manual de dependências em vez de usar a injeção padrão do NestJS
+## Critério: Código segue boas práticas e padrões de codificação
 
-Avalie este critério especificamente usando o nome exato: "Princípios SOLID: Analisar a aplicação de princípios de design consolidados, como a Responsabilidade Única - SRP (evitando componentes que acumulam funções díspares) como controllers com múltiplos endpoints e a Inversão de Dependência (favorecendo o uso de mecanismos de injeção de dependência em vez da instanciação manual de componentes) como a instanciação manual de dependências em vez de usar a injeção padrão do NestJS"
-
----
-
-## Critério 2: Acoplamento a Frameworks: Detectar o uso de funcionalidades que acoplam o código a implementações específicas do framework (ex: uso de @Res() do Express no NestJS), o que dificulta a manutenção e a aplicação de interceptors e pipes globais.
-
-Avalie este critério especificamente usando o nome exato: "Acoplamento a Frameworks: Detectar o uso de funcionalidades que acoplam o código a implementações específicas do framework (ex: uso de @Res() do Express no NestJS), o que dificulta a manutenção e a aplicação de interceptors e pipes globais."
+Avalie este critério especificamente usando o nome exato: "Código segue boas práticas e padrões de codificação"
 
 ---
 
 #
-CRÍTICO: Esta análise deve conter exatamente 2 critérios de avaliação.
-- Use exatamente os nomes dos critérios fornecidos acima
-- NÃO modifique os nomes dos critérios
+CRÍTICO: Esta análise deve conter APENAS UM critério de avaliação.
+- NÃO crie múltiplos critérios
 - NÃO invente critérios adicionais
-- CADA critério DEVE usar o cabeçalho com numeração: "## Critério 1: [Nome exato do critério]", "## Critério 2: [Nome exato do critério]", etc.
+- Use OBRIGATORIAMENTE o cabeçalho exato: "## Critério 1: Código segue boas práticas e padrões de codificação"
 - A numeração é OBRIGATÓRIA para o processamento correto da análise
+- NÃO modifique o nome do critério: use exatamente "Código segue boas práticas e padrões de codificação"
+- Avalie exclusivamente o critério fornecido acima
+- O título do critério na resposta DEVE ser idêntico ao fornecido
 
 ## CÓDIGO FONTE PARA ANÁLISE:
 ```typescript
 
 
 ============================================================
-ARQUIVO: teste_olivia/olivia-back/src/domains/domain/model-entities/laudo-olivia.entity.ts
-TAMANHO: 1334 caracteres
-TIPO: TS
+ARQUIVO: ProjetoFastApi/alembic/versions/dcdaae2181c8_initial_migration.py
+TAMANHO: 1638 caracteres
+TIPO: PY
 ============================================================
 
-import {
-  Entity,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
-import { Usuario } from './usuario.entity';
 
-@Entity({ name: 's_laudo_olivia', schema: process.env.POSTGRES_SCHEMA })
-export class LaudoOlivia {
-  @PrimaryGeneratedColumn({ name: 'id_laudo_olivia' })
-  id!: number;
 
-  @Column({ name: 'nr_lpco', type: 'varchar', length: 255 })
-  nrLpco!: string;
+============================================================
+ARQUIVO: ProjetoFastApi/testes.py
+TAMANHO: 198 caracteres
+TIPO: PY
+============================================================
 
-  @Column({ name: 'js_dado_bruto', type: 'json', nullable: true })
-  jsDadoBruto?: any | null;
 
-  @Column({ name: 'js_dado_usuario', type: 'json', nullable: true })
-  jsDadoUsuario?: any | null;
 
-  @Column({ name: 'ob_laudo_usuario', type: 'varchar', length: 255, nullable: true })
-  obLaudoUsuario?: string | null;
+============================================================
+ARQUIVO: ProjetoFastApi/alembic/env.py
+TAMANHO: 2239 caracteres
+TIPO: PY
+============================================================
 
-  @Column({ name: 'ob_laudo_ia', type: 'varchar', length: 255, nullable: true })
-  obLaudoIa?: string | null;
 
-  @CreateDateColumn({ name: 'dh_criacao_registro', type: 'timestamp', default: () => 'NOW()' })
-  dhCriacaoRegistro!: Date;
 
-  @UpdateDateColumn({ name: 'dh_atualizacao_registro', type: 'timestamp', default: () => 'NOW()' })
-  dhAtualizacaoRegistro!: Date;
+============================================================
+ARQUIVO: ProjetoFastApi/alembic/versions/b6e665d2e978_adicionar_itens_no_pedido.py
+TAMANHO: 775 caracteres
+TIPO: PY
+============================================================
 
-  @ManyToOne(() => Usuario, (usuario: Usuario) => usuario.laudos, {
-    nullable: false,
-    onDelete: 'RESTRICT',
-  })
-  @JoinColumn([{ name: 'id_usuario', referencedColumnName: 'id' }])
-  usuario!: Usuario;
+
+
+============================================================
+ARQUIVO: ProjetoFastApi/alembic.ini
+TAMANHO: 4790 caracteres
+TIPO: INI
+============================================================
+
+
+
+============================================================
+ARQUIVO: ProjetoFastApi/auth_routes.py
+TAMANHO: 3388 caracteres
+TIPO: PY
+============================================================
+
+
+
+============================================================
+ARQUIVO: ProjetoFastApi/dependecies.py
+TAMANHO: 1034 caracteres
+TIPO: PY
+============================================================
+
+
+
+============================================================
+ARQUIVO: ProjetoFastApi/main.py
+TAMANHO: 686 caracteres
+TIPO: PY
+============================================================
+
+
+
+============================================================
+ARQUIVO: ProjetoFastApi/models.py
+TAMANHO: 2603 caracteres
+TIPO: PY
+============================================================
+
+
+
+============================================================
+ARQUIVO: ProjetoFastApi/order_routes.py
+TAMANHO: 5674 caracteres
+TIPO: PY
+============================================================
+
+
+
+============================================================
+ARQUIVO: ProjetoFastApi/requirements.txt
+TAMANHO: 475 caracteres
+TIPO: TXT
+============================================================
+
+
+
+============================================================
+ARQUIVO: ProjetoFastApi/schemas.py
+TAMANHO: 816 caracteres
+TIPO: PY
+============================================================
+
+
+
+============================================================
+ARQUIVO: alembic/versions/dcdaae2181c8_initial_migration.py
+TAMANHO: 1638 caracteres
+TIPO: PY
+============================================================
+
+
+
+============================================================
+ARQUIVO: alembic/versions/b6e665d2e978_adicionar_itens_no_pedido.py
+TAMANHO: 775 caracteres
+TIPO: PY
+============================================================
+
+
+
+============================================================
+ARQUIVO: alembic/env.py
+TAMANHO: 2239 caracteres
+TIPO: PY
+============================================================
+
+"""Initial migration
+
+Revision ID: dcdaae2181c8
+Revises: 
+Create Date: 2025-12-19 20:16:37.692827
+
+"""
+from typing import Sequence, Union
+
+from alembic import op
+import sqlalchemy as sa
+
+
+# revision identifiers, used by Alembic.
+revision: str = 'dcdaae2181c8'
+down_revision: Union[str, Sequence[str], None] = None
+branch_labels: Union[str, Sequence[str], None] = None
+depends_on: Union[str, Sequence[str], None] = None
+
+
+def upgrade() -> None:
+    """Upgrade schema."""
+    # ### commands auto generated by Alembic - please adjust! ###
+    op.create_table('pedidos',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('status', sa.String(), nullable=True),
+    sa.Column('usuario', sa.Integer(), nullable=True),
+    sa.Column('preco', sa.Float(), nullable=True),
+    sa.ForeignKeyConstraint(['usuario'], ['usuarios.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('itens_pedidos',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('quantidade', sa.Integer(), nullable=True),
+    sa.Column('sabor', sa.String(), nullable=True),
+    sa.Column('tamanho', sa.String(), nullable=True),
+    sa.Column('preco_unitario', sa.Float(), nullable=True),
+    sa.Column('pedido', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['pedido'], ['pedidos.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    # ### end Alembic commands ###
+
+
+def downgrade() -> None:
+    """Downgrade schema."""
+    # ### commands auto generated by Alembic - please adjust! ###
+    op.drop_table('itens_pedidos')
+    op.drop_table('pedidos')
+    # ### end Alembic commands ###
+import requests
+
+headers = {
+    "Authorization": "Bearer "
 }
 
+requisicao = requests.get("http://127.0.0.1:8000/auth/refresh", headers=headers, timeout=10)
+print(requisicao)
+print(requisicao.json())from logging.config import fileConfig
 
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/domains/domain/model-entities/index.ts
-TAMANHO: 833 caracteres
-TIPO: TS
-============================================================
+from sqlalchemy import engine_from_config
+from sqlalchemy import pool
 
-import { Role } from './role.entity';
-import { User } from './user.entity';
-import { Permission } from './permission.entity';
-import { Resource } from './resource.entity';
-import { DataFilter } from './data-filter';
-import { LaudoOlivia } from './laudo-olivia.entity';
-import { Sessao } from './sessao.entity';
-import { Usuario } from './usuario.entity';
+from alembic import context
 
-const entities = [User, Role, Permission, Resource, DataFilter, LaudoOlivia, Sessao, Usuario];
+import sys
+import os
 
-export default entities;
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-export { Role } from './role.entity';
-export { User } from './user.entity';
-export { Permission } from './permission.entity';
-export { Resource } from './resource.entity';
-export { DataFilter } from './data-filter';
-export { LaudoOlivia } from './laudo-olivia.entity';
-export { Sessao } from './sessao.entity';
-export { Usuario } from './usuario.entity';
+# this is the Alembic Config object, which provides
+# access to the values within the .ini file in use.
+config = context.config
 
+# Interpret the config file for Python logging.
+# This line sets up loggers basically.
+if config.config_file_name is not None:
+    fileConfig(config.config_file_name)
 
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/domains/domain/index.ts
-TAMANHO: 62 caracteres
-TIPO: TS
-============================================================
+# add your model's MetaData object here
+# for 'autogenerate' support
+# from myapp import mymodel
+# target_metadata = mymodel.Base.metadata
+from models import Base
+target_metadata = Base.metadata
 
-export * from './model-entities';
-export * from './services';
+# other values from the config, defined by the needs of env.py,
+# can be acquired:
+# my_important_option = config.get_main_option("my_important_option")
+# ... etc.
 
 
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/framework/logger/index.ts
-TAMANHO: 139 caracteres
-TIPO: TS
-============================================================
+def run_migrations_offline() -> None:
+    """Run migrations in 'offline' mode.
 
-import { AppLogger } from './app-logger.service';
-import { LoggerModule } from './app-logger.module';
+    This configures the context with just a URL
+    and not an Engine, though an Engine is acceptable
+    here as well.  By skipping the Engine creation
+    we don't even need a DBAPI to be available.
 
-export { AppLogger, LoggerModule };
+    Calls to context.execute() here emit the given string to the
+    script output.
 
+    """
+    url = config.get_main_option("sqlalchemy.url")
+    context.configure(
+        url=url,
+        target_metadata=target_metadata,
+        literal_binds=True,
+        dialect_opts={"paramstyle": "named"},
+    )
 
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/framework/logger/app-logger.service.ts
-TAMANHO: 569 caracteres
-TIPO: TS
-============================================================
+    with context.begin_transaction():
+        context.run_migrations()
 
-import { ConsoleLogger, Injectable } from '@nestjs/common';
 
-@Injectable()
-export class AppLogger extends ConsoleLogger {
-  log(message: string, context?: string) {
-    super.log(message, context);
-  }
+def run_migrations_online() -> None:
+    """Run migrations in 'online' mode.
 
-  error(message: string, trace?: string, context?: string) {
-    super.error(message, trace, context);
-  }
+    In this scenario we need to create an Engine
+    and associate a connection with the context.
 
-  warn(message: string, context?: string) {
-    super.warn(message, context);
-  }
+    """
+    connectable = engine_from_config(
+        config.get_section(config.config_ini_section, {}),
+        prefix="sqlalchemy.",
+        poolclass=pool.NullPool,
+    )
 
-  debug(message: string, context?: string) {
-    super.debug(message, context);
-  }
-
-  verbose(message: string, context?: string) {
-    super.verbose(message, context);
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/framework/logger/app-logger.module.ts
-TAMANHO: 202 caracteres
-TIPO: TS
-============================================================
-
-import { Global, Module } from '@nestjs/common';
-import { AppLogger } from './app-logger.service';
-
-@Global()
-@Module({
-  providers: [AppLogger],
-  exports: [AppLogger],
-})
-export class LoggerModule {}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/framework/index.ts
-TAMANHO: 117 caracteres
-TIPO: TS
-============================================================
-
-export * from './authentication';
-export * from './authorization';
-export * from './jobs';
-export * from './logger';
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/gateways/http/controllers/core/index.ts
-TAMANHO: 170 caracteres
-TIPO: TS
-============================================================
-
-import { HealthController } from './health.controller';
-import { GovBrAuthController } from './govbr-auth.controller';
-
-export { HealthController, GovBrAuthController };
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/gateways/http/controllers/core/health.controller.ts
-TAMANHO: 1491 caracteres
-TIPO: TS
-============================================================
-
-import { Public } from '@/framework';
-import { getDataSource } from '@/infrastructure/databases/typeorm/postgres/database.providers';
-import { Controller, Get } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
-import { HealthCheck, HealthCheckService, TypeOrmHealthIndicator } from '@nestjs/terminus';
-
-@Controller('health')
-@Public()
-export class HealthController {
-  constructor(
-    private health: HealthCheckService,
-    private db: TypeOrmHealthIndicator
-  ) {}
-
-  @Get('ready')
-  @HealthCheck()
-  async readness() {
-    if (process.env.NODE_ENV === 'development') {
-      return { status: 'ok' };
-    }
-    try {
-      const result = await this.health.check([
-        async () =>
-          await this.db.pingCheck('postgres', {
-            connection: getDataSource(),
-          }),
-      ]);
-      return result;
-    } catch (error: unknown) {
-      const errorMessage =
-        error instanceof Error ? `Error: ${error.message}` : 'Unknown error occurred';
-
-      const errorDetails =
-        error && typeof error === 'object' && 'details' in error
-          ? (error as any).details
-          : 'Database connection failed';
-
-      return {
-        status: 'down',
-        error: {
-          message: errorMessage,
-          details: errorDetails,
-        },
-      };
-    }
-  }
-
-  @Get('live')
-  @ApiResponse({
-    status: 200,
-    description: 'Usuário editado com sucesso.',
-    example: { status: 'ok' },
-  })
-  live() {
-    return { status: 'ok' };
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/gateways/http/controllers/core/govbr-auth.controller.ts
-TAMANHO: 1284 caracteres
-TIPO: TS
-============================================================
-
-import { Controller, Get, Query, Headers, Res, BadRequestException } from '@nestjs/common';
-import { GovBrService } from '@/framework/authentication/govbr.service';
-import { Response } from 'express';
-
-@Controller('auth/govbr')
-export class GovBrAuthController {
-  constructor(private readonly govBrService: GovBrService) {}
-
-  @Get('login')
-  login(@Res() res: Response) {
-    const url = this.govBrService.getAuthorizationUrl();
-    return res.redirect(url);
-  }
-
-  @Get('callback')
-  async callback(@Query('code') code: string, @Query('state') state: string) {
-    if (!code || !state) {
-      throw new BadRequestException('Parâmetros code/state ausentes');
-    }
-    return this.govBrService.exchangeCode(code, state);
-  }
-
-  @Get('userinfo')
-  async getUserInfo(@Headers('authorization') authorization?: string) {
-    const accessToken = authorization?.startsWith('Bearer ') ? authorization.slice(7) : undefined;
-
-    if (!accessToken) {
-      throw new BadRequestException('Informe o access_token (Authorization: Bearer ...)');
-    }
-
-    return this.govBrService.getUserInfo(accessToken);
-  }
-
-  @Get('logout')
-  async logout(@Query('session_id') sessionId?: string) {
-    if (sessionId) {
-      await this.govBrService.logout(sessionId);
-    }
-    return { ok: true };
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/gateways/http/controllers/domain/laudo/laudo.controller.ts
-TAMANHO: 8242 caracteres
-TIPO: TS
-============================================================
-
-import axios from 'axios';
-import FormData from 'form-data';
-import fs from 'fs';
-import path from 'path';
-import { randomBytes } from 'crypto';
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Get,
-  NotFoundException,
-  Param,
-  Post,
-  Res,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { Response } from 'express';
-import { getRepository } from '@/infrastructure/databases/typeorm/postgres/database.providers';
-import { LaudoOlivia } from '@/domains/domain/model-entities';
-import { Usuario } from '@/domains/domain/model-entities/usuario.entity';
-import minioClient, { MINIO_BUCKET } from '@/infrastructure/minio/minio.client';
-
-@Controller('api')
-export class LaudoController {
-  private async removeFile(filePath?: string): Promise<void> {
-    if (!filePath) return;
-    try {
-      await fs.promises.unlink(filePath);
-    } catch {}
-  }
-
-  private extractCpf(sub?: string): string {
-    if (!sub || typeof sub !== 'string') {
-      throw new BadRequestException("O campo 'sub' (CPF) é obrigatório.");
-    }
-    const cpf = sub.replace(/\D/g, '');
-    if (!cpf) {
-      throw new BadRequestException("O campo 'sub' deve conter um CPF válido.");
-    }
-    return cpf;
-  }
-
-  private generateFileName(lpco: string, type: 'usuario' | 'ia'): string {
-    const safeLpco = lpco.replace(/[^A-Za-z0-9_-]/g, '');
-    const hash = randomBytes(6).toString('hex');
-    return `${safeLpco}_${type}_${hash}.pdf`;
-  }
-
-  @Post('extract-pdf-data')
-  @UseInterceptors(FileInterceptor('laudo', { dest: 'uploads/' }))
-  async extractPdfData(
-    @UploadedFile() laudoFile: Express.Multer.File,
-    @Body('lpco') lpco: string,
-    @Body('sub') sub: string
-  ) {
-    if (!laudoFile) {
-      throw new BadRequestException("Arquivo 'laudo' não foi enviado.");
-    }
-    if (laudoFile.mimetype !== 'application/pdf') {
-      await this.removeFile(laudoFile.path);
-      throw new BadRequestException("O arquivo 'laudo' deve ser um PDF.");
-    }
-    if (!lpco || typeof lpco !== 'string') {
-      await this.removeFile(laudoFile.path);
-      throw new BadRequestException("O campo 'lpco' é obrigatório e deve ser uma string.");
-    }
-
-    const cpf = this.extractCpf(sub);
-
-    const userRepo = getRepository<Usuario>(Usuario);
-    const usuario = await userRepo.findOne({ where: { nrCpf: cpf } });
-    if (!usuario) {
-      await this.removeFile(laudoFile.path);
-      throw new BadRequestException('Usuário não encontrado para o CPF informado.');
-    }
-
-    const laudoRepo = getRepository<LaudoOlivia>(LaudoOlivia);
-    const laudo = await laudoRepo.findOne({ where: { nrLpco: lpco, usuario: { id: usuario.id } } });
-
-    if (laudo?.jsDadoBruto) {
-      await this.removeFile(laudoFile.path);
-      return laudo.jsDadoBruto;
-    }
-
-    const usuarioFileName = this.generateFileName(lpco, 'usuario');
-
-    const formData = new FormData();
-    formData.append('laudo', fs.createReadStream(laudoFile.path), {
-      filename: laudoFile.originalname,
-      contentType: laudoFile.mimetype,
-    });
-    formData.append('lpco', lpco);
-
-    try {
-      await minioClient.fPutObject(MINIO_BUCKET, usuarioFileName, laudoFile.path);
-      const apiResponse = await axios.post(`${process.env.IA_API_URL}/extract-pdf-data`, formData, {
-        headers: formData.getHeaders(),
-      });
-
-      if (laudo) {
-        laudo.jsDadoBruto = apiResponse.data;
-        laudo.obLaudoUsuario = usuarioFileName;
-        laudo.usuario = usuario;
-        await laudoRepo.save(laudo);
-      } else {
-        const novoLaudo = laudoRepo.create({
-          nrLpco: lpco,
-          jsDadoBruto: apiResponse.data,
-          dhCriacaoRegistro: new Date(),
-          obLaudoUsuario: usuarioFileName,
-          usuario,
-        });
-        await laudoRepo.save(novoLaudo);
-      }
-      return apiResponse.data;
-    } catch (error: any) {
-      console.error('Erro no processamento do laudo:', error);
-      throw new BadRequestException(
-        error.response?.data || error.message || 'Erro ao processar a requisição'
-      );
-    } finally {
-      await this.removeFile(laudoFile.path);
-    }
-  }
-
-  @Get('laudo/historico')
-  async getHistorico() {
-    const laudoRepo = getRepository<LaudoOlivia>(LaudoOlivia);
-
-    const historico = await laudoRepo.find({
-      select: ['id', 'nrLpco', 'dhCriacaoRegistro', 'obLaudoUsuario', 'obLaudoIa'],
-      relations: ['usuario'],
-      order: { dhCriacaoRegistro: 'DESC' },
-    });
-
-    return historico.map(i => ({
-      id: i.id,
-      lpco: i.nrLpco,
-      criacao: i.dhCriacaoRegistro,
-      laudoEnviado: i.obLaudoUsuario,
-      laudoProcessado: i.obLaudoIa,
-      clienteNome: i.usuario?.nmUsuario,
-    }));
-  }
-
-  @Get('laudo/:filename')
-  async getLaudoPdf(@Param('filename') filename: string, @Res() res: Response) {
-    const sanitizedFilename = path.basename(filename);
-    try {
-      const fileStream = await minioClient.getObject(MINIO_BUCKET, sanitizedFilename);
-      res.setHeader('Content-Type', 'application/pdf');
-      fileStream.on('error', () => {
-        res.status(404).json({ error: 'Arquivo não encontrado.' });
-      });
-      fileStream.pipe(res);
-    } catch (e) {
-      console.error('laudo/:filename - Erro ao obter arquivo do MinIO:', e);
-      res.status(404).json({ error: 'Arquivo não encontrado.' });
-    }
-  }
-
-  @Post('data-processing')
-  async dataProcessing(
-    @Body('lpco') lpco: string,
-    @Body('chem_data') chemData: string,
-    @Body('sub') sub?: string
-  ) {
-    if (!lpco || typeof lpco !== 'string' || lpco.trim() === '') {
-      throw new BadRequestException("O campo 'lpco' é obrigatório e deve ser uma string válida.");
-    }
-    if (!chemData || typeof chemData !== 'string') {
-      throw new BadRequestException("O campo 'chem_data' é obrigatório e deve ser uma string.");
-    }
-    let parsedChemData: any;
-    try {
-      parsedChemData = JSON.parse(chemData);
-      if (
-        typeof parsedChemData !== 'object' ||
-        Array.isArray(parsedChemData) ||
-        Object.keys(parsedChemData).length === 0
-      ) {
-        throw new Error('O campo "chem_data" deve conter um objeto JSON válido e não vazio.');
-      }
-    } catch (e: any) {
-      throw new BadRequestException(`O campo 'chem_data' deve conter um JSON válido. ${e.message}`);
-    }
-
-    this.extractCpf(sub);
-
-    const laudoRepo = getRepository<LaudoOlivia>(LaudoOlivia);
-    const laudo = await laudoRepo.findOne({ where: { nrLpco: lpco } });
-
-    if (!laudo) {
-      throw new NotFoundException('Laudo não encontrado para o LPCO informado.');
-    }
-
-    const body = {
-      lpco,
-      chem_data: parsedChemData.quimico,
-      sec_data: parsedChemData.cabecalho,
-    };
-
-    const aiFileName = this.generateFileName(lpco, 'ia');
-
-    const tempDir = path.join(process.cwd(), 'temp');
-    await fs.promises.mkdir(tempDir, { recursive: true });
-    const filePath = path.join(tempDir, aiFileName);
-
-    try {
-      const apiResponse = await axios.post(`${process.env.IA_API_URL}/data-processing`, body, {
-        responseType: 'stream',
-      });
-
-      const writer = fs.createWriteStream(filePath);
-      apiResponse.data.pipe(writer);
-      await new Promise<void>((resolve, reject) => {
-        writer.on('finish', resolve);
-        writer.on('error', reject);
-      });
-
-      try {
-        await minioClient.fPutObject(MINIO_BUCKET, aiFileName, filePath);
-      } catch (e) {
-        console.error('Erro ao salvar no MinIO:', e);
-        throw new BadRequestException('Erro ao salvar arquivo no MinIO.');
-      }
-
-      const xMensagem = apiResponse.headers['x-mensagem'];
-      const xLpco = apiResponse.headers['x-lpco'];
-      const xLinkSharepoint = apiResponse.headers['x-link-sharepoint'];
-
-      laudo.obLaudoIa = aiFileName;
-      laudo.jsDadoUsuario = parsedChemData;
-      await laudoRepo.save(laudo);
-
-      return {
-        message: xMensagem || 'Arquivo recebido e salvo com sucesso!',
-        lpco: xLpco,
-        link_sharepoint: xLinkSharepoint,
-        laudo: aiFileName,
-      };
-    } catch (error: any) {
-      throw new BadRequestException(
-        error.response?.data || error.message || 'Erro ao processar a requisição'
-      );
-    } finally {
-      await this.removeFile(filePath);
-    }
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/gateways/http/controllers/domain/laudo/index.ts
-TAMANHO: 83 caracteres
-TIPO: TS
-============================================================
-
-import { LaudoController } from './laudo.controller';
-
-export { LaudoController };
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/gateways/http/controllers/domain/index.ts
-TAMANHO: 50 caracteres
-TIPO: TS
-============================================================
-
-export * from './users';
-export * from './laudo';
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/gateways/http/controllers/index.ts
-TAMANHO: 50 caracteres
-TIPO: TS
-============================================================
-
-export * from './core';
-export * from './domain';
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/gateways/http/index.ts
-TAMANHO: 63 caracteres
-TIPO: TS
-============================================================
-
-export * from './controllers';
-
-export * from './http.module';
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/gateways/http/http.module.ts
-TAMANHO: 766 caracteres
-TIPO: TS
-============================================================
-
-import { Module } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
-import {
-
-  LaudoController,
-  GovBrAuthController,
-} from './controllers';
-
-import { EnvironmentModule, EnvironmentService } from '@/shared/environments';
-import { HealthController } from './controllers/core/health.controller';
-import { HealthIndicatorService, TerminusModule, TypeOrmHealthIndicator } from '@nestjs/terminus';
-
-@Module({
-  imports: [TerminusModule, EnvironmentModule],
-  controllers: [
-    HealthController,
-    LaudoController,
-    GovBrAuthController,
-  ],
-  providers: [
-    EnvironmentService,
-    HealthIndicatorService,
-    Reflector,
-    TypeOrmHealthIndicator,
-  ],
-  exports: [HealthIndicatorService, TypeOrmHealthIndicator],
-})
-export class HttpModule {}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/infrastructure/databases/typeorm/postgres/migrations/1757515541761-migrations.ts
-TAMANHO: 2623 caracteres
-TIPO: TS
-============================================================
-
-import { MigrationInterface, QueryRunner } from 'typeorm';
-
-export class Migrations1757515541761 implements MigrationInterface {
-  name = 'Migrations1757515541761';
-
-  public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `CREATE TABLE "olivia_mapa"."s_sessao" ("id_sessao" character varying(64) NOT NULL, "dh_criacao_registro" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(), "dh_expiracao_sessao" TIMESTAMP WITH TIME ZONE, "id_usuario" integer NOT NULL, CONSTRAINT "PK_4842a973d8b254f89a075d60c3a" PRIMARY KEY ("id_sessao"))`
-    );
-    await queryRunner.query(
-      `CREATE TABLE "olivia_mapa"."s_usuario" ("id_usuario" SERIAL NOT NULL, "nr_cpf" character varying(11) NOT NULL, "nm_usuario" character varying(255) NOT NULL, "dh_criacao_registro" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(), "dh_atualizacao_registro" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(), CONSTRAINT "UQ_0b9a97349b1b06be3e44922b67a" UNIQUE ("nr_cpf"), CONSTRAINT "PK_4ac900da05e737c4810055d0dc8" PRIMARY KEY ("id_usuario"))`
-    );
-    await queryRunner.query(
-      `CREATE TABLE "olivia_mapa"."s_laudo_olivia" ("id_laudo_olivia" SERIAL NOT NULL, "nr_lpco" character varying(255) NOT NULL, "js_dado_bruto" json, "js_dado_usuario" json, "ob_laudo_usuario" character varying(255), "ob_laudo_ia" character varying(255), "dh_criacao_registro" TIMESTAMP NOT NULL DEFAULT NOW(), "dh_atualizacao_registro" TIMESTAMP NOT NULL DEFAULT NOW(), "id_usuario" integer NOT NULL, CONSTRAINT "PK_b162fbc209bf4950874131af66a" PRIMARY KEY ("id_laudo_olivia"))`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "olivia_mapa"."s_sessao" ADD CONSTRAINT "FK_465dda9a2afa421bd3f92da5b5d" FOREIGN KEY ("id_usuario") REFERENCES "olivia_mapa"."s_usuario"("id_usuario") ON DELETE CASCADE ON UPDATE NO ACTION`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "olivia_mapa"."s_laudo_olivia" ADD CONSTRAINT "FK_3cce3fbff91dc0d2ad8db058dab" FOREIGN KEY ("id_usuario") REFERENCES "olivia_mapa"."s_usuario"("id_usuario") ON DELETE RESTRICT ON UPDATE NO ACTION`
-    );
-  }
-
-  public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "olivia_mapa"."s_laudo_olivia" DROP CONSTRAINT "FK_3cce3fbff91dc0d2ad8db058dab"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "olivia_mapa"."s_sessao" DROP CONSTRAINT "FK_465dda9a2afa421bd3f92da5b5d"`
-    );
-    await queryRunner.query(`DROP TABLE "olivia_mapa"."s_laudo_olivia"`);
-    await queryRunner.query(`DROP TABLE "olivia_mapa"."s_usuario"`);
-    await queryRunner.query(`DROP TABLE "olivia_mapa"."s_sessao"`);
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/infrastructure/databases/typeorm/postgres/typeorm-database.datasource.ts
-TAMANHO: 662 caracteres
-TIPO: TS
-============================================================
-
-import { DataSource } from 'typeorm';
-import entities from '../../../../domains/domain/model-entities';
-import 'dotenv/config';
-const port = process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT) : 5432;
-
-export const AppDataSource = new DataSource({
-  type: 'postgres',
-  host: process.env.POSTGRES_HOST,
-  port: port,
-  username: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DB,
-  schema: process.env.POSTGRES_SCHEMA,
-  synchronize: true,
-  logging: true,
-  entities: [...entities],
-  migrations: ['src/**/migrations/*.ts'],
-  subscribers: [],
-  migrationsTableName: 'typeorm_migrations',
-});
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/infrastructure/databases/typeorm/postgres/index.ts
-TAMANHO: 159 caracteres
-TIPO: TS
-============================================================
-
-import { AppDataSource } from './database.datasource';
-import { databaseProviders } from './database.providers';
-
-export { AppDataSource, databaseProviders };
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/infrastructure/databases/typeorm/postgres/database.providers.ts
-TAMANHO: 4712 caracteres
-TIPO: TS
-============================================================
-
-import { DataSource } from 'typeorm';
-import { MAPA_POSTGRES_DATA_SOURCE } from '@/shared/constants';
-import entidades from '@/domains/domain/model-entities';
-import { EnvironmentModule, EnvironmentService } from '@/shared/environments';
-import { AppLogger } from '@/framework';
-
-class InMemoryRepository<T extends { id?: any }> {
-  private items: T[] = [];
-
-  create(entity: Partial<T>): T {
-    return entity as T;
-  }
-
-  async save(entity: T): Promise<T> {
-    if (entity.id === undefined || entity.id === null) {
-      (entity as any).id = this.items.length + 1;
-    }
-    const index = this.items.findIndex(item => item.id === (entity as any).id);
-    if (index >= 0) {
-      this.items[index] = entity;
-    } else {
-      this.items.push(entity);
-    }
-    return entity;
-  }
-
-  async findOne(options: { where: any }): Promise<T | null> {
-    const conditions = Array.isArray(options.where) ? options.where : [options.where];
-    const match = (item: any, cond: any): boolean => {
-      return Object.entries(cond).every(([k, v]) => {
-        const left = item[k];
-        if (v && typeof v === 'object') {
-          if ('id' in v && left && typeof left === 'object' && 'id' in left) {
-            return left.id === (v as any).id;
-          }
-          return left === v;
-        }
-        return left === v;
-      });
-    };
-    return this.items.find(item => conditions.some(cond => match(item, cond))) || null;
-  }
-
-  async find(_options?: any): Promise<T[]> {
-    void _options;
-    return this.items;
-  }
-}
-
-class InMemoryDataSource {
-  private repositories = new Map<any, InMemoryRepository<any>>();
-
-  getRepository<T extends { id?: any }>(target: any): InMemoryRepository<T> {
-    if (!this.repositories.has(target)) {
-      this.repositories.set(target, new InMemoryRepository<T>());
-    }
-    return this.repositories.get(target) as InMemoryRepository<T>;
-  }
-}
-
-export type DataSourceLike = DataSource | InMemoryDataSource;
-
-let dataSourceInstance: DataSourceLike | null = null;
-
-export const databaseProviders = [
-  {
-    provide: MAPA_POSTGRES_DATA_SOURCE,
-    imports: [EnvironmentModule],
-    inject: [EnvironmentService, AppLogger],
-    useFactory: async (
-      configService: EnvironmentService,
-      logger: AppLogger
-    ): Promise<DataSourceLike> => {
-      if (dataSourceInstance) {
-        logger.log('Retornando DataSource já inicializado.', 'databaseProviders');
-        return dataSourceInstance;
-      }
-
-      if (configService.get('NODE_ENV') === 'development') {
-        logger.log('NODE_ENV=development - usando InMemoryDataSource.', 'databaseProviders');
-        const dataSource = new InMemoryDataSource();
-        dataSourceInstance = dataSource;
-        return dataSource;
-      }
-
-      logger.log('Inicializando DataSource.', 'databaseProviders');
-      const dataSource = new DataSource({
-        type: configService.get('MAPA_TYPEORM_POSTGRES_TYPE'),
-        host: configService.get('POSTGRES_HOST'),
-        schema: configService.get('POSTGRES_SCHEMA'),
-        port: configService.get('POSTGRES_PORT'),
-        username: configService.get('POSTGRES_USER'),
-        password: configService.get('POSTGRES_PASSWORD'),
-        database: configService.get('POSTGRES_DB'),
-        entities: [...entidades],
-        synchronize: false,
-        logging: configService.get('POSTGRES_LOGAR'),
-      });
-
-      try {
-        await dataSource.initialize();
-        logger.log('Retornando DataSource já inicializado.', 'databaseProviders');
-        dataSourceInstance = dataSource;
-        return dataSource;
-      } catch (error) {
-        if (error instanceof Error) {
-          logger.error(
-            `Erro ao inicializar DataSource: ${error.message}`,
-            error.stack,
-            'databaseProviders'
-          );
-        } else {
-          logger.error('Erro desconhecido ao inicializar DataSource', '', 'databaseProviders');
-        }
-        throw error;
-      }
-    },
-  },
-];
-
-export const getDataSource = (): DataSourceLike => {
-  if (!dataSourceInstance) {
-    throw new Error('O DataSource ainda não foi inicializado!');
-  }
-  return dataSourceInstance;
-};
-
-// Tipagem mínima comum entre TypeORM Repository e InMemoryRepository
-export type RepositoryLike<T extends { id?: any }> = {
-  create(entity: Partial<T>): T;
-  save(entity: T): Promise<T>;
-  findOne(options: { where: any }): Promise<T | null>;
-  find(options?: any): Promise<T[]>;
-};
-
-// Helper para unificar o acesso ao repositório sem erro de união de tipos
-export const getRepository = <T extends { id?: any }>(target: any): RepositoryLike<T> => {
-  // O retorno é compatível estruturalmente com RepositoryLike
-  return (getDataSource() as any).getRepository(target) as RepositoryLike<T>;
-};
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/infrastructure/databases/typeorm/postgres/database.module.ts
-TAMANHO: 325 caracteres
-TIPO: TS
-============================================================
-
-import { Global, Module } from '@nestjs/common';
-import { databaseProviders } from './database.providers';
-import { EnvironmentModule } from '@/shared/environments';
-
-@Global()
-@Module({
-  imports: [EnvironmentModule],
-  providers: [...databaseProviders],
-  exports: [...databaseProviders],
-})
-export class DatabaseModule {}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/infrastructure/databases/typeorm/postgres/database.datasource.ts
-TAMANHO: 578 caracteres
-TIPO: TS
-============================================================
-
-import { DataSource } from 'typeorm';
-import 'dotenv/config';
-const port = process.env.POSTGRES_PORT ? parseInt(process.env.POSTGRES_PORT) : 5432;
-
-export const AppDataSource = new DataSource({
-  type: 'postgres',
-  host: process.env.POSTGRES_HOST,
-  port: port,
-  username: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DB,
-  schema: process.env.POSTGRES_SCHEMA,
-  synchronize: true,
-  logging: true,
-  entities: ['{src,dist}/**/*.entidade{.ts,.js}'],
-  migrations: ['./dist/**/migrations/*.js'],
-  subscribers: [],
-});
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/infrastructure/minio/minio.client.ts
-TAMANHO: 528 caracteres
-TIPO: TS
-============================================================
-
-import 'dotenv/config';
-import { Client } from 'minio';
-
-const minioClient = new Client({
-  endPoint: process.env.MINIO_ENDPOINT || 'localhost',
-  port: Number(process.env.MINIO_PORT) || 9000,
-  useSSL: (process.env.MINIO_SSL || 'false').toLowerCase() === 'true',
-  accessKey: process.env.MINIO_ACCESS_KEY || 'admin',
-  secretKey: process.env.MINIO_SECRET_KEY || 'adminadmin',
-  region: process.env.MINIO_REGION || 'br-mapa-1',
-});
-
-export const MINIO_BUCKET = process.env.MINIO_BUCKET || 'olivia';
-
-export default minioClient;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/contracts/errors/service-error.ts
-TAMANHO: 53 caracteres
-TIPO: TS
-============================================================
-
-export interface ServiceError {
-  message: string;
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/contracts/errors/index.ts
-TAMANHO: 74 caracteres
-TIPO: TS
-============================================================
-
-import { ServiceError } from './service-error';
-
-export { ServiceError };
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/enums/index.ts
-TAMANHO: 23 caracteres
-TIPO: TS
-============================================================
-
-export * from './api';
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/enums/api.ts
-TAMANHO: 116 caracteres
-TIPO: TS
-============================================================
-
-export enum EnvironmentEnum {
-  DEV = 'development',
-  PROD = 'production',
-  TEST = 'test',
-  HOMOL = 'homolog',
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/environments/index.ts
-TAMANHO: 309 caracteres
-TIPO: TS
-============================================================
-
-import { ambienteMigracoes } from './ambiente-migracoes';
-import type { Environment } from './environment';
-import { EnvironmentModule } from './environment.module';
-import { EnvironmentService } from './environment.service';
-
-export { ambienteMigracoes, Environment, EnvironmentModule, EnvironmentService };
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/environments/environment.ts
-TAMANHO: 1551 caracteres
-TIPO: TS
-============================================================
-
-import { z } from 'zod';
-
-export const environmentSchema = z
-  .object({
-    NODE_ENV: z.string().optional().default('development'),
-    PORT: z.coerce.number().optional().default(8080),
-    MAPA_TYPEORM_POSTGRES_TYPE: z.enum(['postgres']).default('postgres'),
-    POSTGRES_HOST: z.string().optional(),
-    POSTGRES_PORT: z.coerce.number().optional().default(5432),
-    POSTGRES_SCHEMA: z.string().optional(),
-    POSTGRES_PASSWORD: z.string().optional(),
-    POSTGRES_USER: z.string().optional(),
-    POSTGRES_DB: z.string().optional(),
-    POSTGRES_LOGAR: z.coerce.boolean().default(false),
-    IA_API_URL: z.string().optional().default('http://localhost'),
-    GOVBR_CLIENT_ID: z.string(),
-    GOVBR_CLIENT_SECRET: z.string(),
-    GOVBR_REDIRECT_URL: z.string(),
-    GOVBR_URL: z.string(),
-    MINIO_ACCESS_KEY: z.string(),
-    MINIO_SECRET_KEY: z.string(),
-    MINIO_ENDPOINT: z.string(),
-    MINIO_PORT: z.coerce.number().default(443),
-    MINIO_SSL: z.coerce.boolean().default(true),
-    MINIO_BUCKET: z.string(),
-    MINIO_REGION: z.string(),
-  })
-  .refine(
-    env => {
-      if (env.NODE_ENV !== 'development') {
-        return (
-          !!env.POSTGRES_HOST &&
-          !!env.POSTGRES_SCHEMA &&
-          !!env.POSTGRES_PASSWORD &&
-          !!env.POSTGRES_USER &&
-          !!env.POSTGRES_DB
-        );
-      }
-      return true;
-    },
-    {
-      message: 'Database environment variables are required unless NODE_ENV=development',
-      path: ['POSTGRES_HOST'],
-    }
-  );
-
-export type Environment = z.infer<typeof environmentSchema>;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/environments/environment.service.ts
-TAMANHO: 375 caracteres
-TIPO: TS
-============================================================
-
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import type { Environment } from './environment';
-
-@Injectable()
-export class EnvironmentService {
-  constructor(private configService: ConfigService<Environment, true>) {}
-
-  get<T extends keyof Environment>(key: T) {
-    return this.configService.get(key, { infer: true });
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/environments/environment.module.ts
-TAMANHO: 217 caracteres
-TIPO: TS
-============================================================
-
-import { Module } from '@nestjs/common';
-import { EnvironmentService } from './environment.service';
-
-@Module({
-  providers: [EnvironmentService],
-  exports: [EnvironmentService],
-})
-export class EnvironmentModule {}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/environments/ambiente-migracoes.ts
-TAMANHO: 74 caracteres
-TIPO: TS
-============================================================
-
-export const ambienteMigracoes = { schema: process.env.POSTGRES_SCHEMA };
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/errors/types/framework/invalid-formatation.ts
-TAMANHO: 308 caracteres
-TIPO: TS
-============================================================
-
-import { HttpException, HttpStatus } from '@nestjs/common';
-
-export class InvalidFormatationException extends HttpException {
-  constructor(message: string) {
-    super(
-      {
-        message: `Validation Error: ${message}`,
-        error: 'Bad Request',
-      },
-      HttpStatus.BAD_REQUEST
-    );
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/errors/types/user/user-not-found.ts
-TAMANHO: 316 caracteres
-TIPO: TS
-============================================================
-
-import { HttpException, HttpStatus } from '@nestjs/common';
-
-export class UserNotFoundException extends HttpException {
-  constructor(message?: string) {
-    super(
-      {
-        message: message ? message : 'Usuário não encontrado.',
-        error: 'Bad Request',
-      },
-      HttpStatus.NOT_FOUND
-    );
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/errors/types/user/user-not-found.exception.spec.ts
-TAMANHO: 833 caracteres
-TIPO: TS
-============================================================
-
-import { HttpStatus } from '@nestjs/common';
-import { UserNotFoundException } from './user-not-found';
-
-describe('UserNotFoundException', () => {
-  it('should create an exception with the default message', () => {
-    const exception = new UserNotFoundException();
-
-    expect(exception.getStatus()).toBe(HttpStatus.NOT_FOUND);
-    expect(exception.getResponse()).toEqual({
-      message: 'Usuário não encontrado.',
-      error: 'Bad Request',
-    });
-  });
-
-  it('should create an exception with a custom message', () => {
-    const customMessage = 'Custom user not found message.';
-    const exception = new UserNotFoundException(customMessage);
-
-    expect(exception.getStatus()).toBe(HttpStatus.NOT_FOUND);
-    expect(exception.getResponse()).toEqual({
-      message: customMessage,
-      error: 'Bad Request',
-    });
-  });
-});
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/errors/types/user/user-forbidden.exception.spec.ts
-TAMANHO: 828 caracteres
-TIPO: TS
-============================================================
-
-import { HttpStatus } from '@nestjs/common';
-import { UserForbiddenException } from './forbidden-user';
-
-describe('UserForbiddenException', () => {
-  it('should create an exception with the default message', () => {
-    const exception = new UserForbiddenException();
-
-    expect(exception.getStatus()).toBe(HttpStatus.FORBIDDEN);
-    expect(exception.getResponse()).toEqual({
-      message: 'Usuário não autorizado.',
-      error: 'Forbidden',
-    });
-  });
-
-  it('should create an exception with a custom message', () => {
-    const customMessage = 'Custom forbidden message.';
-    const exception = new UserForbiddenException(customMessage);
-
-    expect(exception.getStatus()).toBe(HttpStatus.FORBIDDEN);
-    expect(exception.getResponse()).toEqual({
-      message: customMessage,
-      error: 'Forbidden',
-    });
-  });
-});
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/errors/types/user/forbidden-user.ts
-TAMANHO: 315 caracteres
-TIPO: TS
-============================================================
-
-import { HttpException, HttpStatus } from '@nestjs/common';
-
-export class UserForbiddenException extends HttpException {
-  constructor(message?: string) {
-    super(
-      {
-        message: message ? message : 'Usuário não autorizado.',
-        error: 'Forbidden',
-      },
-      HttpStatus.FORBIDDEN
-    );
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/errors/types/user/credentials-must-be-provided.ts
-TAMANHO: 342 caracteres
-TIPO: TS
-============================================================
-
-import { HttpException, HttpStatus } from '@nestjs/common';
-
-export class CredentialsMustBeProvidedException extends HttpException {
-  constructor(message?: string) {
-    super(
-      {
-        message: message ? message : 'Crendenciais devem ser informadas.',
-        error: 'Bad Request',
-      },
-      HttpStatus.BAD_REQUEST
-    );
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/errors/types/user/credentials-must-be-provided.exception.spec.ts
-TAMANHO: 905 caracteres
-TIPO: TS
-============================================================
-
-import { HttpStatus } from '@nestjs/common';
-import { CredentialsMustBeProvidedException } from './credentials-must-be-provided';
-
-describe('CredentialsMustBeProvidedException', () => {
-  it('should create an exception with the default message', () => {
-    const exception = new CredentialsMustBeProvidedException();
-
-    expect(exception.getStatus()).toBe(HttpStatus.BAD_REQUEST);
-    expect(exception.getResponse()).toEqual({
-      message: 'Crendenciais devem ser informadas.',
-      error: 'Bad Request',
-    });
-  });
-
-  it('should create an exception with a custom message', () => {
-    const customMessage = 'Custom error message.';
-    const exception = new CredentialsMustBeProvidedException(customMessage);
-
-    expect(exception.getStatus()).toBe(HttpStatus.BAD_REQUEST);
-    expect(exception.getResponse()).toEqual({
-      message: customMessage,
-      error: 'Bad Request',
-    });
-  });
-});
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/errors/types/index.ts
-TAMANHO: 0 caracteres
-TIPO: TS
-============================================================
-
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/shared/errors/index.ts
-TAMANHO: 0 caracteres
-TIPO: TS
-============================================================
-
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/utils/regex-validation-id.ts
-TAMANHO: 53 caracteres
-TIPO: TS
-============================================================
-
-export const regexValidationId = /^[A-Za-z0-9\-]+$/;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/utils/pkce.util.ts
-TAMANHO: 547 caracteres
-TIPO: TS
-============================================================
-
-import { randomBytes, createHash } from 'crypto';
-
-export function base64url(input: Buffer | string): string {
-  const buff = Buffer.isBuffer(input) ? input : Buffer.from(input);
-  return buff.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
-}
-
-export function generateCodeVerifier(length = 64): string {
-  return base64url(randomBytes(length));
-}
-
-export function deriveCodeChallengeS256(codeVerifier: string): string {
-  const hash = createHash('sha256').update(codeVerifier).digest();
-  return base64url(hash);
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/utils/pkce.store.ts
-TAMANHO: 318 caracteres
-TIPO: TS
-============================================================
-
-export class PkceStore {
-  private static map = new Map<string, string>();
-
-  static set(state: string, verifier: string) {
-    this.map.set(state, verifier);
-  }
-
-  static get(state: string): string | undefined {
-    return this.map.get(state);
-  }
-
-  static delete(state: string) {
-    this.map.delete(state);
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/utils/index.ts
-TAMANHO: 76 caracteres
-TIPO: TS
-============================================================
-
-import { generateCPF } from './generate-fake-cpf';
-
-export { generateCPF };
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/utils/auth-session.store.ts
-TAMANHO: 1270 caracteres
-TIPO: TS
-============================================================
-
-import { getDataSource } from '@/infrastructure/databases/typeorm/postgres/database.providers';
-import { Sessao } from '@/domains/domain/model-entities/sessao.entity';
-import { Usuario } from '@/domains/domain/model-entities/usuario.entity';
-
-export interface GovbrUserInfo {
-  sub: string;
-  name?: string | null;
-  email?: string | null;
-  email_verified?: boolean;
-  picture?: string | null;
-  profile?: string | null;
-  social_name?: string | null;
-}
-
-export class AuthSessionStore {
-  static async set(sessionId: string, userId: number, expiresAt?: number) {
-    const dataSource = getDataSource() as any;
-    const repo = dataSource.getRepository(Sessao);
-    const session = repo.create({
-      id: sessionId,
-      usuario: { id: userId } as Usuario,
-      dhExpiracaoSessao: expiresAt ? new Date(expiresAt) : null,
-    });
-    await repo.save(session);
-  }
-
-  static async get(sessionId: string): Promise<Sessao | null> {
-    const dataSource = getDataSource() as any;
-    return dataSource
-      .getRepository(Sessao)
-      .findOne({ where: { id: sessionId }, relations: ['usuario'] });
-  }
-
-  static async delete(sessionId: string) {
-    const dataSource = getDataSource() as any;
-    await dataSource.getRepository(Sessao).delete({ id: sessionId });
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/__test__/jest-e2e.json
-TAMANHO: 306 caracteres
-TIPO: JSON
-============================================================
-
-{
-  "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": "..",
-  "testEnvironment": "node",
-  "testRegex": ".e2e-spec.ts$",
-  "transform": {
-    "^.+\\.(t|j)s$": "ts-jest"
-  },
-  "moduleDirectories": ["<rootDir>/../", "node_modules"],
-  "moduleNameMapper": {
-    "^@/(.*)$": "<rootDir>/src/$1"
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/__test__/app.e2e-spec.ts
-TAMANHO: 620 caracteres
-TIPO: TS
-============================================================
-
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import request from 'supertest';
-import { AppModule } from '../app.module';
-
-describe('AppController (e2e)', () => {
-  let app: INestApplication;
-
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    app = moduleFixture.createNestApplication();
-    await app.init();
-  });
-
-  it('Verificando se o server está respondendo', () => {
-    return request(app.getHttpServer()).get('/health-check').expect(200);
-  });
-});
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/test.job.ts
-TAMANHO: 397 caracteres
-TIPO: TS
-============================================================
-
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { TestJobService } from './framework/jobs/test.job.service';
-
-async function bootstrap() {
-  const appContext = await NestFactory.createApplicationContext(AppModule);
-  const integradorService = appContext.get(TestJobService);
-
-  integradorService.execute();
-
-  await appContext.close();
-}
-
-bootstrap();
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/main.ts
-TAMANHO: 1274 caracteres
-TIPO: TS
-============================================================
-
-import 'reflect-metadata';
-import 'module-alias/register';
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { EnvironmentService } from './shared/environments/environment.service';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AllExceptionsFilter } from './framework/filters/errors/exception-filter';
-import { ErrorsInterceptor } from './framework/interceptors/errors/error-interceptor';
-import { AppLogger } from './framework';
-
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.enableCors();
-
-  const logger = app.get(AppLogger);
-  app.useLogger(logger);
-
-  app.useGlobalFilters(new AllExceptionsFilter());
-  app.useGlobalInterceptors(new ErrorsInterceptor(logger));
-
-  const configService = app.get(EnvironmentService);
-  const port = configService.get('PORT');
-
-  const config = new DocumentBuilder()
-    .setTitle('Skeleton Api')
-    .setDescription('Esse é o esqueleto base das aplicações node do MAPA')
-    .setVersion('1.0')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document);
-
-  await app.listen(port);
-  logger.log(`Servidor rodando na porta ${port}`, 'Bootstrap');
-}
-bootstrap();
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/src/app.module.ts
-TAMANHO: 849 caracteres
-TIPO: TS
-============================================================
-
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { EnvironmentModule } from '@/shared/environments/environment.module';
-// import { AuthModule } from '@/framework/authentication/auth.module';
-import { environmentSchema } from './shared/environments/environment';
-import { HttpModule } from './gateways/http/http.module';
-import { DatabaseModule } from './infrastructure/databases/typeorm/postgres/database.module';
-import { TestJobModule } from './framework/jobs/test.module';
-import { LoggerModule } from './framework';
-
-@Module({
-  imports: [
-    ConfigModule.forRoot({
-      validate: env => environmentSchema.parse(env),
-      isGlobal: true,
-    }),
-    LoggerModule,
-    DatabaseModule,
-    //AuthModule,
-    HttpModule,
-    EnvironmentModule,
-    TestJobModule,
-  ],
-})
-export class AppModule {}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/package.json
-TAMANHO: 3978 caracteres
-TIPO: JSON
-============================================================
-
-{
-  "name": "olivia-back-node",
-  "version": "1.0.0",
-  "description": "API backend para o projeto Olivia",
-  "private": true,
-  "license": "UNLICENSED",
-  "main": "dist/main.js",
-  "scripts": {
-    "build": "tsc -p tsconfig.prod.json",
-    "build:dev": "tsc -p tsconfig.dev.json",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch -b swc",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "NODE_ENV=production node -r module-alias/register dist/main.js",
-    "start:dev:jobs:test": "npm run start -- --entryFile test.job",
-    "start:prod:jobs:test": "node dist/test.job",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:ci": "npm run test -- --testResultsProcessor=\"jest-junit\" --watchAll=false --ci --coverage",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "test:clear": "jest --clearCache",
-    "migration:create": "typeorm-ts-node-commonjs migration:create ./src/infrastructure/databases/typeorm/postgres/migrations/$npm_config_name",
-    "migration:generate": "typeorm-ts-node-commonjs migration:generate ./src/infrastructure/databases/typeorm/postgres/migrations/$npm_config_name -d ./src/infrastructure/databases/typeorm/postgres/typeorm-database.datasource.ts",
-    "migration:run": "typeorm-ts-node-commonjs migration:run -d ./src/infrastructure/databases/typeorm/postgres/typeorm-database.datasource.ts",
-    "migration:revert": "typeorm-ts-node-commonjs migration:revert -d ./src/infrastructure/databases/typeorm/postgres/typeorm-database.datasource.ts",
-    "prepare": "husky"
-  },
-  "_moduleAliases": {
-    "@": "dist",
-    "shared": "dist/shared"
-  },
-  "lint-staged": {
-    ".": [
-      "npm run lint",
-      "npm run ci:test"
-    ],
-    "src/**/*.ts": [
-      "npm run lint",
-      "prettier --ignore-path ./.prettierignore --write"
-    ],
-    "src/**/*.json": [
-      "prettier --ignore-path ./.prettierignore --write"
-    ]
-  },
-  "devDependencies": {
-    "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.33.0",
-    "@faker-js/faker": "^8.4.1",
-    "@nestjs/cli": "^11.0.10",
-    "@nestjs/testing": "^11.1.6",
-    "@swc/cli": "^0.7.8",
-    "@swc/core": "^1.13.3",
-    "@types/express": "^5.0.3",
-    "@types/jest": "^30.0.0",
-    "@types/multer": "^2.0.0",
-    "@types/node": "^24.2.1",
-    "@types/supertest": "^6.0.3",
-    "@typescript-eslint/eslint-plugin": "^8.39.1",
-    "@typescript-eslint/parser": "^8.39.1",
-    "eslint": "^9.33.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "globals": "^16.3.0",
-    "husky": "^9.1.7",
-    "jest": "^30.0.5",
-    "jest-junit": "^16.0.0",
-    "lint-staged": "^16.1.5",
-    "prettier": "^3.6.2",
-    "supertest": "^7.1.4",
-    "ts-jest": "^29.4.1",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.9.2"
-  },
-  "dependencies": {
-    "@casl/ability": "^6.7.3",
-    "@commitlint/config-conventional": "^19.8.1",
-    "@nestjs/common": "^11.1.6",
-    "@nestjs/config": "^4.0.2",
-    "@nestjs/core": "^11.1.6",
-    "@nestjs/jwt": "^11.0.0",
-    "@nestjs/platform-express": "^11.1.6",
-    "@nestjs/swagger": "^11.2.0",
-    "@nestjs/terminus": "^11.0.0",
-    "@nestjs/typeorm": "^11.0.0",
-    "axios": "^1.11.0",
-    "chokidar": "^4.0.3",
-    "class-transformer": "^0.5.1",
-    "class-validator": "^0.14.2",
-    "commitlint": "^19.8.1",
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "minio": "^8.0.5",
-    "module-alias": "^2.2.3",
-    "multer": "^2.0.2",
-    "nanoid": "^3.3.7",
-    "pg": "^8.16.3",
-    "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.2",
-    "token-types": "6.0.4",
-    "typeorm": "^0.3.25",
-    "zod": "3.25.76"
-  },
-  "overrides": {
-    "libphonenumber-js": "1.12.10"
-  }
-}
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/nest-cli.json
-TAMANHO: 196 caracteres
-TIPO: JSON
-============================================================
-
-{
-  "$schema": "https://json.schemastore.org/nest-cli",
-  "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
-  "entryFile": "./main",
-  "compilerOptions": {
-    "deleteOutDir": true
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/modelo.sql
-TAMANHO: 5272 caracteres
-TIPO: SQL
-============================================================
-
-DROP SCHEMA IF EXISTS OLIVIA CASCADE;
-BEGIN;
-
--- =========================================================
--- SCHEMA
--- =========================================================
-CREATE SCHEMA IF NOT EXISTS OLIVIA;
-
--- =========================================================
--- TABELA: S_USUARIO
--- Finalidade: cadastro mínimo para identificação local (Gov.br)
--- =========================================================
-CREATE TABLE IF NOT EXISTS OLIVIA.S_USUARIO (
-  ID_USUARIO              SERIAL PRIMARY KEY,
-  NR_CPF                  VARCHAR(11) NOT NULL,
-  NM_USUARIO              VARCHAR(255) NOT NULL,
-  DH_CRIACAO_REGISTRO     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  DH_ATUALIZACAO_REGISTRO TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  CONSTRAINT UK_USUARIO_NR_CPF UNIQUE (NR_CPF)
-);
-
--- =========================================================
--- TABELA: S_LAUDO_OLIVIA
--- Finalidade: armazenar laudos processados pela aplicação OLIVIA
--- =========================================================
-CREATE TABLE IF NOT EXISTS OLIVIA.S_LAUDO_OLIVIA
-(
-    ID_LAUDO_OLIVIA         SERIAL PRIMARY KEY,
-    NR_LPCO                 VARCHAR(255) NOT NULL,
-    JS_DADO_BRUTO           JSON,
-    JS_DADO_USUARIO         JSON,
-    OB_LAUDO_USUARIO        VARCHAR(255),
-    OB_LAUDO_IA             VARCHAR(255),
-    DH_CRIACAO_REGISTRO     TIMESTAMPTZ DEFAULT NOW(),
-    DH_ATUALIZACAO_REGISTRO TIMESTAMPTZ DEFAULT NOW(),
-    ID_USUARIO              INTEGER NOT NULL
-);
-
--- =========================================================
--- TABELA: S_SESSAO
--- Finalidade: controle de sessão da aplicação (sem persistir tokens OIDC)
--- =========================================================
-CREATE TABLE IF NOT EXISTS OLIVIA.S_SESSAO (
-  ID_SESSAO               VARCHAR(64) PRIMARY KEY,
-  ID_USUARIO              INTEGER NOT NULL,
-  DH_CRIACAO_REGISTRO     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  DH_EXPIRACAO_SESSAO     TIMESTAMPTZ
-);
-
--- =========================================================
--- CONSTRAINTS (FK)
--- =========================================================
-ALTER TABLE OLIVIA.S_LAUDO_OLIVIA
-  ADD CONSTRAINT FK_LAUDO_USUARIO
-    FOREIGN KEY (ID_USUARIO) REFERENCES OLIVIA.S_USUARIO (ID_USUARIO)
-    ON DELETE RESTRICT;
-
-ALTER TABLE OLIVIA.S_SESSAO
-  ADD CONSTRAINT FK_SESSAO_USUARIO
-    FOREIGN KEY (ID_USUARIO) REFERENCES OLIVIA.S_USUARIO (ID_USUARIO)
-    ON DELETE CASCADE;
-
--- =========================================================
--- ÍNDICES
--- =========================================================
-CREATE INDEX IF NOT EXISTS I_USUARIO_NM_USUARIO   ON OLIVIA.S_USUARIO (NM_USUARIO);
-CREATE INDEX IF NOT EXISTS I_FK_SESSAO_USUARIO    ON OLIVIA.S_SESSAO (ID_USUARIO);
-CREATE INDEX IF NOT EXISTS I_SESSAO_DH_EXPIRACAO  ON OLIVIA.S_SESSAO (DH_EXPIRACAO_SESSAO);
-
--- =========================================================
--- COMENTÁRIOS
--- =========================================================
--- S_USUARIO
-COMMENT ON TABLE  OLIVIA.S_USUARIO                          IS 'Cadastro mínimo do usuário autenticado via Gov.br';
-COMMENT ON COLUMN OLIVIA.S_USUARIO.ID_USUARIO               IS 'Identificador interno do usuário (PK)';
-COMMENT ON COLUMN OLIVIA.S_USUARIO.NR_CPF                   IS 'CPF do usuário (equivale ao sub do provedor); apenas números';
-COMMENT ON COLUMN OLIVIA.S_USUARIO.NM_USUARIO               IS 'Nome do usuário para exibição na interface';
-COMMENT ON COLUMN OLIVIA.S_USUARIO.DH_CRIACAO_REGISTRO      IS 'Data/hora de criação do registro';
-COMMENT ON COLUMN OLIVIA.S_USUARIO.DH_ATUALIZACAO_REGISTRO  IS 'Data/hora da última atualização do registro';
-
--- S_LAUDO_OLIVIA
-COMMENT ON TABLE  OLIVIA.S_LAUDO_OLIVIA                       IS 'Tabela de laudos processados e vinculados a usuários autenticados';
-COMMENT ON COLUMN OLIVIA.S_LAUDO_OLIVIA.ID_LAUDO_OLIVIA       IS 'Identificador único do laudo (PK)';
-COMMENT ON COLUMN OLIVIA.S_LAUDO_OLIVIA.NR_LPCO               IS 'Número do LPCO vinculado ao laudo';
-COMMENT ON COLUMN OLIVIA.S_LAUDO_OLIVIA.JS_DADO_BRUTO         IS 'Dados originais do laudo em formato JSON';
-COMMENT ON COLUMN OLIVIA.S_LAUDO_OLIVIA.JS_DADO_USUARIO       IS 'Dados complementares informados pelo usuário em JSON';
-COMMENT ON COLUMN OLIVIA.S_LAUDO_OLIVIA.OB_LAUDO_USUARIO      IS 'Observação registrada pelo usuário';
-COMMENT ON COLUMN OLIVIA.S_LAUDO_OLIVIA.OB_LAUDO_IA           IS 'Observação registrada pela inteligência artificial';
-COMMENT ON COLUMN OLIVIA.S_LAUDO_OLIVIA.DH_CRIACAO_REGISTRO   IS 'Data/hora de criação do registro';
-COMMENT ON COLUMN OLIVIA.S_LAUDO_OLIVIA.DH_ATUALIZACAO_REGISTRO IS 'Data/hora da última atualização do registro';
-COMMENT ON COLUMN OLIVIA.S_LAUDO_OLIVIA.ID_USUARIO            IS 'Usuário responsável pelo laudo (FK para S_USUARIO)';
-
--- S_SESSAO
-COMMENT ON TABLE  OLIVIA.S_SESSAO                         IS 'Sessões da aplicação para usuários autenticados';
-COMMENT ON COLUMN OLIVIA.S_SESSAO.ID_SESSAO               IS 'Identificador da sessão (string/hex gerado pelo backend)';
-COMMENT ON COLUMN OLIVIA.S_SESSAO.ID_USUARIO              IS 'FK para OLIVIA.S_USUARIO';
-COMMENT ON COLUMN OLIVIA.S_SESSAO.DH_CRIACAO_REGISTRO     IS 'Data/hora de criação da sessão';
-COMMENT ON COLUMN OLIVIA.S_SESSAO.DH_EXPIRACAO_SESSAO     IS 'Data/hora de expiração da sessão';
-
-COMMIT;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-back/.eslintrc.js
-TAMANHO: 650 caracteres
-TIPO: JS
-============================================================
-
-module.exports = {
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project: 'tsconfig.json',
-    tsconfigRootDir: __dirname,
-    sourceType: 'module',
-  },
-  plugins: ['@typescript-eslint/eslint-plugin'],
-  extends: ['plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
-  root: true,
-  env: {
-    node: true,
-    jest: true,
-  },
-  ignorePatterns: ['.eslintrc.js'],
-  rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-  },
-};
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/components/DSGOV/BRHeader.tsx
-TAMANHO: 4688 caracteres
-TIPO: TSX
-============================================================
-
-import { useState } from 'react';
-import Image from 'next/image';
-import {
-  AppBar,
-  Box,
-  Container,
-  IconButton,
-  Button,
-  Link,
-  Typography,
-  InputBase
-} from '@mui/material';
-
-export interface QuickLink {
-  label: string;
-  href: string;
-  icon?: React.ReactNode;
-}
-export interface SystemFunction {
-  label: string;
-  onClick: () => void;
-  icon?: React.ReactNode;
-}
-export interface BRHeaderProps {
-  logoSrc?: string;
-  sign?: string;
-  title: string;
-  subtitle?: string;
-  quickLinks?: QuickLink[];
-  systemFunctions?: SystemFunction[];
-  showSearch?: boolean;
-  onSearch?: (v: string) => void;
-  onLogin?: () => void;
-  onMenu?: () => void;
-}
-
-export function BRHeader({
-  logoSrc,
-  sign,
-  title,
-  subtitle,
-  quickLinks = [],
-  systemFunctions = [],
-  showSearch = false,
-  onSearch,
-  onLogin,
-  onMenu
-}: BRHeaderProps) {
-  const [searchValue, setSearchValue] = useState('');
-
-  return (
-    <AppBar
-      position='static'
-      elevation={0}
-      color='default'
-      sx={{
-        backgroundColor: 'background.default',
-        boxShadow: '0 1px 6px rgba(0,0,0,.16)',
-        py: 0.5,
-        fontFamily: 'var(--font-family-base, Arial, sans-serif)'
-      }}>
-      <Container
-        maxWidth={false}
-        sx={{ maxWidth: 1360, mx: 'auto', width: '100%', px: 4 }}>
-        {/* ───────── Linha superior ───────── */}
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 2
-          }}>
-          {/* logo + título */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            {logoSrc && (
-              <Image
-                src={logoSrc}
-                alt='Ministério da Agricultura e Pecuária'
-                width={166}
-                height={40}
-                priority
-                style={{ 
-                  marginRight: '-10px', 
-                  objectFit: 'contain',
-                }}
-              />
-            )}
-            {/* separador vertical */}
-            <Box sx={{ height: 32, borderLeft: '1px solid #dcdcdc' }} />
-            {/* título e ícone */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              <Typography
-                sx={{ 
-                  fontSize: '1.5rem', 
-                  fontWeight: 400, 
-                  color: '#222',
-                }}>
-                {title}
-              </Typography>
-              <Image
-                src="/assets/icon-desenvolvimento.png"
-                alt="Ícone de Desenvolvimento"
-                width={150}
-                height={23}
-                priority
-                style={{ objectFit: 'contain' }}
-              />
-            </Box>
-          </Box>
-
-          {subtitle && (
-            <Typography
-              sx={{ fontSize: '1rem', fontWeight: 500, color: '#666' }}>
-              {subtitle}
-            </Typography>
-          )}
-
-          {/* links rápidos e ações */}
-          <Box
-            sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: 1,
-              mr: 0
-            }}>
-            {quickLinks.length > 0 && (
-              <Box
-                component='nav'
-                sx={{
-                  display: 'flex',
-                  gap: 2,
-                  justifyContent: 'end'
-                }}>
-                {quickLinks.map(l => (
-                  <Link
-                    key={l.label}
-                    href={l.href}
-                    underline='hover'
-                    sx={{
-                      color: '#1351B4',
-                      fontWeight: 500,
-                      '&:hover': { textDecoration: 'underline' }
-                    }}>
-                    {l.label}
-                  </Link>
-                ))}
-              </Box>
-            )}
-            {/* Barra vertical separadora */}
-            <Box sx={{ height: 32, borderLeft: '1px solid #dcdcdc' }} />
-            {/* Ações (logout) */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              {systemFunctions.map(fn => (
-                <IconButton
-                  key={fn.label}
-                  size='small'
-                  aria-label={fn.label}
-                  onClick={fn.onClick}
-                  sx={{
-                    width: 32,
-                    height: 32,
-                    color: '#1351B4',
-                    '& svg, & i': { fontSize: 18 }
-                  }}>
-                  {fn.icon}
-                </IconButton>
-              ))}
-            </Box>
-          </Box>
-        </Box>
-      </Container>
-    </AppBar>
-  );
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/components/TableRows.jsx
-TAMANHO: 908 caracteres
-TIPO: JSX
-============================================================
-
-import React from 'react';
-import { TableRow, TableCell, TextField } from '@mui/material';
-
-const TableRows = ({ data, sectionKey, formData, setFormData }) => (
-  <>
-    {data &&
-      Object.entries(data)
-        .filter(([key]) => !key.startsWith('_'))
-        .map(([key, value], index) => (
-          <TableRow key={`${sectionKey}-${index}`}>
-            <TableCell>{key}</TableCell>
-            <TableCell>
-              <TextField
-                fullWidth
-                variant='outlined'
-                value={value}
-                onChange={e =>
-                  setFormData({
-                    ...formData,
-                    [sectionKey]: {
-                      ...data,
-                      [key]: e.target.value
-                    }
-                  })
-                }
-              />
-            </TableCell>
-          </TableRow>
-        ))}
-  </>
-);
-
-export default TableRows;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/components/PrivateRoute.js
-TAMANHO: 537 caracteres
-TIPO: JS
-============================================================
-
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useAuth } from '../context/AuthContext';
-
-const PrivateRoute = ({ children }) => {
-  const { isAuthenticated, loading, isLoggingOut } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!loading && !isAuthenticated && !isLoggingOut) {
-      router.push('/');
-    }
-  }, [isAuthenticated, loading, isLoggingOut]);
-
-  if (loading) return null;
-  if (!isAuthenticated) return null;
-
-  return children;
-};
-
-export default PrivateRoute;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/components/MaskedInput.jsx
-TAMANHO: 455 caracteres
-TIPO: JSX
-============================================================
-
-import React from 'react';
-import InputMask from 'react-input-mask';
-import { TextField } from '@mui/material';
-
-const MaskedInput = ({ value, onChange }) => {
-  return (
-    <InputMask
-      mask='* 99 99999999'
-      value={value}
-      onChange={onChange}
-      alwaysShowMask={false}>
-      {inputProps => (
-        <TextField {...inputProps} label='LPCO' variant='outlined' fullWidth />
-      )}
-    </InputMask>
-  );
-};
-
-export default MaskedInput;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/components/LoadingSpinner.jsx
-TAMANHO: 522 caracteres
-TIPO: JSX
-============================================================
-
-import React from 'react';
-import { Box, CircularProgress, Typography } from '@mui/material';
-
-const LoadingSpinner = ({ message }) => (
-  <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#f5f5f5',
-      padding: 4,
-    }}
-  >
-    <CircularProgress size={60} sx={{ mt: 4 }} />
-    <Typography variant='body1' align='center' sx={{ mt: 2 }}>
-      {message}
-    </Typography>
-  </Box>
-);
-
-export default LoadingSpinner;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/components/ChemicalRows.jsx
-TAMANHO: 2160 caracteres
-TIPO: JSX
-============================================================
-
-import React from 'react';
-import { TableRow, TableCell, TextField } from '@mui/material';
-
-const ChemicalRows = ({ data, formData, setFormData }) => {
-  if (!data) return null;
-
-  const entries = Object.entries(data).filter(
-    ([key]) => !key.endsWith(' - Incerteza') && !key.startsWith('_')
-  );
-
-  const handleChange = (label, isUncertainty) => e => {
-    const newValue = e.target.value;
-    const targetKey = isUncertainty ? `${label} - Incerteza` : label;
-    setFormData({
-      ...formData,
-      quimico: {
-        ...data,
-        [targetKey]: newValue
-      }
-    });
-  };
-
-  return (
-    <>
-      {entries.map(([label, value], index) => {
-        const uncertaintyKey = `${label} - Incerteza`;
-        const uncertaintyValue = data[uncertaintyKey] ?? '';
-
-        return (
-          <TableRow key={`quimico-${index}`}>
-            <TableCell>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <span
-                  style={{
-                    fontSize: 12,
-                    color: 'rgba(0,0,0,0.6)',
-                    marginBottom: 4
-                  }}>
-                  {label}
-                </span>
-                <TextField
-                  fullWidth
-                  variant='outlined'
-                  size='small'
-                  value={value ?? ''}
-                  onChange={handleChange(label, false)}
-                />
-              </div>
-            </TableCell>
-            <TableCell>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <span
-                  style={{
-                    fontSize: 12,
-                    color: 'rgba(0,0,0,0.6)',
-                    marginBottom: 4
-                  }}>
-                  Incerteza
-                </span>
-                <TextField
-                  fullWidth
-                  variant='outlined'
-                  size='small'
-                  value={uncertaintyValue}
-                  onChange={handleChange(label, true)}
-                />
-              </div>
-            </TableCell>
-          </TableRow>
-        );
-      })}
-    </>
-  );
-};
-
-export default ChemicalRows;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/components/BasePage.jsx
-TAMANHO: 634 caracteres
-TIPO: JSX
-============================================================
-
-import React from 'react';
-import { Box, Typography, styled } from '@mui/material';
-import AppHeader from './AppHeader';
-import PrivateRoute from './PrivateRoute';
-
-const BasePage = ({ title, children }) => {
-  const Title = styled(Typography)(() => ({
-    margin: '20px'
-  }));
-  return (
-    <PrivateRoute>
-      <Box sx={{ minHeight: '100vh', backgroundColor: '#f5f5f5', padding: 0 }}>
-        <AppHeader />
-        <Box sx={{ p: 2, pt: 0 }}>
-          <Title variant='h4' align='center'>
-            {title}
-          </Title>
-          {children}
-        </Box>
-      </Box>
-    </PrivateRoute>
-  );
-};
-
-export default BasePage;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/components/AppHeader.jsx
-TAMANHO: 1277 caracteres
-TIPO: JSX
-============================================================
-
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { useAuth } from '../context/AuthContext';
-import { BRHeader } from './DSGOV/BRHeader';
-
-const AppHeader = ({ title }) => {
-  const { logout } = useAuth();
-  const router = useRouter();
-
-  const [userName, setUserName] = useState('');
-
-  useEffect(() => {
-    try {
-      if (typeof window === 'undefined') return;
-      const stored = localStorage.getItem('user');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (parsed && typeof parsed.name === 'string') {
-          setUserName(parsed.name);
-        }
-      }
-    } catch (_) {}
-  }, []);
-
-  const quickLinks = [
-    { label: 'Novo Processo', href: '/arquivos' },
-    { label: 'Histórico de Processamento', href: '/historico' }
-    // { label: 'Editor', href: '/PromptsEditor' }
-  ];
-
-  const systemFunctions = [
-    {
-      label: 'Logout',
-      onClick: logout,
-      icon: <i className='fas fa-sign-out-alt' aria-hidden />
-    }
-  ];
-
-  return (
-    <BRHeader
-      logoSrc={'/assets/OlivIA-SVG.svg'}
-      title={userName || title || ''}
-      quickLinks={quickLinks}
-      systemFunctions={systemFunctions}
-      onMenu={() => router.push('/home')}
-    />
-  );
-};
-
-export default AppHeader;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/context/AuthContext.js
-TAMANHO: 4179 caracteres
-TIPO: JS
-============================================================
-
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useCallback
-} from 'react';
-import { useRouter } from 'next/router';
-import apiClient from '../services/apiClient';
-import { decodeJwt, scheduleAutoLogout } from '../services/auth';
-
-const AuthContext = createContext();
-
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [authError, setAuthError] = useState(null);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) setUser(JSON.parse(savedUser));
-    setLoading(false);
-  }, []);
-
-  const loginWithGovBr = async () => {
-    try {
-      window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/govbr/login`;
-    } catch (error) {
-      console.error('Falha ao iniciar login Gov.br:', error);
-    }
-  };
-
-  const handleGovBrCallback = useCallback(
-    async (code, state) => {
-      try {
-        const { data } = await apiClient.get('/auth/govbr/callback', {
-          params: { code, state }
-        });
-
-        if (!data?.access_token)
-          throw new Error(data?.message || 'Falha no login');
-
-        sessionStorage.setItem('access_token', data.access_token);
-        if (data.session_id)
-          sessionStorage.setItem('session_id', data.session_id);
-        if (data.expires_at)
-          sessionStorage.setItem('expires_at', String(data.expires_at));
-
-        const userUi = {
-          sub: data.user.sub, // ID único Gov.br (CPF)
-          name: data.user.name ?? null,
-          email: data.user.email ?? null,
-          email_verified: !!data.user.email_verified,
-          picture: data.user.picture ?? null
-        };
-        localStorage.setItem('user', JSON.stringify(userUi));
-        setUser(userUi);
-
-        if (data.expires_at) {
-          scheduleAutoLogout(
-            Math.floor(data.expires_at / 1000),
-            () => {
-              sessionStorage.clear();
-              localStorage.removeItem('user');
-              setUser(null);
-              router.replace('/');
-            },
-            120
-          );
-        }
-
-        router.push('/arquivos');
-      } catch (error) {
-        console.error('Callback falhou:', error);
-        const msg =
-          (error &&
-            error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error?.message ||
-          'Falha no login';
-        setAuthError(typeof msg === 'string' ? msg : JSON.stringify(msg));
-        router.replace('/');
-      }
-    },
-    [router]
-  );
-
-  const logout = async () => {
-    try {
-      setIsLoggingOut(true);
-      const sessionId = sessionStorage.getItem('session_id') || '';
-
-      try {
-        await apiClient.get('/auth/govbr/logout', {
-          params: { session_id: sessionId }
-        });
-      } catch (err) {
-        console.warn(
-          'Falha ao notificar logout no backend:',
-          err?.message || err
-        );
-      }
-      sessionStorage.clear();
-      localStorage.clear();
-      setUser(null);
-      const defaultPostLogoutPath = '/auth/govbr/sair';
-      const redirectUri =
-        process.env.NEXT_PUBLIC_LOGOUT_REDIRECT_URI ||
-        (typeof window !== 'undefined'
-          ? `${window.location.origin}${defaultPostLogoutPath}`
-          : defaultPostLogoutPath);
-
-      const ssoLogout = `https://sso.staging.acesso.gov.br/logout?post_logout_redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}`;
-
-      if (typeof window !== 'undefined') {
-        window.location.href = ssoLogout;
-      } else {
-        router.push('/');
-      }
-    } catch (e) {
-      setIsLoggingOut(false);
-      router.push('/');
-    }
-  };
-
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        loginWithGovBr,
-        handleGovBrCallback,
-        logout,
-        authError,
-        clearAuthError: () => setAuthError(null),
-        isAuthenticated: !!user,
-        loading,
-        isLoggingOut
-      }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
-
-export const useAuth = () => useContext(AuthContext);
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/pages/auth/govbr/sair.jsx
-TAMANHO: 336 caracteres
-TIPO: JSX
-============================================================
-
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-
-export default function GovbrSair() {
-  const router = useRouter();
-
-  useEffect(() => {
-    try {
-      sessionStorage.clear();
-      localStorage.removeItem('user');
-      router.push('/');
-    } catch {}
-  }, []);
-
-  return <p>Você saiu do sistema.</p>;
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/pages/auth/govbr/callback.jsx
-TAMANHO: 956 caracteres
-TIPO: JSX
-============================================================
-
-import { useRouter } from 'next/router';
-import { useEffect, useRef } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-
-export default function GovBrCallback() {
-  const router = useRouter();
-  const { handleGovBrCallback } = useAuth();
-  const ranRef = useRef(false);
-
-  useEffect(() => {
-    if (!router.isReady || ranRef.current) return;
-
-    const params = new URLSearchParams(window.location.search);
-    const error = params.get('error');
-    const error_description = params.get('error_description');
-    const code = params.get('code');
-    const state = params.get('state');
-
-    if (error) {
-      console.error('GovBR error:', error, error_description);
-      return;
-    }
-
-    if (code && state) {
-      ranRef.current = true;
-      handleGovBrCallback(code, state);
-    } else {
-      console.error('Faltando code/state no callback', router.query);
-    }
-  }, [router.isReady]);
-
-  return <p>Conectando ao Gov.br…</p>;
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/pages/_document.jsx
-TAMANHO: 781 caracteres
-TIPO: JSX
-============================================================
-
-import { Html, Head, Main, NextScript } from 'next/document';
-
-export default function Document() {
-  return (
-    <Html lang='pt-BR'>
-      <Head>
-        {/* Fonte Rawline do DSGov */}
-        <link
-          rel='stylesheet'
-          href='https://cdngovbr-ds.estaleiro.serpro.gov.br/design-system/fonts/rawline/css/rawline.css'
-        />
-        {/* Core CSS do Design System do Governo */}
-        <link
-          rel='stylesheet'
-          href='https://docs-ds.estaleiro.serpro.gov.br/govbr-ds-core/dist/core.min.css'
-        />
-        <link
-          rel='stylesheet'
-          href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css'
-        />
-      </Head>
-      <body>
-        <Main />
-        <NextScript />
-      </body>
-    </Html>
-  );
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/pages/_app.jsx
-TAMANHO: 683 caracteres
-TIPO: JSX
-============================================================
-
-import '../styles/globals.css';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { dsgovTheme } from '../theme/dsgovTheme';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AuthProvider } from '../context/AuthContext';
-
-const queryClient = new QueryClient();
-
-export default function App({ Component, pageProps }) {
-  return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={dsgovTheme}>
-          <CssBaseline />
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </QueryClientProvider>
-    </AuthProvider>
-  );
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/pages/resultado.jsx
-TAMANHO: 2072 caracteres
-TIPO: JSX
-============================================================
-
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, Button, Grid2 } from '@mui/material';
-import BasePage from '../components/BasePage';
-import VerifiedIcon from '@mui/icons-material/Verified';
-import { getApiResponse } from '../services/apiClient';
-
-const Resultado = () => {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    const response = getApiResponse('data-processing');
-    setData(response);
-  }, []);
-  return (
-    <BasePage title='Classificação de azeite'>
-      <Box
-        sx={{
-          backgroundColor: '#f5f5f5',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}>
-        <Box
-          sx={{
-            padding: 2,
-            backgroundColor: '#ffffff',
-            borderRadius: 3,
-            boxShadow: 10
-          }}>
-          <Typography
-            variant='body1'
-            gutterBottom
-            id='text-result'
-            sx={{ display: 'flex', alignItems: 'center' }}>
-            <VerifiedIcon color='success' />
-
-            {data ? (
-              <span>
-                O PDF gerado pela IA está salvo no nosso bucket do MinIO com o
-                nome "{data.laudo}". Caso queria ver outros resultados pode
-                acessar o menu "Histórico de processamento".
-              </span>
-            ) : (
-              <span>Aguardando resultado</span>
-            )}
-          </Typography>
-        </Box>
-
-        <Grid2
-          container
-          spacing={3}
-          sx={{ mt: 5, maxWidth: 800, alignItems: 'center' }}>
-          <Grid2 item xs={12} sm={6}>
-            <Button
-              variant='contained'
-              color='primary'
-              fullWidth
-              onClick={() =>
-                window.open(
-                  `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/laudo/${data.laudo}`,
-                  '_blank'
-                )
-              }>
-              Baixar PDF
-            </Button>
-          </Grid2>
-        </Grid2>
-      </Box>
-    </BasePage>
-  );
-};
-
-export default Resultado;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/pages/PromptsEditor.jsx
-TAMANHO: 13112 caracteres
-TIPO: JSX
-============================================================
-
-import React, { useState } from 'react';
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Paper,
-  MenuItem,
-  Select,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions
-} from '@mui/material';
-import BasePage from '../components/BasePage';
-import { useAuth } from '../context/AuthContext';
-import { useRouter } from 'next/router';
-
-const PromptsEditor = () => {
-  const { loading } = useAuth();
-  const router = useRouter();
-  if (loading) return null;
-
-  // Estado para armazenar os prompts e suas versões
-  const [prompts, setPrompts] = useState([
-    {
-      id: 1,
-      nome: 'Prompt para extração de propriedades físicas do Azeite',
-      texto: `como podem ser classificados os (resultados) dos seguintes parâmetros sem os limites, de forma precisa e eficiente. Deve seguir os nomes sugeridos abaixo. Se o parâmetro não estiver presente tabela, por favor não fornecer nenhum valor para esse parâmetro. Além disso, Dizer GRUPO como: Azeite_de_Oliva_Virgem ou Azeite_de_Oliva ou Azeite_de_Oliva_Refinado ou Óleo_de_Bagaço_de_Oliva ou Óleo_de_Bagaço_de_Oliva_ Refinado. Para os parâmetros cis e trans (como "C16:1 (%) Palmitoléico trans" e "C16:1 (%) Palmitoléico cis"), nunca combine ou atribua seus valores ao parâmetro genérico "C16:1 (%) Palmitoléico".O modelo deve retornar um arquivo em JSON. Certifique-se de que a estrutura JSON está bem formatada e consistente com os dados fornecidos. Por exemplo, {"GRUPO": "Azeite_de_Oliva_Virgem",  "Acidez Livre (%)": 0.38, "C16:1 (%) Palmitoléico trans": 0.23, "C16:1 (%) Palmitoléico cis":0.40}.
-GRUPO
-Acidez Livre (%)
-Índice de Peróxidos (mEq/kg)
-Ext. Específica em UV K270
-Ext. Específica em UV Delta K
-Ext. Específica em UV K232
-Mediana do defeito (Md)
-Mediana do frutado (Mf)
-Estigmastadienos (mg/kg)
-Ceras (mg/kg)
-Diferença do ECN 42
-18:1t (%) Oléico trans
-18:2t + 18:3t (%) trans
-C14:0 (%) Mirístico
-C16:0 (%) Palmítico
-C16:1 (%) Palmitoléico trans
-C16:1 (%) Palmitoléico cis
-C16:1 (%) Palmitoléico
-C17:0 (%) Margárico
-C17:1 (%) Cis-Heptadecenóico
-C18:0 (%) Esteárico
-C18:1 (%) Oléico
-C18:2 (%) Linoléico
-C18:3 (%) Linolênico
-C20:0 (%) Araquídico
-C20:1 (%) Gadoléico
-C22:0 (%) Behênico
-C24:0 (%) Lignocérico
-Colesterol (%)
-Brassicasterol (%)
-Campesterol   (%)
-Estigmasterol  (%)
-Delta-7-estigmastenol  (%)
-Eritrodiol e Uvaol  (%)
-Esteróis Totais  (mg/kg)
-Monopalmitato de 2-glicerilo (%)
-Impurezas Insoluveis (%)
-Índice de refração`,
-      resultado: '',
-      versoes: [
-        `como podem ser classificados os (resultados) dos seguintes parâmetros sem os limites, de forma precisa e eficiente. Deve seguir os nomes sugeridos abaixo. Se o parâmetro não estiver presente tabela, por favor não fornecer nenhum valor para esse parâmetro. Além disso, Dizer GRUPO como: Azeite_de_Oliva_Virgem ou Azeite_de_Oliva ou Azeite_de_Oliva_Refinado ou Óleo_de_Bagaço_de_Oliva ou Óleo_de_Bagaço_de_Oliva_ Refinado. Para os parâmetros`,
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque metus est, pulvinar vitae varius pellentesque, volutpat in dolor. Quisque libero.'
-      ]
-    },
-    {
-      id: 2,
-      nome: 'Prompt para extração de informações gerais do Laudo',
-      texto:
-        'com base no Laudo extrair as informações para os atributos Laboratório, País, Número Relatório, Número Amostra, Data Recepção, Data Envase, Produto, Marca, Safra, Número do Lote, Cliente, Tipo (Único, Virgem, Extra Virgem, Óleo de Bagaço, Azeite Refinado, Lampante) de forma precisa e eficiente em português. Se esses atributos não estiver presente no Laudo, por favor não fornecer nenhuma informação para o atributo. O modelo deve retornar um arquivo em JSON. Certifique-se de que a estrutura JSON está bem formatada e consistente com os dados fornecidos. Por exemplo, {"Laboratório": "Laboratorio Tecnológico del Uruguay", "País": "Uruguai"}',
-      resultado: '',
-      versoes: [
-        'com base no Laudo extrair as informações para os atributos Laboratório, País, Número Relatório, Número Amostra, Data Recepção, Data Envase, Produto, Marca, Safra, Número do Lote, Cliente, Tipo (Único, Virgem, Extra Virgem, Óleo de Bagaço, Azeite Refinado, Lampante) de forma precisa e eficiente em português. Se esses atributos não estiver presente no Laudo, por favor não fornecer nenhuma informação para o atributo. O modelo deve retornar um arquivo em JSON. Certifique-se de que a estrutura JSON está bem formatada e consistente com os dados fornecidos. Por exemplo, {"Laboratório": "Laboratorio Tecnológico del Uruguay", "País": "Uruguai"}',
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque metus est, pulvinar vitae varius pellentesque, volutpat in dolor. Quisque libero.'
-      ]
-    }
-  ]);
-
-  const [testando, setTestando] = useState(false);
-  const [dialogExcludeOpen, setDialogExcludeOpen] = useState(false);
-  const [dialogOficialOpen, setDialogOficialOpen] = useState(false);
-  const [selectedPromptId, setSelectedPromptId] = useState(null);
-  const [selectedVersionIndex, setSelectedVersionIndex] = useState(null);
-
-  // Atualiza o texto do prompt
-  const handlePromptChange = (id, novoTexto) => {
-    setPrompts(
-      prompts.map(p => (p.id === id ? { ...p, texto: novoTexto } : p))
-    );
-  };
-
-  // Salva a versão atual do prompt
-  const salvarVersao = id => {
-    setPrompts(
-      prompts.map(p =>
-        p.id === id ? { ...p, versoes: [...p.versoes, p.texto] } : p
-      )
-    );
-  };
-
-  // Restaura uma versão anterior do prompt
-  const restaurarVersao = (id, versaoIndex) => {
-    setPrompts(
-      prompts.map(p =>
-        p.id === id ? { ...p, texto: p.versoes[versaoIndex] } : p
-      )
-    );
-  };
-
-  // Abre o diálogo de confirmação
-  const handleExcluirVersao = (promptId, versaoIndex) => {
-    setSelectedPromptId(promptId);
-    setSelectedVersionIndex(versaoIndex);
-    setDialogExcludeOpen(true);
-  };
-
-  const handleVersaoOficial = (promptId, versaoIndex) => {
-    setSelectedPromptId(promptId);
-    setSelectedVersionIndex(versaoIndex);
-    setDialogOficialOpen(true);
-  };
-
-  // Confirma e remove a versão selecionada
-  const confirmarExclusao = () => {
-    setPrompts(
-      prompts.map(p =>
-        p.id === selectedPromptId
-          ? {
-              ...p,
-              versoes: p.versoes.filter(
-                (_, index) => index !== selectedVersionIndex
-              )
-            }
-          : p
-      )
-    );
-    setDialogExcludeOpen(false);
-  };
-  const confirmarOficial = () => {
-    // Encontrar o objeto com o id correspondente
-    const item = prompts.find(item => item.id === selectedPromptId);
-
-    if (item && item.versoes[selectedVersionIndex]) {
-      // Remover a versão do índice e colocá-la na primeira posição
-      const versaoMovida = item.versoes.splice(selectedVersionIndex, 1)[0];
-      item.versoes.unshift(versaoMovida);
-      setPrompts(prompts.map(p => (p.id === selectedPromptId ? item : p)));
-    }
-    setDialogOficialOpen(false);
-  };
-
-  // Testa um prompt (simulação, sem backend)
-  const testarPrompt = async id => {
-    setTestando(true);
-    const promptSelecionado = prompts.find(p => p.id === id);
-
-    // Simulação de resposta da IA
-    setTimeout(() => {
-      setPrompts(
-        prompts.map(p =>
-          p.id === id ? { ...p, resultado: `Resposta gerada: ${p.texto}` } : p
+    with connectable.connect() as connection:
+        context.configure(
+            connection=connection, target_metadata=target_metadata
         )
-      );
-      setTestando(false);
-    }, 1000);
-  };
 
-  return (
-    <BasePage title='Editor de Prompts'>
-      <Typography variant='h6' gutterBottom>
-        Dados do Processo para realização dos testes
-      </Typography>
-      <Box sx={{ display: 'flex', gap: 2, marginBottom: 3 }}>
-        <TextField label='LPCO' variant='outlined' fullWidth />
-        <TextField
-          type='file'
-          fullWidth
-          label='Laudo'
-          variant='outlined'
-          slotProps={{
-            htmlInput: { accept: '.pdf' },
-            inputLabel: { shrink: true }
-          }}
-        />
-      </Box>
-      {prompts.map(prompt => (
-        <Paper key={prompt.id} sx={{ padding: 2, marginBottom: 2 }}>
-          <Typography variant='h6'>{prompt.nome}</Typography>
-          <TextField
-            fullWidth
-            multiline
-            minRows={3}
-            variant='outlined'
-            value={prompt.texto}
-            onChange={e => handlePromptChange(prompt.id, e.target.value)}
-            sx={{ marginBottom: 2 }}
-          />
-          <Button
-            variant='contained'
-            color='primary'
-            onClick={() => testarPrompt(prompt.id)}
-            disabled={testando}
-            sx={{ marginRight: 1 }}>
-            Testar Prompt
-          </Button>
-          <Button
-            variant='outlined'
-            color='secondary'
-            onClick={() => salvarVersao(prompt.id)}>
-            Salvar Versão
-          </Button>
-
-          {/* Select para listar versões anteriores */}
-          {prompt.versoes.length > 0 && (
-            <Box sx={{ display: 'flex', gap: 2, marginTop: 1 }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}>
-                <Typography variant='body2' align='center'>
-                  <strong>Versões Salvas:</strong>
-                </Typography>
-              </Box>
-              <Select
-                displayEmpty
-                value={prompt.versoes.indexOf(prompt.texto)}
-                onChange={e => restaurarVersao(prompt.id, e.target.value)}
-                sx={{ marginTop: 1 }}>
-                <MenuItem value={-1} disabled>
-                  Selecionar uma versão
-                </MenuItem>
-                {prompt.versoes.map((versao, index) => (
-                  <MenuItem
-                    key={index}
-                    value={index}
-                    onClick={() => setSelectedVersionIndex(index)}>
-                    Versão {index + 1}: {versao.substring(0, 30)}...
-                  </MenuItem>
-                ))}
-              </Select>
-
-              {/* Botão para excluir a versão selecionada */}
-              <Button
-                variant='outlined'
-                color='error'
-                sx={{ marginTop: 1 }}
-                disabled={prompt.versoes.length <= 1}
-                onClick={() =>
-                  handleExcluirVersao(prompt.id, selectedVersionIndex)
-                }>
-                Excluir Versão
-              </Button>
-              {/* Botão para excluir a versão selecionada */}
-              <Button
-                variant='outlined'
-                color='success'
-                sx={{ marginTop: 1 }}
-                disabled={prompt.versoes.length <= 1}
-                onClick={() =>
-                  handleVersaoOficial(prompt.id, selectedVersionIndex)
-                }>
-                Ativar Versão
-              </Button>
-            </Box>
-          )}
-          <Box
-            sx={{
-              marginTop: 2,
-              padding: 1,
-              backgroundColor: '#f5f5f5',
-              borderRadius: 1
-            }}>
-            <Typography variant='body1'>
-              <strong>Versão Ativa: </strong>
-              {prompt.versoes[0]}
-            </Typography>
-          </Box>
-          {/* Mostra o resultado do teste se existir */}
-          {prompt.resultado && (
-            <Box
-              sx={{
-                marginTop: 2,
-                padding: 1,
-                backgroundColor: '#f5f5f5',
-                borderRadius: 1
-              }}>
-              <Typography variant='body1'>
-                <strong>Resultado:</strong>
-              </Typography>
-              <Typography variant='body2'>{prompt.resultado}</Typography>
-            </Box>
-          )}
-        </Paper>
-      ))}
-      {/* Diálogo de confirmação para excluir versão */}
-      <Dialog
-        open={dialogExcludeOpen}
-        onClose={() => setDialogExcludeOpen(false)}>
-        <DialogTitle>Confirmar Exclusão</DialogTitle>
-        <DialogContent>
-          <Typography>
-            Tem certeza que deseja excluir esta versão? Esta ação não pode ser
-            desfeita.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDialogExcludeOpen(false)} color='secondary'>
-            Cancelar
-          </Button>
-          <Button onClick={confirmarExclusao} color='error' variant='contained'>
-            Excluir
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog
-        open={dialogOficialOpen}
-        onClose={() => setDialogOficialOpen(false)}>
-        <DialogTitle>Oficializar versão</DialogTitle>
-        <DialogContent>
-          <Typography>
-            Tem certeza que deseja tornar esta versão oficial?
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDialogOficialOpen(false)} color='secondary'>
-            Cancelar
-          </Button>
-          <Button
-            onClick={confirmarOficial}
-            color='success'
-            variant='contained'>
-            Sim
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </BasePage>
-  );
-};
-
-export default PromptsEditor;
+        with context.begin_transaction():
+            context.run_migrations()
 
 
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/pages/processamento.jsx
-TAMANHO: 5772 caracteres
-TIPO: JSX
-============================================================
+if context.is_offline_mode():
+    run_migrations_offline()
+else:
+    run_migrations_online()
+"""adicionar itens no pedido
 
-import React, { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import {
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-  Button
-} from '@mui/material';
-import { Worker, Viewer } from '@react-pdf-viewer/core';
-import { selectionModePlugin } from '@react-pdf-viewer/selection-mode';
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-import BasePage from '../components/BasePage';
-import LoadingSpinner from '../components/LoadingSpinner';
-import TableRows from '../components/TableRows';
-import ChemicalRows from '../components/ChemicalRows';
-import apiClient, {
-  getApiResponse,
-  saveApiResponse
-} from '../services/apiClient';
+Revision ID: b6e665d2e978
+Revises: dcdaae2181c8
+Create Date: 2026-01-15 17:06:10.920131
 
-const Processamento = () => {
-  const router = useRouter();
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
-  const selectionModePluginInstance = selectionModePlugin({
-    selectionMode: 'hand'
-  });
-  const laudo = getApiResponse('laudo');
-  const [formData, setFormData] = useState({});
-  const tableContainerRef = useRef(null);
-  const [tableHeight, setTableHeight] = useState(null);
-  const [onprogress, setOnprogress] = useState(false);
+"""
+from typing import Sequence, Union
 
-  useEffect(() => {
-    const response = getApiResponse('extract-pdf-data');
-    setFormData(response);
-  }, []);
+from alembic import op
+import sqlalchemy as sa
 
-  useEffect(() => {
-    if (tableContainerRef.current) {
-      setTableHeight(tableContainerRef.current.clientHeight);
+
+# revision identifiers, used by Alembic.
+revision: str = 'b6e665d2e978'
+down_revision: Union[str, Sequence[str], None] = 'dcdaae2181c8'
+branch_labels: Union[str, Sequence[str], None] = None
+depends_on: Union[str, Sequence[str], None] = None
+
+
+def upgrade() -> None:
+    """Upgrade schema."""
+    # ### commands auto generated by Alembic - please adjust! ###
+    pass
+    # ### end Alembic commands ###
+
+
+def downgrade() -> None:
+    """Downgrade schema."""
+    # ### commands auto generated by Alembic - please adjust! ###
+    pass
+    # ### end Alembic commands ###
+# A generic, single database configuration.
+
+[alembic]
+# path to migration scripts.
+# this is typically a path given in POSIX (e.g. forward slashes)
+# format, relative to the token %(here)s which refers to the location of this
+# ini file
+script_location = %(here)s/alembic
+
+# template used to generate migration file names; The default value is %%(rev)s_%%(slug)s
+# Uncomment the line below if you want the files to be prepended with date and time
+# see https://alembic.sqlalchemy.org/en/latest/tutorial.html#editing-the-ini-file
+# for all available tokens
+# file_template = %%(year)d_%%(month).2d_%%(day).2d_%%(hour).2d%%(minute).2d-%%(rev)s_%%(slug)s
+
+# sys.path path, will be prepended to sys.path if present.
+# defaults to the current working directory.  for multiple paths, the path separator
+# is defined by "path_separator" below.
+prepend_sys_path = .
+
+
+# timezone to use when rendering the date within the migration file
+# as well as the filename.
+# If specified, requires the tzdata library which can be installed by adding
+# `alembic[tz]` to the pip requirements.
+# string value is passed to ZoneInfo()
+# leave blank for localtime
+# timezone =
+
+# max length of characters to apply to the "slug" field
+# truncate_slug_length = 40
+
+# set to 'true' to run the environment during
+# the 'revision' command, regardless of autogenerate
+# revision_environment = false
+
+# set to 'true' to allow .pyc and .pyo files without
+# a source .py file to be detected as revisions in the
+# versions/ directory
+# sourceless = false
+
+# version location specification; This defaults
+# to <script_location>/versions.  When using multiple version
+# directories, initial revisions must be specified with --version-path.
+# The path separator used here should be the separator specified by "path_separator"
+# below.
+# version_locations = %(here)s/bar:%(here)s/bat:%(here)s/alembic/versions
+
+# path_separator; This indicates what character is used to split lists of file
+# paths, including version_locations and prepend_sys_path within configparser
+# files such as alembic.ini.
+# The default rendered in new alembic.ini files is "os", which uses os.pathsep
+# to provide os-dependent path splitting.
+#
+# Note that in order to support legacy alembic.ini files, this default does NOT
+# take place if path_separator is not present in alembic.ini.  If this
+# option is omitted entirely, fallback logic is as follows:
+#
+# 1. Parsing of the version_locations option falls back to using the legacy
+#    "version_path_separator" key, which if absent then falls back to the legacy
+#    behavior of splitting on spaces and/or commas.
+# 2. Parsing of the prepend_sys_path option falls back to the legacy
+#    behavior of splitting on spaces, commas, or colons.
+#
+# Valid values for path_separator are:
+#
+# path_separator = :
+# path_separator = ;
+# path_separator = space
+# path_separator = newline
+#
+# Use os.pathsep. Default configuration used for new projects.
+path_separator = os
+
+# set to 'true' to search source files recursively
+# in each "version_locations" directory
+# new in Alembic version 1.10
+# recursive_version_locations = false
+
+# the output encoding used when revision files
+# are written from script.py.mako
+# output_encoding = utf-8
+
+# database URL.  This is consumed by the user-maintained env.py script only.
+# other means of configuring database URLs may be customized within the env.py
+# file.
+sqlalchemy.url = sqlite:///banco.db
+
+
+[post_write_hooks]
+# post_write_hooks defines scripts or Python functions that are run
+# on newly generated revision scripts.  See the documentation for further
+# detail and examples
+
+# format using "black" - use the console_scripts runner, against the "black" entrypoint
+# hooks = black
+# black.type = console_scripts
+# black.entrypoint = black
+# black.options = -l 79 REVISION_SCRIPT_FILENAME
+
+# lint with attempts to fix using "ruff" - use the module runner, against the "ruff" module
+# hooks = ruff
+# ruff.type = module
+# ruff.module = ruff
+# ruff.options = check --fix REVISION_SCRIPT_FILENAME
+
+# Alternatively, use the exec runner to execute a binary found on your PATH
+# hooks = ruff
+# ruff.type = exec
+# ruff.executable = ruff
+# ruff.options = check --fix REVISION_SCRIPT_FILENAME
+
+# Logging configuration.  This is also consumed by the user-maintained
+# env.py script only.
+[loggers]
+keys = root,sqlalchemy,alembic
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = WARNING
+handlers = console
+qualname =
+
+[logger_sqlalchemy]
+level = WARNING
+handlers =
+qualname = sqlalchemy.engine
+
+[logger_alembic]
+level = INFO
+handlers =
+qualname = alembic
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[formatter_generic]
+format = %(levelname)-5.5s [%(name)s] %(message)s
+datefmt = %H:%M:%S
+from fastapi import APIRouter, Depends, HTTPException
+from models import Usuario
+from dependecies import pegar_sessao, verificar_token 
+from main import bcrypt_context, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY
+from schemas import UsuarioSchema, LoginSchema
+from sqlalchemy.orm import Session
+from jose import jwt
+from datetime import datetime, timedelta, timezone
+from fastapi.security import OAuth2PasswordRequestForm
+
+auth_router = APIRouter(prefix="/auth", tags=["auth"])
+
+
+def criar_token(id_usuario, duracao_token=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)):
+    data_expiracao = datetime.now(timezone.utc) + duracao_token
+    dic_info = {"sub": str(id_usuario), "exp": data_expiracao}
+    jwt_codificado = jwt.encode(dic_info, SECRET_KEY, algorithm=ALGORITHM)
+    return jwt_codificado
+
+def autenticar_usuario(email, senha, session):
+    usuario = session.query(Usuario).filter(Usuario.email == email).first()
+    if not usuario:
+        return False
+    elif not bcrypt_context.verify(senha, usuario.senha):
+        return False    
+    return usuario
+                                                
+
+@auth_router.get("/")
+async def home():
+    """
+    Essa é a rota padrão de autenticação da nossa API
+    """
+    return {"message": "Essa é a rota de autenticação", "autenticado": False}
+
+@auth_router.post("/criar_conta")
+async def criar_conta(usuario_schema: UsuarioSchema, session: Session = Depends(pegar_sessao)):
+    usuario = session.query(Usuario).filter(Usuario.email == usuario_schema.email).first()
+    if usuario:
+        # email ja cadastrado
+        raise HTTPException(status_code=400, detail="Email ja cadastrado")
+    else:
+        senha_criptografada = bcrypt_context.hash(usuario_schema.senha)
+        novo_usuario = Usuario(usuario_schema.nome, usuario_schema.email, senha_criptografada, usuario_schema.ativo, usuario_schema.admin)
+        session.add(novo_usuario)
+        session.commit()
+        return {"message": f"Conta criada com sucesso email: {usuario_schema.email}"}
+    
+
+@auth_router.post("/login")
+async def login(login_schema: LoginSchema, session: Session = Depends(pegar_sessao)):
+    usuario = autenticar_usuario(login_schema.email, login_schema.senha, session)
+    if not usuario:
+        raise HTTPException(status_code=400, detail="Email nao cadastrado ou credenciais invalidas")
+    else:
+        access_token = criar_token(usuario.id)
+        refresh_token = criar_token(usuario.id, timedelta(days=7))
+        return {
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "token_type": "Bearer"
+        }    
+
+@auth_router.post("/login_form")
+async def login_form(dados_formulario: OAuth2PasswordRequestForm = Depends(), session: Session = Depends(pegar_sessao)):
+    usuario = autenticar_usuario(dados_formulario.username, dados_formulario.password, session)
+    if not usuario:
+        raise HTTPException(status_code=400, detail="Email nao cadastrado ou credenciais invalidas")
+    else:
+        access_token = criar_token(usuario.id)
+        return {
+            "access_token": access_token,
+            "token_type": "Bearer"
+        } 
+
+
+@auth_router.get("/refresh")
+async def use_refresh_token(usuario: Usuario = Depends(verificar_token)):
+    access_token = criar_token(usuario.id)
+    return {
+        "access_token": access_token,
+        "token_type": "Bearer"
+    }from fastapi import Depends, HTTPException
+from main import ALGORITHM, SECRET_KEY, oauth2_scheme
+from models import db
+from sqlalchemy.orm import sessionmaker, Session 
+from models import Usuario
+from jose import jwt, JWTError
+
+def pegar_sessao():
+    try:
+        session = sessionmaker(bind=db)
+        session = session()
+        yield session
+    finally:
+        session.close()
+
+def verificar_token(token: str = Depends(oauth2_scheme), session: Session = Depends(pegar_sessao)):
+    try:
+        dic_info = jwt.decode(token, SECRET_KEY, ALGORITHM)
+        id_usuario = int(dic_info.get("sub"))
+    except JWTError as erro:
+        raise HTTPException(status_code=401, detail="Acesso negado, verifique a validade do token") from erro
+    # verifica se o token é valido  
+    # extrai o id do usuario do token  
+    usuario = session.query(Usuario).filter(Usuario.id == id_usuario).first()
+    if not usuario:
+        raise HTTPException(status_code=401, detail="Acesso negado, verifique a validade do token")
+    return usuario  from fastapi import FastAPI 
+from passlib.context import CryptContext
+from dotenv import load_dotenv
+from fastapi.security import OAuth2PasswordBearer
+import os
+
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
+
+app = FastAPI()
+
+bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login_form")
+
+from auth_routes import auth_router
+from order_routes import order_router
+
+app.include_router(auth_router)
+app.include_router(order_router)
+
+# para rodar a API, executar no terminal uvicorn main:app --reload
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, Float, ForeignKey
+from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy_utils import ChoiceType
+
+# cria a conexão com o banco
+db = create_engine("sqlite:///banco.db")
+
+# cria a  base para o banco de dados
+Base = declarative_base()
+
+# cria as classes/tabelas
+# Usuário
+class Usuario(Base):
+    __tablename__ = "usuarios"
+
+    id  = Column("id", Integer, primary_key=True, autoincrement=True)
+    nome = Column("nome", String, nullable=False)
+    email = Column("email", String, nullable=False)
+    senha = Column("senha", String, nullable=False)
+    ativo = Column("ativo", Boolean, default=True)
+    admin = Column("admin", Boolean, default=False)
+
+    def __init__(self, nome, email, senha, ativo=True, admin=False):
+        self.nome = nome
+        self.email = email
+        self.senha = senha
+        self.ativo = ativo
+        self.admin = admin
+
+# Pedido
+class Pedido(Base):
+    __tablename__ = "pedidos"
+    '''
+    STATUS_PEDIDOS = (
+        ("PENDENTE", "PENDENTE"),
+        ("CANCELADO", "CANCELADO"),
+        ("FINALIZADO", "FINALIZADO")
+    )
+    '''
+    id = Column("id", Integer, primary_key=True, autoincrement=True)
+    status = Column("status", String)
+    usuario = Column("usuario", ForeignKey("usuarios.id"))
+    preco = Column("preco", Float)
+    itens = relationship("ItemPedido", cascade="all, delete")
+    
+    
+    def __init__(self, usuario, status="PENDENTE", preco=0):
+        self.usuario = usuario
+        self.preco = preco  
+        self.status = status
+
+    def calcular_preco(self):
+        #percorrer itens
+        #somar os preços
+        #editar o preco do pedido
+        self.preco = sum(item.preco_unitario * item.quantidade for item in self.itens)
+    
+# Itens do Pedido
+class ItemPedido(Base):
+    __tablename__ = "itens_pedidos" 
+
+    id = Column("id", Integer, primary_key=True, autoincrement=True)
+    quantidade = Column("quantidade", Integer)
+    sabor = Column("sabor", String)
+    tamanho = Column("tamanho", String)
+    preco_unitario = Column("preco_unitario", Float)
+    pedido = Column("pedido", ForeignKey("pedidos.id"))
+
+    def __init__(self, quantidade, sabor, tamanho, preco_unitario, pedido):
+        self.quantidade = quantidade
+        self.sabor = sabor
+        self.tamanho = tamanho
+        self.preco_unitario = preco_unitario
+        self.pedido = pedido
+
+# -- MIGRAR O BANCO --
+
+# criar a migração: alembic revision --autogenerate -m "MENSSAGEM DA MIGRAÇÃO"
+# aplicar a migração: alembic upgrade head
+# remover a migração: alembic downgrade -1  from models import ItemPedido
+from fastapi import APIRouter, Depends, HTTPException
+from schemas import PedidoSchema, ItemPedidoSchema, ResponsePedidoSchema
+from dependecies import pegar_sessao, verificar_token
+from sqlalchemy.orm import Session
+from models import Pedido, Usuario
+from typing import List
+
+order_router = APIRouter(prefix="/pedidos", tags=["pedidos"], dependencies=[Depends(verificar_token)])
+
+@order_router.get("/")
+async def pedidos():
+    """
+    Essa é a rota padrão de pedidos da nossa API
+    """
+    return {"message": "Essa é a rota de pedidos"}
+
+@order_router.post("/pedido")
+async def criar_pedido(pedido_schema: PedidoSchema, session: Session = Depends(pegar_sessao)):
+    novo_pedido = Pedido(usuario=pedido_schema.id_usuario)
+    session.add(novo_pedido)
+    session.commit()
+    return {"message": f"Pedido criado com sucesso, id: {novo_pedido.id}"}
+
+@order_router.post("/pedido/cancelar/{id_pedido}")
+async def cancelar_pedido(id_pedido: int, session: Session = Depends(pegar_sessao), usuario: Usuario = Depends(verificar_token)):
+    pedido = session.query(Pedido).filter(Pedido.id == id_pedido).first()
+    if not pedido:
+        raise HTTPException(status_code=400, detail="Pedido nao encontrado")
+    if not usuario.admin and usuario.id != pedido.usuario:
+        raise HTTPException(status_code=401, detail="Voce nao tem permissao para cancelar esse pedido")
+    pedido.status = "CANCELADO"
+    session.commit()
+    return {
+        "message": f"Pedido id: {pedido.id} cancelado com sucesso",
+        "pedido": pedido
     }
-  }, [formData]);
 
-  const handleSave = async () => {
-    try {
-      const body = {
-        lpco: getApiResponse('lpco'),
-        chem_data: JSON.stringify(formData),
-        sub: JSON.parse(localStorage.getItem('user')).sub
-      };
-      setOnprogress(true);
-      const response = await apiClient.post('/api/data-processing', body, {
-        headers: { 'Content-Type': 'application/json' }
-      });
-      saveApiResponse('data-processing', response.data);
-      setOnprogress(false);
-      router.push('/resultado');
-    } catch (error) {
-      console.error('Erro ao salvar dados:', error);
+@order_router.get("/listar")
+async def listar_pedidos(session: Session = Depends(pegar_sessao), usuario: Usuario = Depends(verificar_token)):
+    if not usuario.admin:
+        raise HTTPException(status_code=401, detail="Voce nao tem permissao para listar os pedidos")    
+    else:
+        pedidos = session.query(Pedido).all()
+        return {
+        "pedidos": pedidos
+        } 
+
+@order_router.post("/pedido/adicionar-item/{id_pedido}")    
+async def adicionar_item_pedido(id_pedido: int,
+                                item_pedido_schema: ItemPedidoSchema,
+                                session: Session = Depends(pegar_sessao),
+                                usuario: Usuario = Depends(verificar_token)):
+    pedido = session.query(Pedido).filter(Pedido.id == id_pedido).first()
+    if not pedido:
+        raise HTTPException(status_code=400, detail="Pedido nao encontrado")
+    if not usuario.admin and usuario.id != pedido.usuario:
+        raise HTTPException(status_code=401, detail="Voce nao tem permissao para adicionar item ao pedido")
+    item_pedido = ItemPedido(item_pedido_schema.quantidade, item_pedido_schema.sabor, item_pedido_schema.tamanho,
+                             item_pedido_schema.preco_unitario, pedido.id)    
+    session.add(item_pedido)
+    pedido.calcular_preco()
+    session.commit()
+    return {
+        "message": "Item adicionado ao pedido",
+        "item_id": item_pedido.id,
+        "preco_pedido": pedido.preco
     }
-  };
 
-  return (
-    <BasePage title='Processamento'>
-      {onprogress ? (
-        <LoadingSpinner message='Aguarde um momento enquanto nossa IA está processando...' />
-      ) : (
-        <>
-          <Typography variant='body1' align='center' sx={{ mt: 2, mb: 2 }}>
-            Analise os dados extraídos pela OlivIA. Altere se achar necessário e
-            no final da tabela clique no botão de salvar para que seja criado o
-            pdf com os dados processados.<br></br>
-            <b>Documento gerado por IA - Precisa ser revisado por um humano</b>
-          </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={8} md={8} lg={8}>
-              <Paper
-                elevation={3}
-                style={{ width: '100%' }}
-                ref={tableContainerRef}>
-                <Worker workerUrl='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js'>
-                  <div>
-                    <Viewer
-                      defaultScale={1.5}
-                      fileUrl={laudo}
-                      plugins={[
-                        defaultLayoutPluginInstance,
-                        selectionModePluginInstance
-                      ]}
-                    />
-                  </div>
-                </Worker>
-              </Paper>
-            </Grid>
-            <Grid item xs={12} sm={4} md={4} lg={4}>
-              <Paper
-                elevation={3}
-                style={{
-                  padding: '16px',
-                  height: 'calc(100vh - 30vh)',
-                  overflowY: 'auto',
-                  position: 'fixed',
-                  zIndex: 1300
-                }}>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  onClick={handleSave}
-                  style={{ marginBottom: '16px' }}
-                  fullWidth>
-                  Salvar Dados
-                </Button>
-                {/* Cabeçalho */}
-                <Typography variant='h6' sx={{ mt: 2, mb: 1 }}>
-                  Dados da Amostra
-                </Typography>
-                <TableContainer>
-                  <Table size='small'>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Campo</TableCell>
-                        <TableCell>Valor</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRows
-                        data={formData.cabecalho}
-                        sectionKey='cabecalho'
-                        formData={formData}
-                        setFormData={setFormData}
-                      />
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                {/* Dados Químicos */}
-                <Typography variant='h6' sx={{ mt: 3, mb: 1 }}>
-                  Resultados dos Ensaios
-                </Typography>
-                <TableContainer>
-                  <Table size='small'>
-                    <TableHead>
-                      <TableRow></TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <ChemicalRows
-                        data={formData.quimico}
-                        formData={formData}
-                        setFormData={setFormData}
-                      />
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Paper>
-            </Grid>
-          </Grid>
-        </>
-      )}
-    </BasePage>
-  );
-};
+@order_router.post("/pedido/remover-item/{id_item_pedido}")    
+async def remover_item_pedido(id_item_pedido: int,
+                                session: Session = Depends(pegar_sessao),
+                                usuario: Usuario = Depends(verificar_token)):
+    item_pedido = session.query(ItemPedido).filter(ItemPedido.id == id_item_pedido).first()
+    pedido = session.query(Pedido).filter(Pedido.id == item_pedido.pedido).first()
+    if not item_pedido:
+        raise HTTPException(status_code=400, detail="Item do pedido nao encontrado")
+    if not usuario.admin and usuario.id != pedido.usuario:
+        raise HTTPException(status_code=401, detail="Voce nao tem permissao para remover item do pedido")
+    session.delete(item_pedido)    
+    pedido.calcular_preco()
+    session.commit()
+    return {
+        "message": "Item removido do pedido",
+        "quantidade_itens_pedido": len(pedido.itens),
+        "pedido": pedido
+    }       
 
-export default Processamento;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/pages/index.jsx
-TAMANHO: 2357 caracteres
-TIPO: JSX
-============================================================
-
-import { useState, useEffect } from 'react';
-import { Box, Button, Typography, Paper, Container } from '@mui/material';
-import Image from 'next/image';
-import { useAuth } from '../context/AuthContext';
-
-const Login = () => {
-  const { loginWithGovBr, authError, clearAuthError } = useAuth();
-  const [erro, setErro] = useState('');
-  useEffect(() => {
-    if (authError) {
-      setErro(authError);
+#finalizar pedido
+@order_router.post("/pedido/finalizar/{id_pedido}")
+async def finalizar_pedido(id_pedido: int, session: Session = Depends(pegar_sessao), usuario: Usuario = Depends(verificar_token)):
+    pedido = session.query(Pedido).filter(Pedido.id == id_pedido).first()
+    if not pedido:
+        raise HTTPException(status_code=400, detail="Pedido nao encontrado")
+    if not usuario.admin and usuario.id != pedido.usuario:
+        raise HTTPException(status_code=401, detail="Voce nao tem permissao para finalizar esse pedido")
+    pedido.status = "FINALIZADO"
+    session.commit()
+    return {
+        "message": f"Pedido id: {pedido.id} finalizado com sucesso",
+        "pedido": pedido
     }
-  }, [authError]);
-  const handleLogin = async e => {
-    e.preventDefault();
-    try {
-      clearAuthError();
-      setErro('');
-      await loginWithGovBr();
-    } catch (err) {
-      setErro('Falha no login');
-    }
-  };
-  return (
-    <Container maxWidth='sm' sx={{ mt: 8, mb: 4 }}>
-      <Box display='flex' justifyContent='center' mb={3}>
-        <Image
-          src='/assets/logo-ministerio-agricultura.png'
-          alt='logo-ministerio-agricultura'
-          width={600}
-          height={175}
-          style={{
-            maxHeight: 150,
-            height: 'auto',
-            width: '100%',
-            objectFit: 'contain'
-          }}
-          priority
-        />
-      </Box>
 
-      <Button
-        variant='contained'
-        fullWidth
-        onClick={handleLogin}
-        sx={{
-          borderRadius: '20px',
-          backgroundColor: '#1a3dc1',
-          color: 'white',
-          py: 1.5,
-          mb: 2,
-          fontWeight: 'bold'
-        }}>
-        ENTRAR COM O GOV.BR
-      </Button>
-      {erro && <p style={{ color: 'red' }}>{erro}</p>}
-
-      <Paper
-        elevation={2}
-        sx={{
-          borderRadius: '16px',
-          padding: 3,
-          textAlign: 'center'
-        }}>
-        <Typography variant='subtitle1' fontWeight='bold' gutterBottom>
-          Bem-vindo(a)
-        </Typography>
-
-        <div>
-          <p>
-            Caso não tenha login no ambiente de hml faça o cadastro aqui
-            <br />
-            <a
-              href='https://sso.staging.acesso.gov.br/'
-              target='_blank'
-              rel='noopener noreferrer'>
-              https://sso.staging.acesso.gov.br/
-            </a>
-          </p>
-          <p>Utilize os seguiuntes dados para criação do cadastro:</p>
-          <p>
-            Nome da mãe: MAMÃE
-            <br />
-            Data de nascimento: 01/01/1980
-          </p>
-        </div>
-      </Paper>
-    </Container>
-  );
-};
-
-export default Login;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/pages/historico.jsx
-TAMANHO: 5432 caracteres
-TIPO: JSX
-============================================================
-
-import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Typography,
-  Container,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  IconButton,
-  TextField
-} from '@mui/material';
-import DownloadIcon from '@mui/icons-material/CloudDownload';
-import BasePage from '../components/BasePage';
-import apiClient from '../services/apiClient';
-
-const formatDate = isoString => {
-  const date = new Date(isoString);
-
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
-
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-
-  return `${day}/${month}/${year} - ${hours}h${minutes}`;
-};
-
-const Historico = () => {
-  const [laudos, setLaudos] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await apiClient.get('/api/laudo/historico', {
-          headers: {
-            'ngrok-skip-browser-warning': 'true'
-          }
-        });
-        setLaudos(response.data);
-      } catch (error) {
-        console.error('Erro ao buscar laudos:', error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const [searchTerm, setSearchTerm] = useState('');
-  const filteredLaudos = laudos.filter(laudo =>
-    laudo.lpco.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  return (
-    <BasePage title='Laudos Processados'>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#f5f5f5',
-          padding: 4
-        }}>
-        <Container
-          maxWidth='md'
-          sx={{
-            padding: 2,
-            backgroundColor: '#ffffff',
-            borderRadius: 3,
-            boxShadow: 10
-          }}>
-          <Typography align='center' variant='h6' gutterBottom>
-            Histórico de Laudos Processados
-          </Typography>
-
-          <TextField
-            fullWidth
-            label='Pesquisar pelo número do LPCO'
-            variant='outlined'
-            size='small'
-            sx={{ mb: 2 }}
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-          />
-
-          {filteredLaudos.length > 0 ? (
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>
-                      <strong>Número do LPCO</strong>
-                    </TableCell>
-                    <TableCell>
-                      <strong>Usuário</strong>
-                    </TableCell>
-                    <TableCell>
-                      <strong>Data de Processamento</strong>
-                    </TableCell>
-                    <TableCell align='center'>
-                      <strong>Laudo Enviado</strong>
-                    </TableCell>
-                    <TableCell align='center'>
-                      <strong>Laudo Gerado</strong>
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {filteredLaudos.map(laudo => (
-                    <TableRow key={laudo.id}>
-                      <TableCell>{laudo.lpco}</TableCell>
-                      <TableCell>{laudo.clienteNome}</TableCell>
-                      <TableCell>{formatDate(laudo.criacao)}</TableCell>
-                      <TableCell align='center'>
-                        {laudo.laudoEnviado ? (
-                          <IconButton
-                            color='primary'
-                            href={laudo.laudoEnviado}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            onClick={() =>
-                              window.open(
-                                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/laudo/${laudo.laudoEnviado}`,
-                                '_blank'
-                              )
-                            }>
-                            <DownloadIcon />
-                          </IconButton>
-                        ) : null}
-                      </TableCell>
-                      <TableCell align='center'>
-                        {laudo.laudoProcessado ? (
-                          <IconButton
-                            color='primary'
-                            href={laudo.laudoProcessado}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            onClick={() =>
-                              window.open(
-                                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/laudo/${laudo.laudoProcessado}`,
-                                '_blank'
-                              )
-                            }>
-                            <DownloadIcon />
-                          </IconButton>
-                        ) : null}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : (
-            <Typography align='center' sx={{ mt: 2, color: 'gray' }}>
-              Nenhum laudo encontrado.
-            </Typography>
-          )}
-        </Container>
-      </Box>
-    </BasePage>
-  );
-};
-
-export default Historico;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/pages/arquivos.jsx
-TAMANHO: 3721 caracteres
-TIPO: JSX
-============================================================
-
-import React, { useState } from 'react';
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-  Button,
-  Paper,
-  Typography
-} from '@mui/material';
-import { useRouter } from 'next/navigation';
-import BasePage from '../components/BasePage';
-import MaskedInput from '../components/MaskedInput';
-import LoadingSpinner from '../components/LoadingSpinner';
-import apiClient, { saveApiResponse } from '../services/apiClient';
-const Arquivos = () => {
-  const router = useRouter();
-  const [numeroLPCO, setNumeroLPCO] = useState('');
-  const [laudo, setLaudo] = useState(null);
-  const [onprogress, setOnprogress] = useState(false);
-
-  const handleChange = event => {
-    setNumeroLPCO(event.target.value);
-  };
-
-  const validateFields = () => numeroLPCO && laudo;
-
-  const saveToBase64 = file => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-    });
-  };
-
-  const handleSubmit = async () => {
-    if (validateFields()) {
-      try {
-        const base64 = await saveToBase64(laudo);
-        saveApiResponse('laudo', base64);
-        const formData = new FormData();
-        formData.append('lpco', numeroLPCO);
-        formData.append('laudo', laudo);
-        formData.append('sub', JSON.parse(localStorage.getItem('user')).sub);
-        setOnprogress(true);
-        const response = await apiClient.post(
-          '/api/extract-pdf-data',
-          formData
-        );
-        saveApiResponse('lpco', numeroLPCO);
-        saveApiResponse('extract-pdf-data', response.data);
-        setOnprogress(false);
-        router.push('/processamento');
-      } catch (error) {
-        console.error('Erro ao enviar dados para a API:', error);
-      }
-    }
-  };
-
-  return (
-    <BasePage title='Envio do Laudo'>
-      {onprogress ? (
-        <LoadingSpinner message='Aguarde um momento enquanto nossa IA está processando...' />
-      ) : (
-        <>
-          <TableContainer component={Paper} sx={{ mt: 4 }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow key={1}>
-                  <TableCell>Número LPCO</TableCell>
-                  <TableCell>
-                    <MaskedInput
-                      value={numeroLPCO}
-                      onChange={handleChange}
-                      label='lpco'
-                    />
-                  </TableCell>
-                </TableRow>
-                <TableRow key={2}>
-                  <TableCell>PDF do Laudo</TableCell>
-                  <TableCell>
-                    <TextField
-                      type='file'
-                      fullWidth
-                      slotProps={{
-                        htmlInput: { accept: '.pdf' },
-                        inputLabel: { shrink: true }
-                      }}
-                      onChange={e => setLaudo(e.target.files[0] || null)}
-                    />
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          <Box sx={{ mt: 4, textAlign: 'center' }}>
-            <Button
-              variant='contained'
-              color='primary'
-              sx={{ padding: '12px', fontSize: '16px', width: '50%' }}
-              onClick={handleSubmit}>
-              Enviar para IA
-            </Button>
-          </Box>
-        </>
-      )}
-    </BasePage>
-  );
-};
-
-export default Arquivos;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/services/auth.js
-TAMANHO: 677 caracteres
-TIPO: JS
-============================================================
-
-export function decodeJwt(token) {
-  try {
-    const [, payload] = token.split('.');
-    if (!payload) return null;
-    let b64 = payload.replace(/-/g, '+').replace(/_/g, '/');
-    const pad = b64.length % 4;
-    if (pad) b64 += '='.repeat(4 - pad);
-    const json = atob(b64);
-    return JSON.parse(json);
-  } catch {
-    return null;
-  }
-}
-
-export function scheduleAutoLogout(expUnix, onLogout, skewSec = 60) {
-  if (!expUnix) return;
-  const msUntil = expUnix * 1000 - Date.now() - skewSec * 1000;
-  if (msUntil <= 0) {
-    onLogout();
-    return;
-  }
-  if (window.__logoutTimer) clearTimeout(window.__logoutTimer);
-  window.__logoutTimer = setTimeout(onLogout, msUntil);
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/services/apiClient.js
-TAMANHO: 535 caracteres
-TIPO: JS
-============================================================
-
-import axios from 'axios';
-
-const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
-  headers: {
-    'Content-Type': 'multipart/form-data'
-  }
-});
-
-export const saveApiResponse = (key, data) => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem(key, JSON.stringify(data));
-  }
-};
-
-export const getApiResponse = key => {
-  if (typeof window !== 'undefined') {
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : null;
-  }
-  return null;
-};
-
-export default apiClient;
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/styles/tokens/typography.ts
-TAMANHO: 275 caracteres
-TIPO: TS
-============================================================
-
-export const typography = {
-  fontFamily: "'Rawline', 'Roboto', Arial, sans-serif",
-  fontWeight: {
-    regular: 400,
-    semiBold: 600,
-    bold: 700,
-  },
-  fontSize: {
-    xs: '0.75rem',
-    sm: '0.875rem',
-    base: '1rem',
-    lg: '1.125rem',
-    xl: '1.25rem',
-  },
-};
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/styles/tokens/spacing.ts
-TAMANHO: 76 caracteres
-TIPO: TS
-============================================================
-
-export const spacing = {
-  xs: 4,
-  sm: 8,
-  md: 16,
-  lg: 24,
-  xl: 32,
-};
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/styles/tokens/index.ts
-TAMANHO: 118 caracteres
-TIPO: TS
-============================================================
-
-export * as colors from './colors';
-export * as spacing from './spacing';
-export * as typography from './typography';
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/styles/tokens/colors.ts
-TAMANHO: 343 caracteres
-TIPO: TS
-============================================================
-
-export const colors = {
-  /* primário */
-  primary: '#1351B4',
-  primaryHover: '#0D3B8E',
-
-  /* secundário (amarelo) */
-  secondary: '#FAA43A',
-  secondaryHover: '#E5B800',
-
-  /* feedbacks */
-  success: '#168821',
-  danger: '#E60000',
-  warning: '#FFB400',
-  info: '#17A2B8',
-
-  /* base */
-  background: '#FFFFFF',
-  foreground: '#171717',
-};
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/styles/Home.module.css
-TAMANHO: 2702 caracteres
-TIPO: CSS
-============================================================
-
-.page {
-  --gray-rgb: 0, 0, 0;
-  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
-  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-
-  display: grid;
-  grid-template-rows: 20px 1fr 20px;
-  align-items: center;
-  justify-items: center;
-  min-height: 100svh;
-  padding: 80px;
-  gap: 64px;
-  font-family: var(--font-geist-sans);
-}
-
-@media (prefers-color-scheme: dark) {
-  .page {
-    --gray-rgb: 255, 255, 255;
-    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
-    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-  }
-}
-
-.main {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  grid-row-start: 2;
-}
-
-.main ol {
-  font-family: var(--font-geist-mono);
-  padding-left: 0;
-  margin: 0;
-  font-size: 14px;
-  line-height: 24px;
-  letter-spacing: -0.01em;
-  list-style-position: inside;
-}
-
-.main li:not(:last-of-type) {
-  margin-bottom: 8px;
-}
-
-.main code {
-  font-family: inherit;
-  background: var(--gray-alpha-100);
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-.ctas {
-  display: flex;
-  gap: 16px;
-}
-
-.ctas a {
-  appearance: none;
-  border-radius: 128px;
-  height: 48px;
-  padding: 0 20px;
-  border: none;
-  border: 1px solid transparent;
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 500;
-}
-
-a.primary {
-  background: var(--foreground);
-  color: var(--background);
-  gap: 8px;
-}
-
-a.secondary {
-  border-color: var(--gray-alpha-200);
-  min-width: 158px;
-}
-
-.footer {
-  grid-row-start: 3;
-  display: flex;
-  gap: 24px;
-}
-
-.footer a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.footer img {
-  flex-shrink: 0;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
-
-  .footer a:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
-}
-
-@media (max-width: 600px) {
-  .page {
-    padding: 32px;
-    padding-bottom: 80px;
-  }
-
-  .main {
-    align-items: center;
-  }
-
-  .main ol {
-    text-align: center;
-  }
-
-  .ctas {
-    flex-direction: column;
-  }
-
-  .ctas a {
-    font-size: 14px;
-    height: 40px;
-    padding: 0 16px;
-  }
-
-  a.secondary {
-    min-width: auto;
-  }
-
-  .footer {
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/styles/globals.css
-TAMANHO: 1266 caracteres
-TIPO: CSS
-============================================================
-
-:root {
-  /* Azul institucional */
-  --color-primary-bg: #1351b4;
-  --color-primary-bg-hover: #0d3b8e;
-  --color-primary-text: #ffffff;
-
-  /* Secundário & Terciário (texto azul) */
-  --color-secondary-text: #1351b4;
-  --color-secondary-border: #1351b4;
-  --color-secondary-hover-bg: #e5f1fb; /* só secundário */
-
-  /* Feedbacks principais */
-  --color-success: #168821;
-  --color-danger: #e60000;
-  --color-warning: #ffb400;
-  --color-info: #17a2b8;
-
-  /* Base */
-  --background: #ffffff;
-  --foreground: #171717;
-
-  /* Espaçamentos */
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
-
-  /* Tipografia */
-  --font-family-base: 'Rawline', 'Roboto', Arial, sans-serif;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
-
-
-============================================================
-ARQUIVO: teste_olivia/olivia-front/src/theme/dsgovTheme.ts
-TAMANHO: 1294 caracteres
-TIPO: TS
-============================================================
-
-import { createTheme } from '@mui/material/styles';
-import { colors } from '@/styles/tokens/colors';
-import { typography } from '@/styles/tokens/typography';
-import { spacing } from '@/styles/tokens/spacing';
-
-export const dsgovTheme = createTheme({
-  palette: {
-    primary: { main: colors.primary, contrastText: colors.background },
-    secondary: { main: colors.secondary, contrastText: colors.foreground },
-    success: { main: colors.success, contrastText: colors.background },
-    error: { main: colors.danger, contrastText: colors.background },
-    warning: { main: colors.warning, contrastText: colors.foreground },
-    info: { main: colors.info, contrastText: colors.background },
-    background: { default: colors.background },
-    text: { primary: colors.foreground }
-  },
-  typography: {
-    fontFamily: typography.fontFamily,
-    fontSize: 14,
-    fontWeightRegular: typography.fontWeight.regular,
-    fontWeightMedium: typography.fontWeight.semiBold,
-    fontWeightBold: typography.fontWeight.bold
-  },
-  spacing: spacing.md,
-  shape: { borderRadius: 0 },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: '100em',
-          textTransform: 'none',
-          fontWeight: typography.fontWeight.semiBold
+#visualizar pedido
+@order_router.get("/pedido/{id_pedido}")
+async def visualizar_pedido(id_pedido: int, session: Session = Depends(pegar_sessao), usuario: Usuario = Depends(verificar_token)):
+    pedido = session.query(Pedido).filter(Pedido.id == id_pedido).first()
+    if not pedido:
+        raise HTTPException(status_code=400, detail="Pedido nao encontrado")
+    if not usuario.admin and usuario.id != pedido.usuario:
+        raise HTTPException(status_code=401, detail="Voce nao tem permissao para visualizar esse pedido")
+    return {
+        "quantidade_itens_pedido": len(pedido.itens),
+        "pedido": pedido
         }
-      }
-    }
-  }
-});
+
+#visualizar todos os pedidos de 1 usuário
+@order_router.get("/pedidos/pedidos-usuario", response_model=list[ResponsePedidoSchema])
+async def visualizar_pedidos(id_usuario: int, session: Session = Depends(pegar_sessao), usuario: Usuario = Depends(verificar_token)):
+    pedidos = session.query(Pedido).filter(Pedido.usuario == id_usuario).all()
+    return pedidos
+annotated-types==0.7.0
+anyio==4.9.0
+bcrypt==4.3.0
+cffi==1.17.1
+click==8.1.8
+colorama==0.4.6
+cryptography==44.0.3
+ecdsa==0.19.1
+fastapi==0.115.12
+greenlet==3.2.1
+h11==0.16.0
+idna==3.10
+passlib==1.7.4
+pyasn1==0.4.8
+pycparser==2.22
+pydantic==2.11.4
+pydantic_core==2.33.2
+python-dotenv==1.1.0
+python-jose==3.4.0
+python-multipart==0.0.20
+rsa==4.9.1
+six==1.17.0
+sniffio==1.3.1
+SQLAlchemy==2.0.40
+starlette==0.46.2
+typing-inspection==0.4.0
+typing_extensions==4.13.2
+uvicorn==0.34.2
+from pydantic import BaseModel
+from typing import Optional, List
+
+class UsuarioSchema(BaseModel):
+    nome: str
+    email: str
+    senha: str
+    ativo: Optional[bool] = True
+    admin: Optional[bool] = False
+
+    class Config:
+        from_attributes = True
+
+class PedidoSchema(BaseModel):
+    id_usuario: int
+
+    class Config:
+        from_attributes = True
+
+class LoginSchema(BaseModel):
+    email: str
+    senha: str
+
+    class Config:
+        from_attributes = True
+
+class ItemPedidoSchema(BaseModel):
+    quantidade: int
+    sabor   : str
+    tamanho: str
+    preco_unitario: float
+
+    class Config:
+        from_attributes = True
+
+class ResponsePedidoSchema(BaseModel):
+    id : int
+    status : str
+    preco : float
+    itens : List[ItemPedidoSchema]
+
+    class Config:
+        from_attributes = True
+    """Initial migration
+
+Revision ID: dcdaae2181c8
+Revises: 
+Create Date: 2025-12-19 20:16:37.692827
+
+"""
+from typing import Sequence, Union
+
+from alembic import op
+import sqlalchemy as sa
 
 
-============================================================
-ARQUIVO: teste_olivia/olivia-front/tsconfig.json
-TAMANHO: 704 caracteres
-TIPO: JSON
-============================================================
-
-{
-  "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "strict": true,
-    "baseUrl": ".",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "**/*.jsx"
-  ],
-  "exclude": ["node_modules"]
-}
+# revision identifiers, used by Alembic.
+revision: str = 'dcdaae2181c8'
+down_revision: Union[str, Sequence[str], None] = None
+branch_labels: Union[str, Sequence[str], None] = None
+depends_on: Union[str, Sequence[str], None] = None
 
 
-============================================================
-ARQUIVO: teste_olivia/olivia-front/package.json
-TAMANHO: 1589 caracteres
-TIPO: JSON
-============================================================
-
-{
-  "name": "frontend-olivia",
-  "version": "0.1.0",
-  "scripts": {
-    "dev": "next dev -H 0.0.0.0 -p 3002",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "test": "jest --ci --coverage",
-    "test:watch": "jest --watchAll"
-  },
-  "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^6.1.9",
-    "@mui/material": "^6.4.5",
-    "@react-pdf-viewer/core": "^3.12.0",
-    "@react-pdf-viewer/default-layout": "^3.12.0",
-    "@tanstack/react-query": "5.84.2",
-    "axios": "^1.11.0",
-    "jsonwebtoken": "^9.0.2",
-    "next": "15.4.5",
-    "pdfjs-dist": "3.11.174",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-input-mask": "^2.0.4"
-  },
-  "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "@typescript-eslint/parser": "8.38.0",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "^15",
-    "eslint-config-prettier": "^9",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-prettier": "^5",
-    "eslint-plugin-promise": "^6.6.0",
-    "jest": "^28.1.3",
-    "jest-environment-jsdom": "^28.1.3",
-    "postcss": "^8",
-    "prettier": "^3",
-    "prettier-eslint": "^16",
-    "typescript": "^5",
-    "@typescript-eslint/eslint-plugin": "8.38.0"
-  },
-  "overrides": {
-    "@typescript-eslint/*": "8.38.0"
-  }
-}
+def upgrade() -> None:
+    """Upgrade schema."""
+    # ### commands auto generated by Alembic - please adjust! ###
+    op.create_table('pedidos',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('status', sa.String(), nullable=True),
+    sa.Column('usuario', sa.Integer(), nullable=True),
+    sa.Column('preco', sa.Float(), nullable=True),
+    sa.ForeignKeyConstraint(['usuario'], ['usuarios.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('itens_pedidos',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('quantidade', sa.Integer(), nullable=True),
+    sa.Column('sabor', sa.String(), nullable=True),
+    sa.Column('tamanho', sa.String(), nullable=True),
+    sa.Column('preco_unitario', sa.Float(), nullable=True),
+    sa.Column('pedido', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['pedido'], ['pedidos.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    # ### end Alembic commands ###
 
 
-============================================================
-ARQUIVO: teste_olivia/olivia-front/next.config.js
-TAMANHO: 335 caracteres
-TIPO: JS
-============================================================
+def downgrade() -> None:
+    """Downgrade schema."""
+    # ### commands auto generated by Alembic - please adjust! ###
+    op.drop_table('itens_pedidos')
+    op.drop_table('pedidos')
+    # ### end Alembic commands ###
+"""adicionar itens no pedido
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  output: 'standalone',
-  eslint: {
-    ignoreDuringBuilds: true
-  },
-  typescript: {
-    ignoreBuildErrors: true
-  },
-  allowedDevOrigins: [
-    'local.agricultura.gov.br',
-    'olivia.rhmg.agricultura.gov.br'
-  ]
-};
+Revision ID: b6e665d2e978
+Revises: dcdaae2181c8
+Create Date: 2026-01-15 17:06:10.920131
 
-module.exports = nextConfig;
+"""
+from typing import Sequence, Union
+
+from alembic import op
+import sqlalchemy as sa
 
 
-============================================================
-ARQUIVO: teste_olivia/olivia-front/next-env.d.ts
-TAMANHO: 264 caracteres
-TIPO: TS
-============================================================
-
-/// <reference types="next" />
-/// <reference types="next/image-types/global" />
-/// <reference path="./.next/types/routes.d.ts" />
-
-// NOTE: This file should not be edited
-// see https://nextjs.org/docs/pages/api-reference/config/typescript for more information.
+# revision identifiers, used by Alembic.
+revision: str = 'b6e665d2e978'
+down_revision: Union[str, Sequence[str], None] = 'dcdaae2181c8'
+branch_labels: Union[str, Sequence[str], None] = None
+depends_on: Union[str, Sequence[str], None] = None
 
 
-============================================================
-ARQUIVO: teste_olivia/olivia-front/jest.setup.js
-TAMANHO: 300 caracteres
-TIPO: JS
-============================================================
-
-// Optional: configure or set up a testing framework before each test.
-// If you delete this file, remove `setupFilesAfterEnv` from `jest.config.js`
-
-// Used for __tests__/testing-library.js
-// Learn more: https://github.com/testing-library/jest-dom
-import "@testing-library/jest-dom/extend-expect";
+def upgrade() -> None:
+    """Upgrade schema."""
+    # ### commands auto generated by Alembic - please adjust! ###
+    pass
+    # ### end Alembic commands ###
 
 
-============================================================
-ARQUIVO: teste_olivia/olivia-front/jest.config.js
-TAMANHO: 873 caracteres
-TIPO: JS
-============================================================
+def downgrade() -> None:
+    """Downgrade schema."""
+    # ### commands auto generated by Alembic - please adjust! ###
+    pass
+    # ### end Alembic commands ###
+from logging.config import fileConfig
 
-const nextJest = require("next/jest");
+from sqlalchemy import engine_from_config
+from sqlalchemy import pool
 
-const createJestConfig = nextJest({
-  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
-  dir: "./",
-});
+from alembic import context
 
-// Add any custom config to be passed to Jest
-const customJestConfig = {
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
-  moduleNameMapper: {
-    // Handle module aliases (this will be automatically configured for you soon)
-    "^@/components/(.*)$": "<rootDir>/components/$1",
+import sys
+import os
 
-    "^@/pages/(.*)$": "<rootDir>/pages/$1",
-  },
-  testEnvironment: "jest-environment-jsdom",
-  collectCoverage: true,
-  coverageDirectory: "coverage",
-  coverageProvider: "v8",
-  coverageReporters: ["text-summary", "lcov"],
-};
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
-module.exports = createJestConfig(customJestConfig);
+# this is the Alembic Config object, which provides
+# access to the values within the .ini file in use.
+config = context.config
+
+# Interpret the config file for Python logging.
+# This line sets up loggers basically.
+if config.config_file_name is not None:
+    fileConfig(config.config_file_name)
+
+# add your model's MetaData object here
+# for 'autogenerate' support
+# from myapp import mymodel
+# target_metadata = mymodel.Base.metadata
+from models import Base
+target_metadata = Base.metadata
+
+# other values from the config, defined by the needs of env.py,
+# can be acquired:
+# my_important_option = config.get_main_option("my_important_option")
+# ... etc.
+
+
+def run_migrations_offline() -> None:
+    """Run migrations in 'offline' mode.
+
+    This configures the context with just a URL
+    and not an Engine, though an Engine is acceptable
+    here as well.  By skipping the Engine creation
+    we don't even need a DBAPI to be available.
+
+    Calls to context.execute() here emit the given string to the
+    script output.
+
+    """
+    url = config.get_main_option("sqlalchemy.url")
+    context.configure(
+        url=url,
+        target_metadata=target_metadata,
+        literal_binds=True,
+        dialect_opts={"paramstyle": "named"},
+    )
+
+    with context.begin_transaction():
+        context.run_migrations()
+
+
+def run_migrations_online() -> None:
+    """Run migrations in 'online' mode.
+
+    In this scenario we need to create an Engine
+    and associate a connection with the context.
+
+    """
+    connectable = engine_from_config(
+        config.get_section(config.config_ini_section, {}),
+        prefix="sqlalchemy.",
+        poolclass=pool.NullPool,
+    )
+
+    with connectable.connect() as connection:
+        context.configure(
+            connection=connection, target_metadata=target_metadata
+        )
+
+        with context.begin_transaction():
+            context.run_migrations()
+
+
+if context.is_offline_mode():
+    run_migrations_offline()
+else:
+    run_migrations_online()
 
 ```
 
@@ -4317,23 +1081,7 @@ Formate sua resposta em markdown com a seguinte estrutura exata:
 ## Avaliação Geral
 [Resumo geral da análise]
 
-
-## Critério 1: [Nome do critério]
-**Status:** [Conforme/Parcialmente Conforme/Não Conforme]
-**Confiança:** [X.X]%
-
-[Avaliação detalhada com evidências do código]
-
-**Recomendações:**
-- [Lista de recomendações específicas]
-
-**IMPORTANTE: Ao finalizar a análise deste critério, inclua EXATAMENTE a tag: #FIM_ANALISE_CRITERIO#**
-Esta tag marca o fim completo da análise do critério acima.
-
-#FIM_ANALISE_CRITERIO#
-
-
-## Critério 2: [Nome do critério]
+## Critério: Código segue boas práticas e padrões de codificação
 **Status:** [Conforme/Parcialmente Conforme/Não Conforme]
 **Confiança:** [X.X]%
 
@@ -4348,10 +1096,9 @@ Esta tag marca o fim completo da análise do critério acima.
 #FIM_ANALISE_CRITERIO#
 
 ## Recomendações Gerais
-[Lista de recomendações gerais]## Recomendações Gerais
 [Lista de recomendações gerais]
 
-IMPORTANTE: Ao finalizar sua análise, inclua exatamente a tag #FIM# para indicar que a resposta está completa.
+#FIM##FIM# para indicar que a resposta está completa.
 
 #FIM#
 

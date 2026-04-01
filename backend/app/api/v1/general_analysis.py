@@ -15,7 +15,7 @@ from app.core.database import get_db
 from app.core.dependencies import get_current_user
 from app.models.user import User
 from app.models.analysis import Analysis, AnalysisStatus
-from app.models.prompt import Prompt, PromptCategory
+from app.models.prompt import Prompt, PromptCategory, PromptType
 from app.models.prompt import GeneralCriteria, GeneralAnalysisResult as GeneralAnalysisResultModel
 from app.models.uploaded_file import UploadedFile, FileStatus
 from app.models.code_entry import CodeEntry
@@ -132,7 +132,7 @@ class AnalyzeSelectedRequest(BaseModel):
     """Request model for analyzing selected criteria"""
     criteria_ids: List[str]
     file_paths: List[str] = []  # Mantido para compatibilidade, mas não será usado
-    use_code_entry: bool = True  # Novo flag para indicar que deve usar code_entry
+    use_code_entry: bool = False  # Changed to False by default to prefer uploaded files
     code_entry_id: Optional[str] = None  # ID específico do code_entry (opcional)
     analysis_name: Optional[str] = "Análise de Critérios Gerais"
     temperature: float = 0.7
@@ -173,15 +173,12 @@ async def create_general_analysis(
     """Create a general analysis with custom criteria"""
     # Create or get general prompt
     general_prompt = db.query(Prompt).filter(
-        Prompt.name == "General Analysis",
-        Prompt.category == PromptCategory.GENERAL,
-        Prompt.author_id == current_user.id
+        Prompt.type == PromptType.GENERAL,
+        Prompt.user_id == current_user.id
     ).first()
 
-    if not general_prompt:
-        # Create general prompt with user criteria
-        criteria_text = "\n".join([f"- {criterion}" for criterion in request.criteria])
-        prompt_content = f"""
+    criteria_text = "\n".join([f"- {criterion}" for criterion in request.criteria])
+    prompt_content = f"""
 You are a code quality expert. Analyze the provided code based on the following criteria:
 
 {criteria_text}
@@ -200,39 +197,22 @@ Provide your analysis in a structured format that includes:
 
 Format your response in markdown.
 """
+
+    if not general_prompt:
+        # Create general prompt with user criteria
         general_prompt = Prompt(
-            name="General Analysis",
+            type=PromptType.GENERAL,
             content=prompt_content,
-            category=PromptCategory.GENERAL,
-            author_id=current_user.id,
-            is_public=False
+            user_id=current_user.id,
+            version=1
         )
         db.add(general_prompt)
         db.commit()
         db.refresh(general_prompt)
     else:
         # Update prompt content with new criteria
-        criteria_text = "\n".join([f"- {criterion}" for criterion in request.criteria])
-        prompt_content = f"""
-You are a code quality expert. Analyze the provided code based on the following criteria:
-
-{criteria_text}
-
-For each criterion, provide:
-1. A clear assessment of whether the code meets the criterion
-2. Confidence level (0.0-1.0)
-3. Specific evidence from the code
-4. Recommendations for improvement if applicable
-
-Provide your analysis in a structured format that includes:
-- Overall assessment
-- Individual criterion evaluations
-- Code examples supporting your findings
-- Actionable recommendations
-
-Format your response in markdown.
-"""
         general_prompt.content = prompt_content
+        general_prompt.version += 1
         db.commit()
 
     # Create analysis
@@ -250,11 +230,15 @@ Format your response in markdown.
         }
     )
 
+    analysis_dict = analysis_data.model_dump()
+    file_paths = analysis_dict.pop("file_paths", [])
+    
     analysis = Analysis(
-        **analysis_data.dict(),
+        **analysis_dict,
         user_id=current_user.id,
         status=AnalysisStatus.PENDING
     )
+    analysis.set_file_paths(file_paths)
     db.add(analysis)
     db.commit()
     db.refresh(analysis)
@@ -782,9 +766,12 @@ async def analyze_selected_criteria(
             source_info = ""
             total_files_processed = 0
 
-            if request.use_code_entry:
+            # Determine source: Prioritize file_paths if provided and not empty
+            is_using_files = len(request.file_paths) > 0
+            
+            if not is_using_files and request.use_code_entry:
                 # Buscar código da tabela code_entries
-                print(f"DEBUG: Getting code from code_entries table")
+                print(f"DEBUG: No files provided, but use_code_entry=True. Getting code from code_entries table")
 
                 code_entry = None
 
@@ -934,12 +921,9 @@ async def analyze_selected_criteria(
         # Force override max_tokens to prevent truncation
         forced_max_tokens = 32000  # Force 32000 tokens to ensure complete response
 
-        print(f"=== SENDING TO LLM SERVICE ===")
-        print(f"DEBUG: About to send prompt of length {len(final_prompt)}")
-        print(f"DEBUG: Temperature: {request.temperature}, Original Max tokens: {request.max_tokens}")
-        print(f"DEBUG: FORCED Max tokens: {forced_max_tokens} (overriding frontend value)")
-
         # Increase timeout for LLM response to ensure complete analysis
+        import time
+        processing_start = time.time()
         try:
             llm_response = await llm_service.send_prompt(
                 final_prompt,
@@ -1118,7 +1102,7 @@ async def analyze_selected_criteria(
                                 result_data["name"] = "Critrio analisado"
 
                             remapped_criteria_results[extracted_key] = result_data
-                            print(f"DEBUG: No match found for '{result_name}', using cleaned name: '{result_data.get('name')}'")
+                            print(f"DEBUG: No match found for '{result_name}' (type: {type(result_name)}), using cleaned name: '{result_data.get('name')}'")
 
             # Remove fallback logic to prevent duplicate results
             # Only use results that were actually returned by the LLM analysis
@@ -1129,19 +1113,25 @@ async def analyze_selected_criteria(
         # Step 8: Save analysis results to database
         import json
         from datetime import datetime
-        import time
-
-        print("DEBUG: Starting database save process...")
 
         # Calculate processing time
-        processing_start = time.time()
-        processing_time = f"{time.time() - processing_start:.2f}s"
+        processing_duration = time.time() - processing_start
+        processing_time_str = f"{processing_duration:.2f}s"
 
+        print(f"DEBUG: Starting database save process for analysis: {request.analysis_name[:50]}...")
+        print(f"DEBUG: Criteria results count: {len(extracted_content.get('criteria_results', {}))}")
+        print(f"DEBUG: Processing time: {processing_time_str}")
+
+        db_analysis_result = None
         try:
-            print("DEBUG: Creating GeneralAnalysisResult record...")
             # Create GeneralAnalysisResult record
+            # Truncate analysis_name to 200 chars to match database schema String(200)
+            safe_analysis_name = request.analysis_name[:197] + "..." if len(request.analysis_name) > 200 else request.analysis_name
+            
+            print(f"DEBUG: Creating GeneralAnalysisResult record with name: {safe_analysis_name}")
+            
             db_analysis_result = GeneralAnalysisResultModel(
-                analysis_name=request.analysis_name,
+                analysis_name=safe_analysis_name,
                 criteria_count=len(selected_criteria),
                 user_id=current_user.id,
                 criteria_results=extracted_content.get("criteria_results", {}),
@@ -1150,26 +1140,29 @@ async def analyze_selected_criteria(
                 usage=llm_response.get("usage", {}),
                 file_paths=json.dumps(request.file_paths),
                 modified_prompt=modified_prompt,
-                processing_time=processing_time
+                processing_time=processing_time_str
             )
 
-            print("DEBUG: Adding record to session...")
+            print("DEBUG: Adding record to session and flushing...")
             db.add(db_analysis_result)
+            db.flush() # Flush to catch potential constraint errors before commit
 
             print("DEBUG: Committing transaction...")
             db.commit()
 
-            print("DEBUG: Refreshing record...")
+            db.commit()
+            print("DEBUG: Commit successful.")
             db.refresh(db_analysis_result)
 
             print(f"DEBUG: Successfully saved analysis result to database with ID: {db_analysis_result.id}")
 
         except Exception as db_error:
-            print(f"DEBUG: Database save failed: {db_error}")
+            print(f"CRITICAL ERROR: Database save failed: {str(db_error)}")
             import traceback
             traceback.print_exc()
-            # Don't re-raise - continue with returning the result to the user
+            db.rollback() # Always rollback on error
             db_analysis_result = None
+            print("DEBUG: Rollback performed after database error.")
 
         # Step 9: Create analysis result structure
         result_data = {
@@ -1628,6 +1621,7 @@ async def delete_multiple_analysis_results(
 
 @router.delete("/results/all")
 async def delete_all_analysis_results(
+    request: Request = None,  # Adding request to handle any potential body
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):

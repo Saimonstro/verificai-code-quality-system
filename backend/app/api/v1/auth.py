@@ -39,7 +39,7 @@ def register(
         )
 
     # Create new user
-    user = User(**user_data.dict(exclude={"confirm_password"}))
+    user = User(**user_data.model_dump(exclude={"confirm_password"}))
     db.add(user)
     db.commit()
     db.refresh(user)

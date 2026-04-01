@@ -145,9 +145,7 @@ async def upload_folder(
             )
 
             db.add(uploaded_file)
-            db.commit()
-            db.refresh(uploaded_file)
-
+            
             # Also create file_path record for display
             from app.models.file_path import FilePath
             file_path_record = FilePath(
@@ -163,9 +161,13 @@ async def upload_folder(
                 access_level="private"
             )
             db.add(file_path_record)
-            db.commit()
 
-            # Add background task for file processing
+            # Note: We don't commit here for performance. We commit all at once at the end.
+            # We'll need to handle background tasks differently if we need the ID immediately.
+            # But process_uploaded_file uses the ID, so we might need a flush at least.
+            db.flush()
+
+            # Add background task for file processing - use the integer ID after flush
             background_tasks.add_task(process_uploaded_file, uploaded_file.id, db)
 
             uploaded_files.append({
@@ -174,18 +176,31 @@ async def upload_folder(
                 "path": uploaded_file.relative_path,
                 "size": uploaded_file.file_size,
                 "type": uploaded_file.mime_type,
-                "upload_date": uploaded_file.created_at.isoformat(),
+                "upload_date": datetime.utcnow().isoformat(), # Use current time since object not yet committed
                 "status": "completed"
             })
 
-            logger.info(f"File uploaded successfully: {file_id} by user {current_user.id}")
+            logger.info(f"File prepared for upload: {file_id} by user {current_user.id}")
 
         except Exception as e:
-            logger.error(f"Error uploading file {file.filename}: {str(e)}")
+            logger.error(f"Error preparing file {file.filename}: {str(e)}")
             failed_files.append({
                 "filename": file.filename,
                 "error": str(e)
             })
+
+    try:
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Error committing folder upload: {str(e)}")
+        return {
+            "uploaded_files": [],
+            "failed_files": [{"filename": "batch", "error": f"Database commit failed: {str(e)}"}],
+            "total_uploaded": 0,
+            "total_failed": len(files),
+            "message": "Failed to save upload batch to database"
+        }
 
     return {
         "uploaded_files": uploaded_files,
@@ -429,7 +444,7 @@ async def update_file(
         raise HTTPException(status_code=404, detail="File not found")
 
     # Update fields
-    update_dict = update_data.dict(exclude_unset=True)
+    update_dict = update_data.model_dump(exclude_unset=True)
     for field, value in update_dict.items():
         setattr(file, field, value)
 

@@ -171,7 +171,7 @@ async def create_file_paths_bulk(
 
                 # Create new file path
                 db_file_path = FilePath(
-                    **file_path_data.dict(),
+                    **file_path_data.model_dump(),
                     user_id=current_user.id
                 )
                 db.add(db_file_path)
@@ -216,7 +216,7 @@ async def create_file_path(
 
         # Create new file path
         db_file_path = FilePath(
-            **file_path_data.dict(),
+            **file_path_data.model_dump(),
             user_id=current_user.id
         )
         db.add(db_file_path)
@@ -321,7 +321,7 @@ async def update_file_path(
             raise HTTPException(status_code=404, detail="File path not found")
 
         # Update fields
-        update_data = file_path_data.dict(exclude_unset=True)
+        update_data = file_path_data.model_dump(exclude_unset=True)
         for field, value in update_data.items():
             setattr(file_path, field, value)
 

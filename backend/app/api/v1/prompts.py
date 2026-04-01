@@ -252,7 +252,7 @@ def create_prompt(
     db: Session = Depends(get_db)
 ) -> Any:
     """Create a new prompt"""
-    prompt = Prompt(**prompt_data.dict(), author_id=current_user.id)
+    prompt = Prompt(**prompt_data.model_dump(), author_id=current_user.id)
     db.add(prompt)
     db.commit()
     db.refresh(prompt)
@@ -378,7 +378,7 @@ def update_prompt(
         )
 
     # Update fields
-    for field, value in prompt_data.dict(exclude_unset=True).items():
+    for field, value in prompt_data.model_dump(exclude_unset=True).items():
         setattr(prompt, field, value)
 
     db.commit()

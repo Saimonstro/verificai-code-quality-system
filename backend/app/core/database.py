@@ -1,12 +1,10 @@
 """
-Database configuration and connection management for VerificAI Backend
+Database configuration for VerificAI Backend - Demo Mode (Supabase compatible)
 """
 
-from sqlalchemy import create_engine, MetaData, text
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import QueuePool
-import redis.asyncio as redis
 from typing import Generator
 import logging
 
@@ -14,29 +12,34 @@ from app.core.config import settings
 from app.models.base import Base
 
 # Import all models to ensure they are registered with SQLAlchemy
-# This must happen BEFORE creating the engine
 from app.models.user import User
 from app.models.prompt import Prompt, PromptConfiguration
 from app.models.analysis import Analysis, AnalysisResult
 from app.models.uploaded_file import UploadedFile
 from app.models.file_path import FilePath
+from app.models.code_entry import CodeEntry
 
 logger = logging.getLogger(__name__)
 
-# SQLAlchemy configuration
+# Fix Supabase/Render DATABASE_URL format (postgres:// → postgresql://)
+database_url = settings.DATABASE_URL
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+# SQLAlchemy engine - small pool for free-tier cloud hosting
 engine = create_engine(
-    settings.DATABASE_URL,
+    database_url,
     poolclass=QueuePool,
-    pool_size=settings.DATABASE_POOL_SIZE,
-    max_overflow=settings.DATABASE_MAX_OVERFLOW,
-    pool_timeout=settings.DATABASE_POOL_TIMEOUT,
-    pool_recycle=settings.DATABASE_POOL_RECYCLE,
-    pool_pre_ping=True,
+    pool_size=3,           # Supabase free tier has limited connections
+    max_overflow=2,
+    pool_timeout=30,
+    pool_recycle=1800,     # Recycle connections every 30 minutes
+    pool_pre_ping=True,    # Verify connection before use
     echo=settings.DEBUG,
+    connect_args={"sslmode": "require"} if "supabase" in database_url else {},
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 
 # Naming convention for constraints
 convention = {
@@ -46,8 +49,6 @@ convention = {
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
     "pk": "pk_%(table_name)s"
 }
-
-# Apply naming convention to existing metadata
 Base.metadata.naming_convention = convention
 
 
@@ -62,23 +63,6 @@ def get_db() -> Generator[Session, None, None]:
         raise
     finally:
         db.close()
-
-
-async def get_redis() -> redis.Redis:
-    """Redis dependency for FastAPI routes"""
-    try:
-        redis_client = redis.from_url(
-            settings.REDIS_URL,
-            max_connections=settings.REDIS_MAX_CONNECTIONS,
-            encoding="utf-8",
-            decode_responses=True
-        )
-        # Test connection
-        await redis_client.ping()
-        return redis_client
-    except Exception as e:
-        logger.error(f"Redis connection error: {e}")
-        raise
 
 
 def create_tables():
@@ -102,7 +86,7 @@ def drop_tables():
 
 
 class DatabaseManager:
-    """Database connection and transaction manager"""
+    """Database connection manager"""
 
     def __init__(self):
         self.engine = engine
@@ -111,13 +95,6 @@ class DatabaseManager:
     def get_session(self) -> Session:
         """Get a new database session"""
         return self.session_factory()
-
-    def execute_raw_sql(self, sql: str, params: dict = None) -> any:
-        """Execute raw SQL with parameters"""
-        with self.get_session() as session:
-            result = session.execute(sql, params or {})
-            session.commit()
-            return result
 
     def health_check(self) -> bool:
         """Check database connectivity"""
@@ -131,4 +108,4 @@ class DatabaseManager:
 
 
 # Global database manager instance
-db_manager = DatabaseManager()# Force reload 2
+db_manager = DatabaseManager()

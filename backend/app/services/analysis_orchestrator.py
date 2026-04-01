@@ -199,7 +199,9 @@ class AnalysisOrchestrator:
             await self.queue.update_progress(str(analysis.id), 10)
 
             # Step 2: Process files - 30%
-            processed_files = await self.file_processor.process_files(config.files)
+            raw_processed_files = await self.file_processor.process_files(config.files)
+            processed_files = [f.to_dict() for f in raw_processed_files]
+            logger.info(f"Successfully processed {len(processed_files)} files for analysis {analysis.id}")
             await self.queue.update_progress(str(analysis.id), 30)
 
             # Step 3: Optimize content - 50%

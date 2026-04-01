@@ -107,7 +107,13 @@ async def setup_first_admin():
     Safe: returns error if any user already exists.
     """
     from app.core.database import get_db
+    # Import ALL models to ensure SQLAlchemy mapper registry is complete
     from app.models.user import User, UserRole
+    from app.models.code_entry import CodeEntry  # noqa: F401
+    from app.models.analysis import Analysis, AnalysisResult  # noqa: F401
+    from app.models.prompt import Prompt, PromptConfiguration  # noqa: F401
+    from app.models.uploaded_file import UploadedFile  # noqa: F401
+    from app.models.file_path import FilePath  # noqa: F401
 
     try:
         db = next(get_db())

@@ -9,6 +9,9 @@ const generateUUID = (): string => {
 };
 import './PathList.css';
 
+// @ts-ignore - Ignore TS error for env variable, Vite will replace this statically
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+
 interface FilePath {
   id: string;
   fullPath: string;
@@ -18,6 +21,7 @@ interface FilePath {
   fileSize?: number;
   lastModified?: Date;
   created_at?: string;
+  file?: File;
 }
 
 interface PathListProps {
@@ -137,6 +141,7 @@ const PathList: React.FC<PathListProps> = ({
       console.log('Filtros ativos:', { ignored: IGNORED_DIRECTORIES, allowedExts: ALLOWED_EXTENSIONS.length });
 
       let skippedCount = 0;
+      const filePaths: FilePath[] = [];
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const relativePath = file.webkitRelativePath || '';
@@ -198,7 +203,7 @@ const PathList: React.FC<PathListProps> = ({
             }
           });
 
-          const response = await fetch('/api/v1/upload/folder', {
+          const response = await fetch(`${API_BASE_URL}/upload/folder`, {
             method: 'POST',
             headers: {
               ...authHeaders
@@ -318,9 +323,9 @@ const PathList: React.FC<PathListProps> = ({
       const authHeaders = getAuthHeaders();
       console.log('🔑 Auth headers:', Object.keys(authHeaders));
 
-      const requestUrl = '/api/v1/file-paths/public';
+      const requestUrl = `${API_BASE_URL}/file-paths/public`;
       console.log('🌐 Fazendo requisição para endpoint público (todos os arquivos):', requestUrl);
-      console.log('📍 URL completa:', window.location.origin + requestUrl);
+      console.log('📍 URL completa:', requestUrl);
 
       const response = await fetch(requestUrl);
 
@@ -471,7 +476,7 @@ const PathList: React.FC<PathListProps> = ({
       const { getAuthHeaders } = await import('@/utils/auth');
       const authHeaders = getAuthHeaders();
 
-      const response = await fetch('/api/v1/file-paths/', {
+      const response = await fetch(`${API_BASE_URL}/file-paths/`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -515,7 +520,7 @@ const PathList: React.FC<PathListProps> = ({
       const { getAuthHeaders } = await import('@/utils/auth');
       const authHeaders = getAuthHeaders();
 
-      const response = await fetch('/api/v1/file-paths/', {
+      const response = await fetch(`${API_BASE_URL}/file-paths/`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -659,11 +664,13 @@ const PathList: React.FC<PathListProps> = ({
     <div className="path-list">
       {/* Hidden file input for folder selection */}
       <input
+        // @ts-ignore - React typing doesn't officially support these standard HTML attributes for directory selection
+        webkitdirectory="true"
+        // @ts-ignore
+        directory="true"
         ref={fileInputRef}
         id="folder-input"
         type="file"
-        webkitdirectory=""
-        directory=""
         multiple
         className="hidden"
         onChange={handleFileInputChange}

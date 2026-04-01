@@ -11,10 +11,12 @@ import LatestResponseViewer from '@/components/features/Analysis/LatestResponseV
 import { useUploadStore } from '@/stores/uploadStore';
 import { criteriaService } from '@/services/criteriaService';
 import { analysisService, type AnalysisRequest, type AnalysisResponse } from '@/services/analysisService';
-// import Modal from '@/components/common/Modal';
-// import Alert from '@/components/common/Alert';
 // import Button from '@/components/common/Button';
 import './GeneralAnalysisPage.css';
+
+// @ts-ignore
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+
 
 interface CriteriaResult {
   id?: number;
@@ -77,9 +79,9 @@ const GeneralAnalysisPage: React.FC = () => {
 
       // Tentar diferentes endpoints
       const endpoints = [
-        '/api/v1/file-paths/dev-paths',
-        '/public/file-paths',
-        '/api/v1/file-paths/test'
+        `${API_BASE_URL}/file-paths/dev-paths`,
+        `${API_BASE_URL}/file-paths/public`,
+        `${API_BASE_URL}/file-paths/test`
       ];
 
       for (const endpoint of endpoints) {
@@ -198,11 +200,11 @@ const GeneralAnalysisPage: React.FC = () => {
           const criteriaTextToIdMap = new Map<string, number>();
           console.log('🔍 Carregando critérios para mapeamento:', allCriteria.length);
           allCriteria.forEach(criterion => {
-            criteriaTextToIdMap.set(criterion.text, criterion.id);
+            criteriaTextToIdMap.set(criterion.text, Number(criterion.id));
             // Também mapear versões curtas do texto
             const shortText = criterion.text.split(':')[0].trim();
             if (shortText !== criterion.text) {
-              criteriaTextToIdMap.set(shortText, criterion.id);
+              criteriaTextToIdMap.set(shortText, Number(criterion.id));
             }
           });
 
@@ -676,9 +678,9 @@ const GeneralAnalysisPage: React.FC = () => {
       // Excluir resultados do banco de dados
       if (uniqueDatabaseResultIds.length > 0) {
         if (uniqueDatabaseResultIds.length === 1) {
-          await analysisService.deleteAnalysisResult(uniqueDatabaseResultIds[0]);
+          await analysisService.deleteAnalysisResult(uniqueDatabaseResultIds[0] as number);
         } else {
-          await analysisService.deleteMultipleAnalysisResults(uniqueDatabaseResultIds);
+          await analysisService.deleteMultipleAnalysisResults(uniqueDatabaseResultIds as number[]);
         }
       }
 
@@ -1627,6 +1629,7 @@ const GeneralAnalysisPage: React.FC = () => {
         {activeTab === 'criteria' && (
           <CriteriaList
             onCriteriaSelect={(selected) => console.log('Selected criteria:', selected)}
+            // @ts-ignore - mismatch in Criterion type definition interface
             onAnalyzeCriterion={handleAnalyzeCriterion}
             onAnalyzeSelected={(selected) => handleAnalyzeSelected(selected)}
             onCriteriaChange={refreshResults}

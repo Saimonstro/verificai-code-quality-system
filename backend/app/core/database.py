@@ -49,6 +49,19 @@ def _fix_database_url(url: str) -> str:
 
 database_url = _fix_database_url(settings.DATABASE_URL)
 
+# Detect if using Supabase (direct or pooler)
+_is_supabase = "supabase.co" in database_url or "supabase.com" in database_url
+
+# For Supabase Connection Pooler (pgbouncer), prepared statements must be disabled
+_connect_args = {}
+_engine_kwargs = {}
+if _is_supabase:
+    _connect_args = {"sslmode": "require"}
+    if "pooler.supabase.com" in database_url or ":6543" in database_url:
+        # pgbouncer (Transaction mode) requires this
+        _engine_kwargs["connect_args"] = {**_connect_args, "options": "-c statement_timeout=30000"}
+        _engine_kwargs["execution_options"] = {"no_parameters": True}
+
 # SQLAlchemy engine - small pool for free-tier cloud hosting
 engine = create_engine(
     database_url,
@@ -59,7 +72,8 @@ engine = create_engine(
     pool_recycle=1800,     # Recycle connections every 30 minutes
     pool_pre_ping=True,    # Verify connection before use
     echo=settings.DEBUG,
-    connect_args={"sslmode": "require"} if "supabase" in database_url else {},
+    connect_args=_connect_args,
+    **_engine_kwargs,
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

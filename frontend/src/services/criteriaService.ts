@@ -1,5 +1,6 @@
 import { useAuthStore } from '@/stores/authStore';
 
+// @ts-ignore - Ignore TS error for env variable, Vite will replace this statically
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
 
 interface Criterion {

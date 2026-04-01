@@ -14,7 +14,7 @@ from app.models.base import Base
 
 # Import all models to ensure they are registered with SQLAlchemy
 from app.models.user import User
-from app.models.prompt import Prompt, PromptConfiguration
+from app.models.prompt import Prompt, PromptConfiguration, GeneralCriteria, GeneralAnalysisResult
 from app.models.analysis import Analysis, AnalysisResult
 from app.models.uploaded_file import UploadedFile
 from app.models.file_path import FilePath

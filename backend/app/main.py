@@ -99,6 +99,56 @@ async def readiness_check():
     }
 
 
+@app.get("/setup")
+async def setup_first_admin():
+    """
+    One-time setup: creates the first admin user if no users exist.
+    Access: GET /setup  (no auth required)
+    Safe: returns error if any user already exists.
+    """
+    from app.core.database import get_db
+    from app.models.user import User, UserRole
+
+    try:
+        db = next(get_db())
+        user_count = db.query(User).count()
+
+        if user_count > 0:
+            return {
+                "success": False,
+                "message": f"Setup already done. {user_count} user(s) exist.",
+                "hint": "Use /api/v1/login with your credentials."
+            }
+
+        # Create first admin user
+        admin = User(
+            username="admin",
+            email="admin@verificai.com",
+            password="Admin@2024",
+            full_name="Administrador VerificAI",
+            role=UserRole.ADMIN,
+            is_admin=True,
+            is_active=True,
+            is_verified=True,
+        )
+        db.add(admin)
+        db.commit()
+        db.refresh(admin)
+
+        return {
+            "success": True,
+            "message": "Admin user created successfully!",
+            "credentials": {
+                "username": "admin",
+                "password": "Admin@2024",
+                "email": "admin@verificai.com"
+            },
+            "next_step": "Login at your Vercel frontend or POST /api/v1/login"
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
 @app.get("/public/file-paths")
 async def get_public_file_paths():
     """Get file paths for public access"""

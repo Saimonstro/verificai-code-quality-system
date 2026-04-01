@@ -5,6 +5,7 @@ Database configuration for VerificAI Backend - Demo Mode (Supabase compatible)
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import QueuePool
+from urllib.parse import urlparse, urlunparse, quote
 from typing import Generator
 import logging
 
@@ -21,10 +22,32 @@ from app.models.code_entry import CodeEntry
 
 logger = logging.getLogger(__name__)
 
-# Fix Supabase/Render DATABASE_URL format (postgres:// → postgresql://)
-database_url = settings.DATABASE_URL
-if database_url.startswith("postgres://"):
-    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+def _fix_database_url(url: str) -> str:
+    """
+    Fix DATABASE_URL for Supabase/Render compatibility:
+    1. Replaces postgres:// with postgresql://
+    2. URL-encodes special characters in the password (e.g. @ becomes %40)
+    """
+    if url.startswith("postgres://"):
+        url = url.replace("postgres://", "postgresql://", 1)
+
+    # Parse and re-encode the URL to safely handle special chars in password
+    try:
+        parsed = urlparse(url)
+        if parsed.password and "@" in parsed.password:
+            safe_password = quote(parsed.password, safe="")
+            netloc = f"{parsed.username}:{safe_password}@{parsed.hostname}"
+            if parsed.port:
+                netloc += f":{parsed.port}"
+            url = urlunparse(parsed._replace(netloc=netloc))
+    except Exception:
+        pass  # If parsing fails, use URL as-is
+
+    return url
+
+
+database_url = _fix_database_url(settings.DATABASE_URL)
 
 # SQLAlchemy engine - small pool for free-tier cloud hosting
 engine = create_engine(

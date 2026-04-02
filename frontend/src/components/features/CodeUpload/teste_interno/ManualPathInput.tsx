@@ -34,10 +34,14 @@ const ManualPathInput: React.FC<ManualPathInputProps> = ({ onPathAdded }) => {
         last_modified: new Date().toISOString()
       };
 
-      const response = await fetch(`${API_BASE_URL}/file-paths/public/bulk`, {
+      const { getAuthHeaders } = await import('@/utils/auth');
+      const authHeaders = getAuthHeaders();
+
+      const response = await fetch(`${API_BASE_URL}/file-paths/bulk`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          ...authHeaders
         },
         body: JSON.stringify({
           file_paths: [filePathData]

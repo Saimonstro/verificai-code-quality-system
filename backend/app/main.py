@@ -20,6 +20,14 @@ import uvicorn
 # Initialize logging
 setup_logging()
 
+# Import all models to ensure they are registered for create_tables()
+from app.models.user import User # noqa: F401
+from app.models.code_entry import CodeEntry # noqa: F401
+from app.models.analysis import Analysis, AnalysisResult # noqa: F401
+from app.models.prompt import Prompt, PromptConfiguration, GeneralCriteria, GeneralAnalysisResult # noqa: F401
+from app.models.uploaded_file import UploadedFile # noqa: F401
+from app.models.file_path import FilePath # noqa: F401
+
 # Create FastAPI application
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -30,12 +38,19 @@ app = FastAPI(
     redoc_url=f"{settings.API_V1_STR}/redoc",
 )
 
-# CORS - allows all origins in demo mode, can be restricted via env var
-cors_origins = settings.BACKEND_CORS_ORIGINS + ["*"] if settings.ENVIRONMENT == "production" else ["*"]
+# CORS - allows specific origins in production, all in development
+# Note: allow_credentials=True is incompatible with allow_origins=["*"] in modern browsers
+if settings.ENVIRONMENT == "production":
+    cors_origins = [
+        "https://verificai-code-quality-system-front.vercel.app",
+        "https://verificai.vercel.app",
+    ] + settings.BACKEND_CORS_ORIGINS
+else:
+    cors_origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -175,14 +190,7 @@ async def get_public_file_paths():
         return {"file_paths": [], "total_count": 0, "message": "Error occurred"}
 
 
-@app.options("/{path:path}")
-async def options_handler(path: str):
-    """Global OPTIONS handler for CORS preflight requests"""
-    return {
-        "message": "CORS preflight handled",
-        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        "headers": ["Content-Type", "Authorization"]
-    }
+# Global OPTIONS handler removed as it conflicts with CORSMiddleware
 
 
 if __name__ == "__main__":

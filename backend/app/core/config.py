@@ -23,7 +23,7 @@ class Settings(BaseSettings):
 
     # Database Configuration - supports Supabase postgres:// URLs
     DATABASE_URL: str = Field(
-        default="postgresql://verificai:verificai123@localhost:5432/verificai",
+        default="sqlite:///./verificai.db",
         env="DATABASE_URL"
     )
 
@@ -32,7 +32,7 @@ class Settings(BaseSettings):
     def fix_database_url(cls, v):
         """Fix Supabase/Render postgres:// format to postgresql://"""
         if not v:
-            return "postgresql://verificai:verificai123@localhost:5432/verificai"
+            return "sqlite:///./verificai.db"
         if v.startswith("postgres://"):
             return v.replace("postgres://", "postgresql://", 1)
         return v

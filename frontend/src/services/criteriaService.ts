@@ -195,7 +195,7 @@ export const criteriaService = {
     return response.json();
   },
 
-  async updateCriterion(id: number, text: string): Promise<Criterion> {
+  async updateCriterion(id: number | string, text: string): Promise<Criterion> {
     const { token, isAuthenticated } = useAuthStore.getState();
     console.log('🔍 SERVICE DEBUG: updateCriterion called with id:', id, 'text:', text);
     console.log('🔍 SERVICE DEBUG: Token value:', token);
@@ -373,7 +373,7 @@ export const criteriaService = {
     }
   },
 
-  async toggleCriterion(id: number, active: boolean): Promise<Criterion> {
+  async toggleCriterion(id: number | string, active: boolean): Promise<Criterion> {
     const { token, isAuthenticated } = useAuthStore.getState();
 
     if (!token || !isAuthenticated) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Download, Upload, Settings, FileText, AlertCircle, Trash2, RefreshCw, Eye } from 'lucide-react';
+import { Download, Upload, Settings, FileText, AlertCircle, Trash2, RefreshCw, Eye, FolderOpen, Plus } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import apiClient from '@/services/apiClient';
@@ -71,6 +71,59 @@ const GeneralAnalysisPage: React.FC = () => {
   console.log('  - uploadedFiles.length:', uploadedFiles.length);
   console.log('  - dbFilePaths:', dbFilePaths);
   console.log('  - dbFilePaths.length:', dbFilePaths.length);
+
+  // Função para indexar path manual
+  const handleIndexManualPath = async () => {
+    if (!manualPath.trim()) {
+      alert('Por favor, informe um caminho válido.');
+      return;
+    }
+
+    setIsIndexingManualPath(true);
+    try {
+      console.log('🔍 Indexando path manual:', manualPath);
+      // Aqui chamaríamos um endpoint de bult create ou algo similar no backend
+      // Para simplificar o teste do usuário agora, vamos apenas adicionar ao dbFilePaths localmente
+      // e tentar salvar no banco via API se existir endpoint adequado
+      
+      const { getAuthHeaders } = await import('@/utils/auth');
+      const authHeaders = getAuthHeaders();
+
+      const response = await fetch(`${API_BASE_URL}/file-paths/bulk`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...authHeaders
+        },
+        body: JSON.stringify({
+          file_paths: [{
+            full_path: manualPath.trim(),
+            file_name: manualPath.split(/[\\/]/).pop() || 'manual_path',
+            file_extension: manualPath.split('.').pop() || '',
+            folder_path: manualPath.substring(0, manualPath.lastIndexOf('/') + 1) || manualPath.substring(0, manualPath.lastIndexOf('\\') + 1) || '',
+            file_size: 0,
+            is_processed: false
+          }]
+        })
+      });
+
+      if (response.ok) {
+        console.log('✅ Path manual indexado com sucesso no banco');
+        await reloadDbPaths();
+        setManualPath('');
+        alert('Caminho indexado com sucesso!');
+      } else {
+        const errorData = await response.json();
+        console.error('❌ Erro ao indexar path manual:', errorData);
+        alert(`Erro ao indexar: ${errorData.detail || 'Erro desconhecido'}`);
+      }
+    } catch (error) {
+      console.error('❌ Erro na requisição de indexação:', error);
+      alert('Erro de conexão ao tentar indexar o caminho.');
+    } finally {
+      setIsIndexingManualPath(false);
+    }
+  };
 
   // Função para recarregar paths do banco de dados
   const reloadDbPaths = async () => {
@@ -158,6 +211,9 @@ const GeneralAnalysisPage: React.FC = () => {
     console.log('⚠️ Nenhum path encontrado no banco de dados!');
     return [];
   }, [dbFilePaths]);
+
+  const [manualPath, setManualPath] = useState<string>('');
+  const [isIndexingManualPath, setIsIndexingManualPath] = useState(false);
   const [currentAnalysis, setCurrentAnalysis] = useState<any>(null);
   const [results, setResults] = useState<CriteriaResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -1626,6 +1682,71 @@ const GeneralAnalysisPage: React.FC = () => {
   
       {/* Tab Content */}
       <div className="br-container">
+        {/* Manual Path Indexing UI */}
+        <div className="br-card mb-4" style={{ backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
+          <div className="card-header">
+            <h3 className="text-h3" style={{ fontSize: '1.2rem', marginBottom: '8px' }}>
+              <FolderOpen className="w-5 h-5 inline-block mr-2 text-blue-600" />
+              Indexação Manual de Diretório Local
+            </h3>
+            <p className="text-small text-muted">
+              Informe o caminho completo da pasta no seu computador (Ex: K:\Dev\Projetos\to-do-list)
+            </p>
+          </div>
+          <div className="card-content">
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              <input
+                type="text"
+                value={manualPath}
+                onChange={(e) => setManualPath(e.target.value)}
+                placeholder="C:\Caminho\Para\Seu\Projeto"
+                style={{
+                  flex: 1,
+                  padding: '10px 14px',
+                  borderRadius: '4px',
+                  border: '1px solid #ced4da',
+                  fontSize: '14px'
+                }}
+                disabled={isIndexingManualPath}
+              />
+              <button
+                onClick={handleIndexManualPath}
+                disabled={isIndexingManualPath || !manualPath.trim()}
+                className={`br-button ${isIndexingManualPath ? 'secondary' : 'primary'}`}
+                style={{ minWidth: '150px' }}
+              >
+                {isIndexingManualPath ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                    Indexando...
+                  </>
+                ) : (
+                  <>
+                    <Plus className="w-4 h-4 mr-2" />
+                    Indexar Pasta
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* List of currently indexed paths */}
+            {dbFilePaths.length > 0 && (
+              <div style={{ marginTop: '20px', borderTop: '1px border #e9ecef', paddingTop: '15px' }}>
+                <h4 style={{ fontSize: '0.9rem', fontWeight: '600', marginBottom: '10px', color: '#495057' }}>
+                  Diretórios Indexados no Banco:
+                </h4>
+                <ul className="br-list" style={{ margin: 0, paddingLeft: '20px' }}>
+                  {dbFilePaths.map((path, idx) => (
+                    <li key={idx} style={{ fontSize: '13px', color: '#1351b4', marginBottom: '4px', wordBreak: 'break-all' }}>
+                      <code>{path}</code>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+
         {activeTab === 'criteria' && (
           <CriteriaList
             onCriteriaSelect={(selected) => console.log('Selected criteria:', selected)}

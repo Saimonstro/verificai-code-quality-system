@@ -72,8 +72,89 @@ const GeneralAnalysisPage: React.FC = () => {
   console.log('  - dbFilePaths:', dbFilePaths);
   console.log('  - dbFilePaths.length:', dbFilePaths.length);
 
+  // Função para lidar com o upload real da pasta (Ambiente Remoto)
+  const handleFolderUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    setIsUploadingFolder(true);
+    setUploadProgress(0);
+    
+    try {
+      console.log(`🚀 Iniciando upload de ${files.length} arquivos...`);
+      const formData = new FormData();
+      
+      // Filtrar arquivos permitidos (extensões de código)
+      let totalSize = 0;
+      let filesAdded = 0;
+      
+      Array.from(files).forEach(file => {
+        // Obter relative path do webkitRelativePath
+        const relativePath = (file as any).webkitRelativePath || file.name;
+        
+        // Verificar extensão (simples, o backend valida melhor)
+        const ext = file.name.split('.').pop()?.toLowerCase() || '';
+        const isCodeFile = ['js', 'jsx', 'ts', 'tsx', 'py', 'java', 'c', 'cpp', 'cs', 'go', 'rs', 'php', 'html', 'css', 'json', 'md'].includes(ext);
+        
+        if (isCodeFile) {
+          formData.append('files', file);
+          totalSize += file.size;
+          filesAdded++;
+        }
+      });
+
+      if (filesAdded === 0) {
+        alert('Nenhum arquivo de código suportado encontrado na pasta selecionada.');
+        setIsUploadingFolder(false);
+        return;
+      }
+
+      console.log(`📦 Enviando ${filesAdded} arquivos (${(totalSize / 1024 / 1024).toFixed(2)} MB)`);
+
+      const { getAuthToken } = await import('@/utils/auth');
+      const token = getAuthToken();
+
+      // Usar a funcionalidade de progresso do axios através do apiClient ou axios direto para controle fino
+      const response = await apiClient.post('/upload/folder', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': token ? `Bearer ${token}` : ''
+        },
+        onUploadProgress: (progressEvent) => {
+          if (progressEvent.total) {
+            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            setUploadProgress(percentCompleted);
+          }
+        }
+      });
+
+      console.log('✅ Pasta enviada com sucesso:', response.data);
+      alert(`${filesAdded} arquivos carregados com sucesso para o servidor remoto.`);
+      
+      // Recarregar os caminhos do banco para garantir que a análise os encontre
+      await reloadDbPaths();
+      
+    } catch (error: any) {
+      console.error('❌ Erro no upload da pasta:', error);
+      alert(`Erro ao enviar arquivos: ${error.message || 'Falha na conexão'}`);
+    } finally {
+      setIsUploadingFolder(false);
+      setUploadProgress(0);
+      if (folderInputRef.current) folderInputRef.current.value = '';
+    }
+  };
+
   // Função para indexar path manual
   const handleIndexManualPath = async () => {
+    // Se for ambiente remoto, usamos o seletor de arquivos em vez de input de texto
+    if (!isLocalBackend) {
+      console.log('🌐 Ambiente remoto detectado: abrindo seletor de pastas...');
+      if (folderInputRef.current) {
+        folderInputRef.current.click();
+      }
+      return;
+    }
+
     if (!manualPath.trim()) {
       alert('Por favor, informe um caminho válido.');
       return;
@@ -82,9 +163,6 @@ const GeneralAnalysisPage: React.FC = () => {
     setIsIndexingManualPath(true);
     try {
       console.log('🔍 Indexando path manual:', manualPath);
-      // Aqui chamaríamos um endpoint de bult create ou algo similar no backend
-      // Para simplificar o teste do usuário agora, vamos apenas adicionar ao dbFilePaths localmente
-      // e tentar salvar no banco via API se existir endpoint adequado
       
       const { getAuthHeaders } = await import('@/utils/auth');
       const authHeaders = getAuthHeaders();
@@ -214,11 +292,15 @@ const GeneralAnalysisPage: React.FC = () => {
 
   const [manualPath, setManualPath] = useState<string>('');
   const [isIndexingManualPath, setIsIndexingManualPath] = useState(false);
+  const [isUploadingFolder, setIsUploadingFolder] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const folderInputRef = React.useRef<HTMLInputElement>(null);
+
   const [currentAnalysis, setCurrentAnalysis] = useState<any>(null);
   const [results, setResults] = useState<CriteriaResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [resultsManuallyCleared, setResultsManuallyCleared] = useState(false);
-    const [activeTab, setActiveTab] = useState<'criteria' | 'results' | 'prompt' | 'response'>('criteria');
+  const [activeTab, setActiveTab] = useState<'criteria' | 'results' | 'prompt' | 'response'>('criteria');
   const [selectedCriteriaIds, setSelectedCriteriaIds] = useState<string[]>([]);
   const [showProgress, setShowProgress] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -1741,36 +1823,83 @@ const GeneralAnalysisPage: React.FC = () => {
             )}
           </div>
           <div className="card-content">
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <div style={{ display: 'none' }}>
               <input
-                type="text"
-                value={manualPath}
-                onChange={(e) => setManualPath(e.target.value)}
-                placeholder="C:\Caminho\Para\Seu\Projeto"
-                style={{
-                  flex: 1,
-                  padding: '10px 14px',
-                  borderRadius: '4px',
-                  border: '1px solid #ced4da',
-                  fontSize: '14px'
-                }}
-                disabled={isIndexingManualPath}
+                type="file"
+                ref={folderInputRef}
+                // @ts-ignore - webkitdirectory is non-standard but widely supported
+                webkitdirectory=""
+                directory=""
+                multiple
+                onChange={handleFolderUpload}
               />
+            </div>
+
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              {isLocalBackend ? (
+                <input
+                  type="text"
+                  value={manualPath}
+                  onChange={(e) => setManualPath(e.target.value)}
+                  placeholder="C:\Caminho\Para\Seu\Projeto"
+                  style={{
+                    flex: 1,
+                    padding: '10px 14px',
+                    borderRadius: '4px',
+                    border: '1px solid #ced4da',
+                    fontSize: '14px'
+                  }}
+                  disabled={isIndexingManualPath}
+                />
+              ) : (
+                <div style={{ 
+                  flex: 1, 
+                  padding: '10px 14px', 
+                  backgroundColor: '#e9ecef', 
+                  borderRadius: '4px', 
+                  color: '#495057',
+                  border: '1px solid #ced4da',
+                  fontSize: '14px',
+                  fontStyle: 'italic'
+                }}>
+                  Ambiente Cloud (Vercel): Use o botão ao lado para selecionar e enviar sua pasta
+                </div>
+              )}
               <button
                 onClick={handleIndexManualPath}
-                disabled={isIndexingManualPath || !manualPath.trim()}
-                className={`br-button ${isIndexingManualPath ? 'secondary' : 'primary'}`}
-                style={{ minWidth: '150px' }}
+                disabled={isIndexingManualPath || isUploadingFolder || (isLocalBackend && !manualPath.trim())}
+                className={`br-button ${isIndexingManualPath || isUploadingFolder ? 'secondary' : 'primary'}`}
+                style={{ minWidth: '150px', position: 'relative', overflow: 'hidden' }}
               >
-                {isIndexingManualPath ? (
+                {isIndexingManualPath || isUploadingFolder ? (
                   <>
                     <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                    Indexando...
+                    {isUploadingFolder ? `Enviando... ${uploadProgress}%` : 'Indexando...'}
+                    {isUploadingFolder && (
+                      <div style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        height: '3px',
+                        backgroundColor: '#00c06b',
+                        width: `${uploadProgress}%`,
+                        transition: 'width 0.2s ease'
+                      }} />
+                    )}
                   </>
                 ) : (
                   <>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Indexar Pasta
+                    {isLocalBackend ? (
+                      <>
+                        <Plus className="w-4 h-4 mr-2" />
+                        Indexar Pasta
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="w-4 h-4 mr-2" />
+                        Selecionar Pasta
+                      </>
+                    )}
                   </>
                 )}
               </button>

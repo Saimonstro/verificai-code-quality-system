@@ -28,7 +28,7 @@ router = APIRouter(prefix="/upload", tags=["upload"])
 
 
 # Constants
-MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB
+MAX_FILE_SIZE = 100 * 1024 * 1024  # 100MB para suportar projetos maiores
 ALLOWED_EXTENSIONS = {
     'js', 'jsx', 'ts', 'tsx', 'py', 'java', 'c', 'cpp', 'cxx', 'cc',
     'h', 'hpp', 'cs', 'go', 'rs', 'rb', 'php', 'swift', 'kt', 'scala',

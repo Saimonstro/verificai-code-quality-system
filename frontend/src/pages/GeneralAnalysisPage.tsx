@@ -950,9 +950,19 @@ const GeneralAnalysisPage: React.FC = () => {
 
       console.log(`✅ Análise individual concluída com sucesso para: ${criterionObj.text}`);
 
-    } catch (error) {
-      console.error('Erro na análise do critério:', error);
-      alert('Erro ao analisar o critério. Por favor, tente novamente.');
+    } catch (error: any) {
+      console.error('❌ Erro na análise do critério:', error);
+      const errorMessage = error.message || error.response?.data?.message || 'Erro desconhecido';
+      const errorDetail = error.details ? `\nDetalhes: ${JSON.stringify(error.details)}` : '';
+      
+      console.error('Dados completos do erro:', {
+        message: errorMessage,
+        code: error.code,
+        status: error.status,
+        details: error.details
+      });
+
+      alert(`Erro ao analisar o critério: ${errorMessage}${errorDetail}\n\nVerifique o console (F12) para mais detalhes.`);
       setShowProgress(false);
       setProgress(0);
     } finally {
@@ -1296,9 +1306,19 @@ const GeneralAnalysisPage: React.FC = () => {
         alert(`Análise concluída com sucesso!\n\nModelo: ${response.model_used}\nCritérios analisados: ${response.criteria_count}\nTokens usados: ${response.usage.total_tokens || 'N/A'}`);
       }, 500);
 
-    } catch (error) {
-      console.error('Erro na análise:', error);
-      alert(`Erro ao realizar análise: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
+    } catch (error: any) {
+      console.error('❌ Erro na análise geral:', error);
+      const errorMessage = error.message || error.response?.data?.message || 'Erro desconhecido';
+      const errorDetail = error.details ? `\nDetalhes: ${JSON.stringify(error.details)}` : '';
+      
+      console.error('Dados completos do erro:', {
+        message: errorMessage,
+        code: error.code,
+        status: error.status,
+        details: error.details
+      });
+
+      alert(`Erro ao realizar análise: ${errorMessage}${errorDetail}\n\nVerifique o console (F12) para mais detalhes.`);
 
       // Keep progress showing on error to indicate failure
       setTimeout(() => {

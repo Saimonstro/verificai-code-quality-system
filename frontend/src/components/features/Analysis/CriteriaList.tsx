@@ -74,8 +74,9 @@ const CriteriaList: React.FC<CriteriaListProps> = ({ onCriteriaSelect, onAnalyze
       if (onCriteriaChange) {
         onCriteriaChange();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('🔍 DEBUG: Failed to create criterion:', error);
+      alert(`Erro ao criar novo critério: ${error.message || 'Erro desconhecido'}\nVerifique o console (F12) para detalhes.`);
     } finally {
       setLoading(false);
     }
@@ -107,8 +108,9 @@ const CriteriaList: React.FC<CriteriaListProps> = ({ onCriteriaSelect, onAnalyze
           onCriteriaChange();
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('🔍 DEBUG: Failed to update criterion:', error);
+      alert(`Erro ao atualizar critério: ${error.message || 'Erro desconhecido'}`);
     }
   };
 
@@ -126,8 +128,9 @@ const CriteriaList: React.FC<CriteriaListProps> = ({ onCriteriaSelect, onAnalyze
       if (onCriteriaChange) {
         onCriteriaChange();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to delete criterion:', error);
+      alert(`Erro ao excluir critério: ${error.message || 'Erro desconhecido'}`);
     }
   };
 
@@ -182,8 +185,9 @@ const CriteriaList: React.FC<CriteriaListProps> = ({ onCriteriaSelect, onAnalyze
         if (onCriteriaChange) {
           onCriteriaChange();
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Failed to toggle criterion:', error);
+        alert(`Erro ao ativar/desativar critério: ${error.message || 'Erro desconhecido'}`);
       }
     }
   };

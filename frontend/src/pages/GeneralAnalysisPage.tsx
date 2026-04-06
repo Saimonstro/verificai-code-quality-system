@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Download, Upload, Settings, FileText, AlertCircle, Trash2, RefreshCw, Eye, FolderOpen, Plus } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import apiClient from '@/services/apiClient';
+import apiClient, { isLocalBackend } from '@/services/apiClient';
 import CriteriaList from '@/components/features/Analysis/CriteriaList';
 import ProgressTracker from '@/components/features/Analysis/ProgressTracker';
 import ResultsTable from '@/components/features/Analysis/ResultsTable';
@@ -1308,9 +1308,16 @@ const GeneralAnalysisPage: React.FC = () => {
 
     } catch (error: any) {
       console.error('❌ Erro na análise geral:', error);
-      const errorMessage = error.message || error.response?.data?.message || 'Erro desconhecido';
+      let errorMessage = error.message || error.response?.data?.message || 'Erro desconhecido';
       const errorDetail = error.details ? `\nDetalhes: ${JSON.stringify(error.details)}` : '';
       
+      // Melhora a mensagem de erro para o usuário se for falha de leitura de arquivos
+      if (errorMessage.includes('Nenhum código pôde ser lido')) {
+        errorMessage = `⚠️ Falha de Acesso: O servidor não conseguiu ler os arquivos para análise.\n\n` +
+          `DICA: Se você estiver usando o link da Vercel, o servidor não consegue acessar seus arquivos locais (unidade K:\\, C:\\, etc). ` +
+          `Por favor, use o botão "Selecionar Pasta" ou "Colar Código" para realizar o upload antes de analisar.`;
+      }
+
       console.error('Dados completos do erro:', {
         message: errorMessage,
         code: error.code,
@@ -1712,6 +1719,26 @@ const GeneralAnalysisPage: React.FC = () => {
             <p className="text-small text-muted">
               Informe o caminho completo da pasta no seu computador (Ex: K:\Dev\Projetos\to-do-list)
             </p>
+            {!isLocalBackend && (
+              <div style={{ 
+                marginTop: '12px', 
+                padding: '10px', 
+                backgroundColor: '#fff3cd', 
+                border: '1px solid #ffeeba', 
+                borderRadius: '4px',
+                display: 'flex',
+                alignItems: 'start',
+                color: '#856404',
+                fontSize: '13px'
+              }}>
+                <AlertCircle className="w-5 h-5 mr-3 flex-shrink-0" style={{ color: '#856404' }} />
+                <div>
+                  <strong>Aviso de Ambiente Remoto:</strong> Esta aplicação está conectada a um servidor na nuvem. 
+                  A indexação manual de caminhos locais (como K:\) <strong>não funcionará</strong>. 
+                  Por favor, use o botão <strong>"Selecionar Pasta"</strong> acima para fazer o upload dos arquivos.
+                </div>
+              </div>
+            )}
           </div>
           <div className="card-content">
             <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>

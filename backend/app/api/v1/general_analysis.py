@@ -5,6 +5,7 @@ Updated for token display fix - FINAL VERSION
 
 print("MODULE LOADED: general_analysis.py - 2025-12-09 22:08 - LATEST-CODE-ENTRY TEST")
 
+import os
 from typing import List, Optional, Any
 from pathlib import Path
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, BackgroundTasks, Body, Request
@@ -846,7 +847,8 @@ async def analyze_selected_criteria(
                         total_files_processed += 1
 
                     except Exception as file_error:
-                        print(f"DEBUG: Error processing file {source_file_path}: {file_error}")
+                        error_msg = str(file_error)
+                        print(f"❌ DEBUG: Error processing file {source_file_path} (actual: {actual_file_path}): {error_msg}")
                         # Continue with other files even if one fails
                         continue
 
@@ -855,13 +857,20 @@ async def analyze_selected_criteria(
             print(f"DEBUG: Total source code size: {len(all_source_code)} characters")
 
             if total_files_processed == 0:
-                raise HTTPException(status_code=500, detail="Nenhum código pôde ser lido para análise")
+                is_cloud = "render" in os.environ.get("HOSTNAME", "").lower() or "vercel" in os.environ.get("HOSTNAME", "").lower()
+                detail_msg = "Nenhum código pôde ser lido para análise."
+                if is_cloud:
+                    detail_msg += " O servidor parece estar rodando em nuvem e não pode acessar caminhos de disco local (como K:\\). Por favor, use 'Selecionar Pasta' ou 'Colagem de Código'."
+                else:
+                    detail_msg += f" Verifique se os caminhos solicitados ({request.file_paths[:3]}...) existem no disco do servidor."
+                
+                raise HTTPException(status_code=500, detail=detail_msg)
 
         except HTTPException:
             raise
         except Exception as e:
-            print(f"DEBUG: Error reading source code: {e}")
-            raise HTTPException(status_code=500, detail=f"Erro ao ler código fonte: {str(e)}")
+            print(f"❌ DEBUG: Error reading source code: {e}")
+            raise HTTPException(status_code=500, detail=f"Erro crítico ao ler código fonte: {str(e)}")
 
         # Replace placeholder with source code (from code_entries or files)
         full_source_code = source_info + all_source_code
@@ -875,7 +884,6 @@ async def analyze_selected_criteria(
 
         # Save the final prompt to files for analysis
         try:
-            import os
             from datetime import datetime
 
             # Create prompts directory if it doesn't exist

@@ -952,10 +952,10 @@ async def analyze_selected_criteria(
         print(f"DEBUG: LLM response keys: {llm_response.keys() if isinstance(llm_response, dict) else 'Not a dict'}")
         print(f"DEBUG: Full LLM response: {llm_response}")
 
-        llm_response_content = llm_response.get('response', '')
+        llm_response_content = llm_response.get('response', llm_response.get('text', ''))
         print("YYYYYYYYYY DEBUG: Checking response content YYYYYYYYYY")
-        print(f"DEBUG: LLM response['response'] type: {type(llm_response_content)}")
-        print(f"DEBUG: LLM response['response'] length: {len(llm_response_content)}")
+        print(f"DEBUG: LLM response content type: {type(llm_response_content)}")
+        print(f"DEBUG: LLM response content length: {len(llm_response_content)}")
         print(f"DEBUG: LLM response['response'] preview: {llm_response_content[:200]}")
         print(f"DEBUG: Is response empty? {not llm_response_content}")
         print("ZZZZZZZZZ END LLM SERVICE DEBUG ZZZZZZZZZ")
@@ -982,7 +982,35 @@ async def analyze_selected_criteria(
 
             print(f"DEBUG: About to call extract_markdown_content with response of length {len(llm_response_content)}")
             try:
-                extracted_content = llm_service.extract_markdown_content(llm_response_content)
+                # Some implementations of llm_service might not have extract_markdown_content directly
+                if hasattr(llm_service, 'extract_markdown_content'):
+                    extracted_content = llm_service.extract_markdown_content(llm_response_content)
+                else:
+                    # Fallback extraction logic directly here if the service doesn't have it
+                    import re
+                    pattern = r'```(?:markdown|md)?\n(.*?)\n```'
+                    matches = re.findall(pattern, llm_response_content, re.DOTALL)
+                    content = matches[0] if matches else llm_response_content
+                    
+                    criteria_results = {}
+                    criteria_pattern = r'##\s*Crit[ée]rio\s*(\d+(?:\.\d+)*)\s*[:\-]?\s*(.+?)\n(.*?)(?=\n##\s*Crit[ée]rio\s*\d+|\n##\s*(?:Resultado|Recomendações)\s*(?:Geral|)|$)'
+                    criteria_matches = re.findall(criteria_pattern, content, re.DOTALL)
+                    
+                    if not criteria_matches:
+                        flexible_pattern = r'##\s*Crit[ée]rio\s*(\d+(?:\.\d+)*)\s*[:\-]?\s*(.+?)\n(.*?)(?=\n##\s*Crit[ée]rio\s*\d+|\n##\s*(?:Resultado|Recomendações)\s*(?:Geral|)|\Z|$)'
+                        criteria_matches = re.findall(flexible_pattern, content, re.DOTALL)
+                        
+                    for match in criteria_matches:
+                        if len(match) >= 3:
+                            criteria_results[f"criteria_{match[0]}"] = {
+                                "name": match[1].strip(),
+                                "content": match[2].strip()
+                            }
+                    
+                    extracted_content = {
+                        "criteria_results": criteria_results,
+                        "raw_response": llm_response_content.strip()
+                    }
             except Exception as extract_error:
                 print(f"ERROR: extract_markdown_content failed: {extract_error}")
                 import traceback
@@ -1177,9 +1205,9 @@ async def analyze_selected_criteria(
             "success": True,
             "analysis_name": request.analysis_name,
             "criteria_count": len(selected_criteria),
-            "timestamp": llm_response["timestamp"],
-            "model_used": llm_response["model"],
-            "usage": llm_response["usage"],
+            "timestamp": llm_response.get("timestamp", datetime.utcnow().isoformat()),
+            "model_used": llm_response.get("model", "unknown-model"),
+            "usage": llm_response.get("usage", {}),
             "criteria_results": extracted_content.get("criteria_results", {}),
             "raw_response": extracted_content.get("raw_response", ""),
             "debug_raw_llm_response": llm_response_content,  # For debugging

@@ -606,6 +606,40 @@ const PathList: React.FC<PathListProps> = ({
     });
   };
 
+  const handleCleanupInvalid = async () => {
+    if (!confirm('Tem certeza que deseja limpar os caminhos órfãos? Isso vai remover do banco de dados todos os arquivos que não existem mais no disco do servidor (útil se o servidor reiniciou).')) {
+      return;
+    }
+
+    try {
+      console.log('🧹 Limpando caminhos órfãos...');
+      const { getAuthHeaders } = await import('@/utils/auth');
+      const authHeaders = getAuthHeaders();
+
+      const response = await fetch(`${API_BASE_URL}/file-paths/cleanup-invalid`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...authHeaders
+        }
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        alert(`Limpeza concluída! Removidos: ${result.removed_count} arquivos órfãos. Mantidos: ${result.kept_count} arquivos válidos.`);
+        // Recarregar a lista
+        loadPaths();
+      } else {
+        const errorText = await response.text();
+        console.error('Erro na limpeza:', errorText);
+        alert('Erro ao limpar arquivos órfãos. Por favor, tente novamente.');
+      }
+    } catch (error) {
+      console.error('Erro na limpeza:', error);
+      alert('Erro ao limpar arquivos órfãos. Por favor, verifique a conexão.');
+    }
+  };
+
   const exportToCSV = () => {
     const csvContent = [
       ['File Path', 'File Name', 'Extension', 'Folder Path', 'Size', 'Modified'],
@@ -766,6 +800,15 @@ const PathList: React.FC<PathListProps> = ({
             type="button"
           >
             Exportar CSV
+          </button>
+
+          <button
+            onClick={handleCleanupInvalid}
+            className="br-button secondary"
+            type="button"
+            title="Remove registros de arquivos que não existem mais no servidor"
+          >
+            🧹 Limpar Órfãos
           </button>
 
           <button

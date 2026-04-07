@@ -858,13 +858,15 @@ async def analyze_selected_criteria(
 
             if total_files_processed == 0:
                 is_cloud = "render" in os.environ.get("HOSTNAME", "").lower() or "vercel" in os.environ.get("HOSTNAME", "").lower()
-                detail_msg = "Nenhum código pôde ser lido para análise."
+                detail_msg = "Nenhum código pôde ser lido para análise. O arquivo não existe no disco."
                 if is_cloud:
-                    detail_msg += " O servidor parece estar rodando em nuvem e não pode acessar caminhos de disco local (como K:\\). Por favor, use 'Selecionar Pasta' ou 'Colagem de Código'."
+                    detail_msg += " Devido ao ambiente cloud (Render/Vercel), arquivos locais são perdidos após o restart. Por favor, remova caminhos antigos ou use a 'Colagem de Código'."
                 else:
-                    detail_msg += f" Verifique se os caminhos solicitados ({request.file_paths[:3]}...) existem no disco do servidor."
+                    file_previews = request.file_paths[:3] if request.file_paths else []
+                    detail_msg += f" Verifique se os diretórios {file_previews}... existem."
                 
-                raise HTTPException(status_code=500, detail=detail_msg)
+                # Changing from 500 to 400 so it's treated as a bad request (client side error) instead of server crash
+                raise HTTPException(status_code=400, detail=detail_msg)
 
         except HTTPException:
             raise

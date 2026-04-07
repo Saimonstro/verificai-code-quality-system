@@ -147,6 +147,72 @@ async def test_endpoint():
     """Test endpoint to verify router is working"""
     return {"message": "File paths router is working!"}
 
+@router.post("/cleanup-invalid")
+async def cleanup_invalid_paths_endpoint(
+    db: Session = Depends(get_db)
+):
+    """Remove file paths lacking physical files (useful for Render ephemeral disk resets)"""
+    try:
+        from app.models.uploaded_file import UploadedFile
+        import os
+        from pathlib import Path
+        
+        all_paths = db.query(FilePath).all()
+        invalid_count = 0
+        valid_count = 0
+        errors = []
+        
+        for fp in all_paths:
+            file_exists = False
+            
+            # Check uploaded files table first for physical path mapping
+            uploaded = db.query(UploadedFile).filter(
+                (UploadedFile.relative_path == fp.full_path) | 
+                (UploadedFile.original_name == fp.file_name)
+            ).order_by(UploadedFile.created_at.desc()).first()
+            
+            possible_paths = [
+                fp.full_path,
+                f"uploads/{fp.full_path}",
+                f"/app/uploads/{fp.full_path}",
+                f"/app/{fp.full_path}",
+            ]
+            
+            if uploaded and uploaded.storage_path:
+                possible_paths.append(uploaded.storage_path)
+                
+            for path in possible_paths:
+                if path and Path(path).exists():
+                    file_exists = True
+                    break
+                    
+            if not file_exists:
+                try:
+                    # Clear uploaded file associations first if any
+                    if uploaded:
+                        db.delete(uploaded)
+                    db.delete(fp)
+                    invalid_count += 1
+                except Exception as del_err:
+                    db.rollback()
+                    errors.append(f"Could not delete {fp.file_id}: {str(del_err)}")
+            else:
+                valid_count += 1
+                
+        if invalid_count > 0:
+            db.commit()
+            
+        return {
+            "success": True, 
+            "removed_count": invalid_count, 
+            "kept_count": valid_count,
+            "errors": errors
+        }
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Error during cleanup: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 @router.post("/bulk", response_model=FilePathBulkResponse)
 async def create_file_paths_bulk(

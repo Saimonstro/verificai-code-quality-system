@@ -14,6 +14,7 @@ from openai import AsyncOpenAI
 from anthropic import AsyncAnthropic
 
 from app.core.config import settings
+from app.services.token_optimizer import TokenOptimizer
 
 logger = logging.getLogger(__name__)
 
@@ -126,7 +127,7 @@ class OpenAIProvider:
                 ],
                 max_tokens=max_tokens,
                 temperature=temperature,
-                timeout=60
+                timeout=120
             )
 
             content = response.choices[0].message.content
@@ -181,7 +182,7 @@ class AnthropicProvider:
                 messages=[
                     {"role": "user", "content": full_prompt}
                 ],
-                timeout=60
+                timeout=120
             )
 
             content = response.content[0].text

@@ -49,10 +49,10 @@ def _fix_database_url(url: str) -> str:
 
 database_url = _fix_database_url(settings.DATABASE_URL)
 
-# Build connect_args for Supabase (direct or pooler)
+# Build connect_args for cloud Hosting (PostgreSQL usually requires SSL)
 _connect_args = {}
-_is_supabase = "supabase.co" in database_url or "supabase.com" in database_url
-if _is_supabase:
+_is_postgres = database_url.startswith("postgresql")
+if _is_postgres:
     _connect_args["sslmode"] = "require"
 
 # SQLAlchemy engine - small pool for free-tier cloud hosting

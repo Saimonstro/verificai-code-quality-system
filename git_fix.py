@@ -1,1 +1,0 @@
-import subprocess; subprocess.run(['git', 'add', '.']); subprocess.run(['git', 'commit', '-m', 'fix: sync file ids in public endpoint for deletion']); subprocess.run(['git', 'push', 'saimon', 'main'])  

@@ -99,6 +99,7 @@ async def health_check():
     return {
         "status": "healthy" if db_health else "unhealthy",
         "service": "verificai-backend",
+        "version": "1.0.1",
         "database": "connected" if db_health else "disconnected"
     }
 
@@ -170,7 +171,18 @@ async def setup_first_admin():
         return {"success": False, "error": str(e)}
 
 
-@app.get("/public/file-paths")
+@app.get("/public/version")
+def get_version():
+    """Get API version for deployment verification"""
+    return {
+        "version": "1.0.1",
+        "status": "stable",
+        "last_updated": "2026-04-07T03:23:00Z",
+        "features": ["bulk_delete_fix", "llm_timeout_fix", "json_parsing_enhanced", "public_version_endpoint"]
+    }
+
+
+@app.get("/api/v1/file-paths/public")
 async def get_public_file_paths():
     """Get file paths for public access"""
     from app.core.database import get_db

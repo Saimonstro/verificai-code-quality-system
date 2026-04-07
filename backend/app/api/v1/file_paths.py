@@ -37,15 +37,18 @@ async def get_public_file_paths(db: Session = Depends(get_db)):
         # Get ALL file paths without user filtering - NO LIMIT
         file_paths = db.query(FilePath).order_by(desc(FilePath.created_at)).all()
 
-        # Extract just the full paths for simplicity
-        paths = [fp.full_path for fp in file_paths if fp.full_path]
+        # Extract objects with both path and ID for proper frontend synchronization
+        paths_data = [
+            {"full_path": fp.full_path, "file_id": fp.file_id} 
+            for fp in file_paths if fp.full_path
+        ]
 
-        logger.info(f"🔥🔥🔥 Public endpoint returning {len(paths)} file paths - ALL FILES - NO LIMIT 🔥🔥🔥")
+        logger.info(f"🔥🔥🔥 Public endpoint returning {len(paths_data)} file paths - ALL FILES - NO LIMIT 🔥🔥🔥")
 
         return {
-            "file_paths": paths,
-            "total_count": len(paths),
-            "message": f"Found {len(paths)} file paths - ALL FILES"
+            "file_paths": paths_data,
+            "total_count": len(paths_data),
+            "message": f"Found {len(paths_data)} file paths - ALL FILES"
         }
 
     except Exception as e:

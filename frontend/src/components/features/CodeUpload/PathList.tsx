@@ -348,16 +348,21 @@ const PathList: React.FC<PathListProps> = ({
       // Transform backend response to frontend format
       // Public endpoint returns just strings (paths), so we need to create objects
       const transformedPaths = (result.file_paths || []).map((path: any, index: number) => {
-        // If path is already an object (from other endpoints), keep structure
+        // If path is already an object (from our new public endpoint or other endpoints), keep structure
         if (typeof path === 'object' && path !== null) {
+          const fullPath = path.full_path || path.fullPath || '';
+          const fileName = path.file_name || path.fileName || fullPath.split(/[\\/]/).pop() || '';
+          const fileExtension = path.file_extension || path.fileExtension || (fileName.includes('.') ? fileName.split('.').pop() : '');
+          const folderPath = path.folder_path || path.folderPath || (fullPath.includes('/') ? fullPath.split('/')[0] : '');
+
           return {
-            id: path.file_id || path.id,
-            fullPath: path.full_path,
-            fileName: path.file_name,
-            fileExtension: path.file_extension,
-            folderPath: path.folder_path,
-            fileSize: path.file_size,
-            lastModified: path.last_modified ? new Date(path.last_modified) : undefined,
+            id: path.file_id || path.id || `path_${index}`,
+            fullPath: fullPath,
+            fileName: fileName,
+            fileExtension: fileExtension || '',
+            folderPath: folderPath,
+            fileSize: path.file_size || path.fileSize,
+            lastModified: path.last_modified || path.lastModified ? new Date(path.last_modified || path.lastModified) : undefined,
             created_at: path.created_at
           };
         }

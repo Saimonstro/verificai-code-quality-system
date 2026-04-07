@@ -180,11 +180,14 @@ async def get_public_file_paths():
     try:
         db = next(get_db())
         file_paths = db.query(FilePath).order_by(desc(FilePath.created_at)).all()
-        paths = [fp.full_path for fp in file_paths if fp.full_path]
+        paths_labeled = [
+            {"full_path": fp.full_path, "file_id": fp.file_id} 
+            for fp in file_paths if fp.full_path
+        ]
         return {
-            "file_paths": paths,
-            "total_count": len(paths),
-            "message": f"Found {len(paths)} file paths"
+            "file_paths": paths_labeled,
+            "total_count": len(paths_labeled),
+            "message": f"Found {len(paths_labeled)} file paths - ALL FILES"
         }
     except Exception as e:
         return {"file_paths": [], "total_count": 0, "message": "Error occurred"}

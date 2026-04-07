@@ -466,9 +466,19 @@ async def delete_file_paths_bulk(
         import os
         from app.models.uploaded_file import UploadedFile
 
+        # Handle file_id format mismatch: frontend might send 'file_x' instead of 'path_file_x'
+        normalized_ids = []
+        for fid in file_ids:
+            if fid.startswith("path_"):
+                normalized_ids.append(fid)
+                normalized_ids.append(fid.replace("path_", "", 1))
+            else:
+                normalized_ids.append(fid)
+                normalized_ids.append(f"path_{fid}")
+
         # Get file paths before deletion to know which physical files to delete
         file_paths_to_delete = db.query(FilePath).filter(
-            FilePath.file_id.in_(file_ids),
+            FilePath.file_id.in_(normalized_ids),
             FilePath.user_id == current_user.id
         ).all()
 
@@ -510,9 +520,9 @@ async def delete_file_paths_bulk(
 
         # Delete the file path records from database
         deleted_db_records = db.query(FilePath).filter(
-            FilePath.file_id.in_(file_ids),
+            FilePath.file_id.in_(normalized_ids),
             FilePath.user_id == current_user.id
-        ).delete()
+        ).delete(synchronize_session=False)
 
         db.commit()
 

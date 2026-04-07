@@ -77,8 +77,16 @@ app.include_router(simple_analysis.router, prefix=settings.API_V1_STR + "/simple
 
 @app.on_event("startup")
 async def startup_event():
-    """Application startup - create tables if they don't exist"""
+    """Application startup - create tables and cleanup orphan records"""
+    from app.core.database import get_db
+    from app.core.cleanup_tasks import cleanup_invalid_paths
+    
+    # 1. Create tables if they don't exist
     create_tables()
+    
+    # 2. Run Self-Healing Cleanup (Remove orphan paths from Render ephemeral disk restarts)
+    db = next(get_db())
+    cleanup_invalid_paths(db)
 
 
 @app.get("/")

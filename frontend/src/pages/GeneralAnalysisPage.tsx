@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Download, Upload, Settings, FileText, AlertCircle, Trash2, RefreshCw, Eye, FolderOpen, Plus } from 'lucide-react';
+import { Download, Upload, Settings, FileText, AlertCircle, Trash2, RefreshCw, Eye, FolderOpen, ArrowRight } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { Routes, Route, Navigate, Link } from 'react-router-dom';
+import { useAuthStore } from '@/stores/authStore';
 import apiClient, { isLocalBackend } from '@/services/apiClient';
 import CriteriaList from '@/components/features/Analysis/CriteriaList';
 import ProgressTracker from '@/components/features/Analysis/ProgressTracker';
@@ -72,136 +74,7 @@ const GeneralAnalysisPage: React.FC = () => {
   console.log('  - dbFilePaths:', dbFilePaths);
   console.log('  - dbFilePaths.length:', dbFilePaths.length);
 
-  // Função para lidar com o upload real da pasta (Ambiente Remoto)
-  const handleFolderUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (!files || files.length === 0) return;
-
-    setIsUploadingFolder(true);
-    setUploadProgress(0);
-    
-    try {
-      console.log(`🚀 Iniciando upload de ${files.length} arquivos...`);
-      const formData = new FormData();
-      
-      // Filtrar arquivos permitidos (extensões de código)
-      let totalSize = 0;
-      let filesAdded = 0;
-      
-      Array.from(files).forEach(file => {
-        // Obter relative path do webkitRelativePath
-        const relativePath = (file as any).webkitRelativePath || file.name;
-        
-        // Verificar extensão (simples, o backend valida melhor)
-        const ext = file.name.split('.').pop()?.toLowerCase() || '';
-        const isCodeFile = ['js', 'jsx', 'ts', 'tsx', 'py', 'java', 'c', 'cpp', 'cs', 'go', 'rs', 'php', 'html', 'css', 'json', 'md'].includes(ext);
-        
-        if (isCodeFile) {
-          formData.append('files', file);
-          totalSize += file.size;
-          filesAdded++;
-        }
-      });
-
-      if (filesAdded === 0) {
-        alert('Nenhum arquivo de código suportado encontrado na pasta selecionada.');
-        setIsUploadingFolder(false);
-        return;
-      }
-
-      console.log(`📦 Enviando ${filesAdded} arquivos (${(totalSize / 1024 / 1024).toFixed(2)} MB)`);
-
-      const { getAuthToken } = await import('@/utils/auth');
-      const token = getAuthToken();
-
-      // Usar a funcionalidade de progresso do axios através do apiClient ou axios direto para controle fino
-      const response = await apiClient.post('/upload/folder', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': token ? `Bearer ${token}` : ''
-        },
-        onUploadProgress: (progressEvent) => {
-          if (progressEvent.total) {
-            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-            setUploadProgress(percentCompleted);
-          }
-        }
-      });
-
-      console.log('✅ Pasta enviada com sucesso:', response.data);
-      alert(`${filesAdded} arquivos carregados com sucesso para o servidor remoto.`);
-      
-      // Recarregar os caminhos do banco para garantir que a análise os encontre
-      await reloadDbPaths();
-      
-    } catch (error: any) {
-      console.error('❌ Erro no upload da pasta:', error);
-      alert(`Erro ao enviar arquivos: ${error.message || 'Falha na conexão'}`);
-    } finally {
-      setIsUploadingFolder(false);
-      setUploadProgress(0);
-      if (folderInputRef.current) folderInputRef.current.value = '';
-    }
-  };
-
-  // Função para indexar path manual
-  const handleIndexManualPath = async () => {
-    // Se for ambiente remoto, usamos o seletor de arquivos em vez de input de texto
-    if (!isLocalBackend) {
-      console.log('🌐 Ambiente remoto detectado: abrindo seletor de pastas...');
-      if (folderInputRef.current) {
-        folderInputRef.current.click();
-      }
-      return;
-    }
-
-    if (!manualPath.trim()) {
-      alert('Por favor, informe um caminho válido.');
-      return;
-    }
-
-    setIsIndexingManualPath(true);
-    try {
-      console.log('🔍 Indexando path manual:', manualPath);
-      
-      const { getAuthHeaders } = await import('@/utils/auth');
-      const authHeaders = getAuthHeaders();
-
-      const response = await fetch(`${API_BASE_URL}/file-paths/bulk`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...authHeaders
-        },
-        body: JSON.stringify({
-          file_paths: [{
-            full_path: manualPath.trim(),
-            file_name: manualPath.split(/[\\/]/).pop() || 'manual_path',
-            file_extension: manualPath.split('.').pop() || '',
-            folder_path: manualPath.substring(0, manualPath.lastIndexOf('/') + 1) || manualPath.substring(0, manualPath.lastIndexOf('\\') + 1) || '',
-            file_size: 0,
-            is_processed: false
-          }]
-        })
-      });
-
-      if (response.ok) {
-        console.log('✅ Path manual indexado com sucesso no banco');
-        await reloadDbPaths();
-        setManualPath('');
-        alert('Caminho indexado com sucesso!');
-      } else {
-        const errorData = await response.json();
-        console.error('❌ Erro ao indexar path manual:', errorData);
-        alert(`Erro ao indexar: ${errorData.detail || 'Erro desconhecido'}`);
-      }
-    } catch (error) {
-      console.error('❌ Erro na requisição de indexação:', error);
-      alert('Erro de conexão ao tentar indexar o caminho.');
-    } finally {
-      setIsIndexingManualPath(false);
-    }
-  };
+  const [currentAnalysis, setCurrentAnalysis] = useState<any>(null);
 
   // Função para recarregar paths do banco de dados
   const reloadDbPaths = async () => {
@@ -290,13 +163,6 @@ const GeneralAnalysisPage: React.FC = () => {
     return [];
   }, [dbFilePaths]);
 
-  const [manualPath, setManualPath] = useState<string>('');
-  const [isIndexingManualPath, setIsIndexingManualPath] = useState(false);
-  const [isUploadingFolder, setIsUploadingFolder] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const folderInputRef = React.useRef<HTMLInputElement>(null);
-
-  const [currentAnalysis, setCurrentAnalysis] = useState<any>(null);
   const [results, setResults] = useState<CriteriaResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [resultsManuallyCleared, setResultsManuallyCleared] = useState(false);
@@ -1791,133 +1657,37 @@ const GeneralAnalysisPage: React.FC = () => {
   
       {/* Tab Content */}
       <div className="br-container">
-        {/* Manual Path Indexing UI */}
-        <div className="br-card mb-4" style={{ backgroundColor: '#f8f9fa', border: '1px solid #dee2e6' }}>
-          <div className="card-header">
-            <h3 className="text-h3" style={{ fontSize: '1.2rem', marginBottom: '8px' }}>
-              <FolderOpen className="w-5 h-5 inline-block mr-2 text-blue-600" />
-              Indexação Manual de Diretório Local
-            </h3>
-            <p className="text-small text-muted">
-              Informe o caminho completo da pasta no seu computador (Ex: K:\Dev\Projetos\to-do-list)
-            </p>
-            {!isLocalBackend && (
-              <div style={{ 
-                marginTop: '12px', 
-                padding: '10px', 
-                backgroundColor: '#fff3cd', 
-                border: '1px solid #ffeeba', 
-                borderRadius: '4px',
-                display: 'flex',
-                alignItems: 'start',
-                color: '#856404',
-                fontSize: '13px'
-              }}>
-                <AlertCircle className="w-5 h-5 mr-3 flex-shrink-0" style={{ color: '#856404' }} />
-                <div>
-                  <strong>Aviso de Ambiente Remoto:</strong> Esta aplicação está conectada a um servidor na nuvem. 
-                  A indexação manual de caminhos locais (como K:\) <strong>não funcionará</strong>. 
-                  Por favor, use o botão <strong>"Selecionar Pasta"</strong> acima para fazer o upload dos arquivos.
-                </div>
-              </div>
-            )}
+        {/* Files indexed for analysis awareness */}
+        <div className="br-card mb-4" style={{ border: '1px solid #dee2e6' }}>
+          <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <FileText className="w-5 h-5 mr-2 text-blue-600" />
+              <h3 className="text-h3" style={{ fontSize: '1.1rem', margin: 0 }}>
+                Arquivos para Análise ({dbFilePaths.length})
+              </h3>
+            </div>
+            <Link to="/code-upload" className="br-button secondary small">
+              <Upload className="w-4 h-4 mr-2" />
+              Gerenciar Uploads
+            </Link>
           </div>
-          <div className="card-content">
-            <div style={{ display: 'none' }}>
-              <input
-                type="file"
-                ref={folderInputRef}
-                // @ts-ignore - webkitdirectory is non-standard but widely supported
-                webkitdirectory=""
-                directory=""
-                multiple
-                onChange={handleFolderUpload}
-              />
-            </div>
-
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-              {isLocalBackend ? (
-                <input
-                  type="text"
-                  value={manualPath}
-                  onChange={(e) => setManualPath(e.target.value)}
-                  placeholder="C:\Caminho\Para\Seu\Projeto"
-                  style={{
-                    flex: 1,
-                    padding: '10px 14px',
-                    borderRadius: '4px',
-                    border: '1px solid #ced4da',
-                    fontSize: '14px'
-                  }}
-                  disabled={isIndexingManualPath}
-                />
-              ) : (
-                <div style={{ 
-                  flex: 1, 
-                  padding: '10px 14px', 
-                  backgroundColor: '#e9ecef', 
-                  borderRadius: '4px', 
-                  color: '#495057',
-                  border: '1px solid #ced4da',
-                  fontSize: '14px',
-                  fontStyle: 'italic'
-                }}>
-                  Ambiente Cloud (Vercel): Use o botão ao lado para selecionar e enviar sua pasta
-                </div>
-              )}
-              <button
-                onClick={handleIndexManualPath}
-                disabled={isIndexingManualPath || isUploadingFolder || (isLocalBackend && !manualPath.trim())}
-                className={`br-button ${isIndexingManualPath || isUploadingFolder ? 'secondary' : 'primary'}`}
-                style={{ minWidth: '150px', position: 'relative', overflow: 'hidden' }}
-              >
-                {isIndexingManualPath || isUploadingFolder ? (
-                  <>
-                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                    {isUploadingFolder ? `Enviando... ${uploadProgress}%` : 'Indexando...'}
-                    {isUploadingFolder && (
-                      <div style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        height: '3px',
-                        backgroundColor: '#00c06b',
-                        width: `${uploadProgress}%`,
-                        transition: 'width 0.2s ease'
-                      }} />
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {isLocalBackend ? (
-                      <>
-                        <Plus className="w-4 h-4 mr-2" />
-                        Indexar Pasta
-                      </>
-                    ) : (
-                      <>
-                        <Upload className="w-4 h-4 mr-2" />
-                        Selecionar Pasta
-                      </>
-                    )}
-                  </>
-                )}
-              </button>
-            </div>
-
-            {/* List of currently indexed paths */}
-            {dbFilePaths.length > 0 && (
-              <div style={{ marginTop: '20px', borderTop: '1px border #e9ecef', paddingTop: '15px' }}>
-                <h4 style={{ fontSize: '0.9rem', fontWeight: '600', marginBottom: '10px', color: '#495057' }}>
-                  Diretórios Indexados no Banco:
-                </h4>
-                <ul className="br-list" style={{ margin: 0, paddingLeft: '20px' }}>
-                  {dbFilePaths.map((path, idx) => (
-                    <li key={idx} style={{ fontSize: '13px', color: '#1351b4', marginBottom: '4px', wordBreak: 'break-all' }}>
-                      <code>{path}</code>
-                    </li>
-                  ))}
-                </ul>
+          <div className="card-content" style={{ maxHeight: '200px', overflowY: 'auto', backgroundColor: '#f9f9f9', padding: '0.5rem' }}>
+            {dbFilePaths.length > 0 ? (
+              <ul className="br-list" style={{ margin: 0 }}>
+                {dbFilePaths.map((path, idx) => (
+                  <li key={idx} style={{ padding: '4px 10px', borderBottom: '1px solid #eee', fontSize: '13px' }}>
+                    <code style={{ color: '#1351b4' }}>{path}</code>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div style={{ padding: '20px', textAlign: 'center', color: '#666' }}>
+                <AlertCircle className="w-8 h-8 mx-auto mb-2 text-warning" />
+                <p>Nenhum arquivo encontrado no banco de dados.</p>
+                <Link to="/code-upload" className="br-button primary mt-3">
+                  <ArrowRight className="w-4 h-4 mr-2" />
+                  Ir para Tela de Upload
+                </Link>
               </div>
             )}
           </div>

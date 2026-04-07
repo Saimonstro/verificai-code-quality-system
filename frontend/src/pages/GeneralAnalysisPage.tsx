@@ -1666,10 +1666,12 @@ const GeneralAnalysisPage: React.FC = () => {
                 Arquivos para Análise ({dbFilePaths.length})
               </h3>
             </div>
-            <Link to="/code-upload" className="br-button secondary small">
-              <Upload className="w-4 h-4 mr-2" />
-              Gerenciar Uploads
-            </Link>
+            {dbFilePaths.length > 0 && (
+              <Link to="/code-upload" className="br-button secondary small">
+                <Upload className="w-4 h-4 mr-2" />
+                Gerenciar Uploads
+              </Link>
+            )}
           </div>
           <div className="card-content" style={{ maxHeight: '200px', overflowY: 'auto', backgroundColor: '#f9f9f9', padding: '0.5rem' }}>
             {dbFilePaths.length > 0 ? (
